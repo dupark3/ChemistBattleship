@@ -10,6 +10,7 @@ public:
     player(std::string s) : name(s), ships() { }
 
     void place_ship(std::string);
+    void place_ship(int);
 
 private:
     std::string name;

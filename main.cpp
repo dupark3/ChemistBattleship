@@ -16,10 +16,20 @@ int main(){
     load_periodic_table();
 
     player user(username);
-    cout << "Place your 3-block ship by writing the first element's symbol: ";
+    cout << "Place three 1 block ships by writing the first element's symbol, separated by spaces: ";
     string element;
-    if (cin >> element){
+
+    for (int i = 0; i != 3; ++i){
+        cin >> element;
+        cout << "Placing " << element << "... " << endl;
         user.place_ship(element);
+    }
+    
+    player computer("AI");
+    cout << "Computer is placing his ships...";
+
+    for (int i = 0; i != 3; ++i){
+
     }
 
     return 0;
