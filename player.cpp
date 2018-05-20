@@ -1,12 +1,13 @@
 #include <iostream>
 
 #include "player.h"
+#include "answerkey.h"
 
 using namespace std;
 
-
-void place_ship(std::string element_symbol){
-    if (int atomic_number = atomic_numbers[element_symbol] != 0){
-        ships[element] = electron_configs[ atomic_number ];
+void player::place_ship(std::string element_symbol){
+    int atomic_number = atomic_numbers[element_symbol];
+    if (atomic_number != 0){
+        ships[atomic_number] = true;
     }
 }

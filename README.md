@@ -5,11 +5,9 @@ RULES:
 2. Player must "shoot" by writing the electron configuration in the following format: 
                 
                         1s2.2s2.2p6.3s2.3p3 
-                                OR 
-                            [Ne]3s2.3p3
 
 3. You win if you sink their boat before your boats are sunk.
-4. The only exceptions to electron configurations are Chromium ([Ar] 4s1 3d5) and Copper ([Ar] 4s1 3d10). Assume all others follow Aufbau's principle. 
+4. The only exceptions to electron configurations are Chromium ([Ar] 4s1.3d5) and Copper ([Ar] 4s1.3d10). Assume all others follow Aufbau's principle. 
 
 DESIGN DECISIONS:
 - answer key

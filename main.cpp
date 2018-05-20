@@ -2,6 +2,7 @@
 #include <string>
 
 #include "player.h"
+#include "answerkey.h"
 
 using namespace std;
 
@@ -11,11 +12,14 @@ int main(){
     if (cin >> username){
         cout << "Welcome, " << username << ", to the Chemist Battleship." << endl;
     }
+
+    load_periodic_table();
+
     player user(username);
     cout << "Place your 3-block ship by writing the first element's symbol: ";
     string element;
     if (cin >> element){
-        place_ship(element);
+        user.place_ship(element);
     }
 
     return 0;
