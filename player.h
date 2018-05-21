@@ -16,6 +16,7 @@ public:
     void place_ship_randomly(int);
     bool check_shot(const std::string&);
     bool check_game_over();
+    int ships_left() { return number_of_ships; }
 
 private:
     std::string name;

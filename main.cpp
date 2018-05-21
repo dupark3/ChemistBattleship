@@ -30,10 +30,10 @@ int main(){
     cout << "Computer is placing three 1 block ships randomly..." << endl;
     computer.place_ship_randomly(3);
 
-    cout << "*******************Let the battleship begin******************* " << endl;
-
+    int round = 1;
     // game loop, break points within
     while (true){
+        cout << "********************ROUND " << round++ << " STARTING ********************" << endl;
         // player1's turn. input from user is electron config. 
         // store atomic number and element symbol for convenience as local variables
         cout << player1 << "'s turn to take a shot with an electron configuration: ";
@@ -45,7 +45,7 @@ int main(){
         if(computer.check_shot(electron_config)){
             cout << player1 << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (computer.check_game_over()){
-                cout << "********GAME OVER, " << player1 << " IS VICTORIOUS**********" << endl;
+                cout << "********************GAME OVER, " << player1 << " IS VICTORIOUS********************" << endl;
                 break;
             }
         } else if (atomic_number == 0) {
@@ -65,7 +65,7 @@ int main(){
         if (user.check_shot(electron_config)){
             cout << player2 << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (user.check_game_over()){
-            cout << "********GAME OVER, " << player2 << " IS VICTORIOUS**********" << endl;
+            cout << "********************GAME OVER, " << player2 << " IS VICTORIOUS********************" << endl;
             break;
         }
         } else if (atomic_number == 0) {
@@ -75,12 +75,10 @@ int main(){
         }
 
         
+        cout << "          " << player1 << ": " << user.ships_left() << " ships remaining" << endl;
+        cout << "          " << player2 << ": " << computer.ships_left() << " ships remaining" << endl;
+        
     }
-
-
-
-    
-
 
     return 0;
 }

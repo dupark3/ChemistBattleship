@@ -10,15 +10,17 @@ RULES:
 4. The only exceptions to electron configurations are Chromium ([Ar] 4s1.3d5) and Copper ([Ar] 4s1.3d10). Assume all others follow Aufbau's principle. 
 
 DESIGN DECISIONS:
-- answer key
-    map<string element, int atomic#> atomic_numbers;
-    map<int atomic#, string config> electron_configs; 
-    decided to add a reverse of the map for electron configs and atomic numbers
-        so that we can quickly access information during set-up and playing of the game.
-        The extra space used is insignificant as at most we have only 118 elements.
-    REFACTOR: dynamically determine config based on its atomic number? 
+    - answer key
+        map<string element, int atomic#> atomic_numbers;
+        map<int atomic#, string config> electron_configs; 
+        decided to add a reverse of the map for electron configs and atomic numbers
+            so that we can quickly access information during set-up and playing of the game.
+            The extra space used is insignificant as at most we have only 118 elements.
+        REFACTOR: dynamically determine config based on its atomic number? 
+    - players
+        player class gets instantiated twice, once for computer AI and once for the user
+        player objects instantiated places their ships. organized into a map<string electron_config, bool ship_status>
+        REFACTOR: allow to choose if play against comptuer or player2
 
-- players
-    player class gets instantiated twice, once for computer AI and once for the user
-    player objects instantiated places their ships. organized into a map<string electron_config, bool ship_status>
-    REFACTOR: allow to choose if play against comptuer or player2
+TODO:
+    - use boost::bimap?
