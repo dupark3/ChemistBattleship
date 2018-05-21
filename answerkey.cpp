@@ -11,12 +11,13 @@ using namespace std;
 
 // global map objects defined here and externally linked
 std::map<std::string, int> atomic_numbers;
+std::string element_symbols[19];
 std::map<int, std::string> electron_configs;
 
 void load_periodic_table(){
     ifstream PeriodicTable;
     PeriodicTable.open("abridged_periodictable.txt");
-    
+
     if (!PeriodicTable){
         cerr << "Unable to open periodic table file";
         exit(1);
@@ -28,7 +29,8 @@ void load_periodic_table(){
         string element_symbol;
         PeriodicTable >> element_symbol;
         atomic_numbers[element_symbol] = atomic_number;
-
+        element_symbols[atomic_number] = element_symbol;
+        
         // nothing to do with element name yet. read and do nothing. 
         string element_name;
         PeriodicTable >> element_name;
