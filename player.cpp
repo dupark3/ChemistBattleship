@@ -12,12 +12,14 @@ void player::place_ship(const std::string& element_symbol){
     if (atomic_number > 0){
         ships[ electron_configs[atomic_number] ] = true;
     }
+    ++number_of_ships;
 }
 
 void player::place_ship(int atomic_number){
     if (atomic_number > 0 && atomic_number < 18){
         ships[ electron_configs[atomic_number] ] = true;
     }
+    ++number_of_ships;
 }
 
 // REFACTOR: use bucket method to create more random numbers
@@ -31,19 +33,12 @@ void player::place_ship_randomly(int number_of_blocks){
 bool player::check_shot(const std::string& electron_config){
     if(ships[electron_config]){
         ships[electron_config] = false;
+        --number_of_ships;
         return true;        
     }
     return false; 
 }
 
 bool player::check_game_over(){
-    auto iterator = ships.begin();
-
-    while(++iterator != ships.end()){
-        if (iterator->second == true){
-            return false;
-        }
-    }
-
-    return true;
+    return number_of_ships == 0;
 }

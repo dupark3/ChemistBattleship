@@ -9,7 +9,7 @@ class ship;
 class player{
 public:
     player() : name(), ships() { }
-    player(std::string s) : name(s), ships() { }
+    player(std::string s) : name(s), ships(), number_of_ships(0) { }
 
     void place_ship(const std::string&);
     void place_ship(int);
@@ -20,6 +20,7 @@ public:
 private:
     std::string name;
     std::map<std::string, bool> ships; // map of electron config to a node of ship info
+    int number_of_ships;
 };
 
 #endif
