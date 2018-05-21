@@ -16,7 +16,7 @@ int main(){
     load_periodic_table();
 
     player user(username);
-    cout << "Place three 1 block ships by writing the first element's symbol, separated by spaces: ";
+    cout << "Place three 1 block ships by writing the element's symbols, separated by spaces: ";
     string element;
 
     for (int i = 0; i != 3; ++i){
@@ -29,7 +29,7 @@ int main(){
     cout << "Computer is placing his ships...";
 
     for (int i = 0; i != 3; ++i){
-
+        
     }
 
     return 0;

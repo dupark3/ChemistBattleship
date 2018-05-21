@@ -7,9 +7,7 @@ using namespace std;
 
 void player::place_ship(std::string element_symbol){
     int atomic_number = atomic_numbers[element_symbol];
-    cout << atomic_number << endl;
     if (atomic_number > 0){
-        cout << atomic_number << endl;
         ships[atomic_number] = true;
     }
 }
