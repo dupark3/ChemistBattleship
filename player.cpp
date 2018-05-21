@@ -11,15 +11,15 @@ void player::place_ship(const std::string& element_symbol){
     int atomic_number = atomic_numbers[element_symbol];
     if (atomic_number > 0){
         ships[ electron_configs[atomic_number] ] = true;
+        ++number_of_ships;
     }
-    ++number_of_ships;
 }
 
 void player::place_ship(int atomic_number){
     if (atomic_number > 0 && atomic_number < 18){
         ships[ electron_configs[atomic_number] ] = true;
+        ++number_of_ships;
     }
-    ++number_of_ships;
 }
 
 // REFACTOR: use bucket method to create more random numbers
