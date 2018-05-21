@@ -33,7 +33,7 @@ int main(){
     cout << "*******************Let the battleship begin******************* " << endl;
 
     // game loop, break points within
-    while (){
+    while (true){
         // player1's turn. input from user is electron config. 
         // store atomic number and element symbol for convenience as local variables
         cout << "It is " << player1 << "'s turn to take a shot with an "
@@ -57,6 +57,7 @@ int main(){
             cout << "********GAME OVER, " << player1 << " IS VICTORIOUS**********" << endl;
             break;
         }
+        
         // Player2's turn
         cout << endl << "It is " << player2 << "'s turn to take a shot with an electron configuration: ";
 
