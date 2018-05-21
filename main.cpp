@@ -10,12 +10,12 @@ int main(){
     load_periodic_table();
 
     cout << "Enter your name: ";
-    string username;
-    if (cin >> username){
-        cout << "Welcome, " << username << ", to the Chemist Battleship." << endl;
+    string player1;
+    if (cin >> player1){
+        cout << "Welcome, " << player1 << ", to the Chemist Battleship." << endl;
     }
 
-    player user(username);
+    player user(player1);
     cout << "Place three 1 block ships by writing the element's symbols, separated by spaces: ";
     string element;
 
@@ -25,7 +25,8 @@ int main(){
         user.place_ship(element);
     }
     
-    player computer("AI");
+    std::string player2 = "AI";
+    player computer(player2);
     cout << "Computer is placing three 1 block ships randomly..." << endl;
     computer.place_ship_randomly(3);
 
@@ -34,12 +35,22 @@ int main(){
     bool game_over = false;
 
     while (!game_over){
-        cout << "It is " << username << "'s turn to take a shot with an electron configuration: ";
+        cout << "It is " << player1 << "'s turn to take a shot with an electron configuration: ";
         string electron_config;
+        string element_symbol;
+
         cin >> electron_config;
-        if(computer.check_shot(electron_config)){
-            cout << "HIT! Element " << endl;
+        if(computer.check_shot(electron_config, element_symbol)){
+            cout << "HIT! Element " << element_symbol << " has been shot down." << endl;
+        } else {
+            cout << "MISS! Element " << element_symbol << " is open waters." << endl;
         }
+        
+        cout << "It is " << player2 << "'s turn to take a shot with an electron configuration: ";
+
+        electron_config = electron_configs[rand() % 18 + 1];
+        cout << electron_config << endl;
+
 
     }
 
