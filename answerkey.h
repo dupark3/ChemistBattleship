@@ -10,6 +10,7 @@
 extern std::map<std::string, int> atomic_numbers; // map element symbol to atomic number
 extern std::string element_symbols[19]; // array of element symbols indexed by their atomic number
 extern std::map<int, std::string> electron_configs; // map atomic number to electron config
+extern std::map<std::string, int> electron_configs_reverse; // map electron config to atomic number
 
 void load_periodic_table();
 

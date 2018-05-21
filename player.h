@@ -14,7 +14,7 @@ public:
     void place_ship(const std::string&);
     void place_ship(int);
     void place_ship_randomly(int);
-    bool check_shot(const std::string&, std::string&);
+    bool check_shot(const std::string&);
 
 private:
     std::string name;

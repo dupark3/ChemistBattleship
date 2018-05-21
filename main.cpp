@@ -37,10 +37,11 @@ int main(){
     while (!game_over){
         cout << "It is " << player1 << "'s turn to take a shot with an electron configuration: ";
         string electron_config;
-        string element_symbol;
-
         cin >> electron_config;
-        if(computer.check_shot(electron_config, element_symbol)){
+        int atomic_number = electron_configs_reverse[electron_config];
+        string element_symbol = element_symbols[atomic_number];
+
+        if(computer.check_shot(electron_config)){
             cout << "HIT! Element " << element_symbol << " has been shot down." << endl;
         } else {
             cout << "MISS! Element " << element_symbol << " is open waters." << endl;

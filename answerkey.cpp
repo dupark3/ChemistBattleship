@@ -13,6 +13,7 @@ using namespace std;
 std::map<std::string, int> atomic_numbers;
 std::string element_symbols[19];
 std::map<int, std::string> electron_configs;
+std::map<std::string, int> electron_configs_reverse;
 
 void load_periodic_table(){
     ifstream PeriodicTable;
@@ -30,7 +31,7 @@ void load_periodic_table(){
         PeriodicTable >> element_symbol;
         atomic_numbers[element_symbol] = atomic_number;
         element_symbols[atomic_number] = element_symbol;
-        
+
         // nothing to do with element name yet. read and do nothing. 
         string element_name;
         PeriodicTable >> element_name;
@@ -39,6 +40,7 @@ void load_periodic_table(){
         string electron_config;
         PeriodicTable >> electron_config;
         electron_configs[atomic_number] = electron_config;
+        electron_configs_reverse[electron_config] = atomic_number;
     }
     
 }

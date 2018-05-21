@@ -28,11 +28,10 @@ void player::place_ship_randomly(int number_of_blocks){
     }    
 }
 
-bool player::check_shot(const std::string& electron_config, std::string& element_symbol){
+bool player::check_shot(const std::string& electron_config){
     if(ships[electron_config]){
         if (ships[electron_config]->status){
             ships[electron_config]->status = false;
-            element_symbol = ships[electron_config]->element_symbol;
             return true;
         }
     }
