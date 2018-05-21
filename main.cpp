@@ -1,5 +1,7 @@
+#include <chrono> // chrono::milliseconds(ms)
 #include <iostream>
 #include <string>
+#include <thread> // this_thread::sleep_for
 
 #include "player.h"
 #include "answerkey.h"
@@ -33,7 +35,7 @@ int main(){
     int round = 1;
     // game loop, break points within
     while (true){
-        cout << "********************ROUND " << round++ << " STARTING ********************" << endl;
+        cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
         // player1's turn. input from user is electron config. 
         // store atomic number and element symbol for convenience as local variables
         cout << player1 << "'s turn to take a shot with an electron configuration: ";
@@ -45,7 +47,7 @@ int main(){
         if(computer.check_shot(electron_config)){
             cout << player1 << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (computer.check_game_over()){
-                cout << "********************GAME OVER, " << player1 << " IS VICTORIOUS********************" << endl;
+                cout << "******************** GAME OVER, " << player1 << " IS VICTORIOUS ********************" << endl;
                 break;
             }
         } else if (atomic_number == 0) {
@@ -54,8 +56,10 @@ int main(){
             cout << player1 << " MISS! Element " << element_symbol << " is open waters." << endl;
         }
         
+        this_thread::sleep_for(chrono::milliseconds(1000));
+
         // Player2's turn
-        cout << player2 << "'s turn to take a shot with an electron configuration: ";
+        cout << endl << player2 << "'s turn to take a shot with an electron configuration: ";
 
         electron_config = electron_configs[rand() % 18 + 1];
         cout << electron_config << endl;
@@ -65,19 +69,20 @@ int main(){
         if (user.check_shot(electron_config)){
             cout << player2 << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (user.check_game_over()){
-            cout << "********************GAME OVER, " << player2 << " IS VICTORIOUS********************" << endl;
-            break;
-        }
+                cout << "******************** GAME OVER, " << player2 << " IS VICTORIOUS ********************" << endl;
+                break;
+            }
         } else if (atomic_number == 0) {
             cout << player2 << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;
         } else {
             cout << player2 <<  " MISS! Element " << element_symbol << " is open waters." << endl;
         }
 
-        
-        cout << "          " << player1 << ": " << user.ships_left() << " ships remaining" << endl;
-        cout << "          " << player2 << ": " << computer.ships_left() << " ships remaining" << endl;
-        
+        this_thread::sleep_for(chrono::milliseconds(1000));
+
+        cout << endl;
+        cout << player1 << ": " << user.ships_left() << " ships remaining" << endl;
+        cout << player2 << ": " << computer.ships_left() << " ships remaining" << endl;        
     }
 
     return 0;
