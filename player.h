@@ -16,7 +16,7 @@ public:
 
     void place_ship(const std::string&);
     void place_ship(int);
-    void place_ship(const std::vector<std::string>&);
+    bool place_ship(const std::vector<std::string>&);
     void place_ship_randomly(int);
     bool check_shot(const std::string&);
     bool check_game_over();

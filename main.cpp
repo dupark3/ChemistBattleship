@@ -20,16 +20,24 @@ int main(){
     }
 
     player player1(player1name);
-    cout << "Place a 3-block ships by writing the element's symbols, separated by spaces: ";
-    string element1, element2, element3;
-    cin >> element1 >> element2 >> element3;
-    vector<string> elements = {element1, element2, element3};
-    player1.place_ship(elements);
+    while (true){
+        cout << "Place a 3-block ships by writing the element's symbols, separated by spaces: ";
+        string element1, element2, element3;
+        cin >> element1 >> element2 >> element3;
+        vector<string> elements = {element1, element2, element3};
+        if (player1.place_ship(elements)){
+            cout << "Ship placed!" << endl;
+            break;
+        } else {
+            cout << "Try again and ensure that your three elements are horizontal or vertical." << endl;
+        }
+    }
+
     
     // Set up player 2
     std::string player2name = "AI";
     player player2(player2name);
-    cout << "player2 is placing three 1 block ships randomly..." << endl;
+    cout << "player2 is a 3-block ship randomly..." << endl;
     player2.place_ship_randomly(3);
 
     int round = 1;
