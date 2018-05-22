@@ -43,8 +43,8 @@ int main(){
         // store electron config, atomic number, & element symbol as local variables for convenience
         string electron_config;
         cin >> electron_config;
-        int atomic_number = electron_configs_reverse[electron_config];
-        string element_symbol = element_symbols[atomic_number];
+        int atomic_number = electron_configs[electron_config];
+        string element_symbol = element_node_array[atomic_number]->get_element_symbol();
 
         if(player2.check_shot(electron_config)){
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
@@ -63,10 +63,10 @@ int main(){
         // player2name's turn
         cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";
 
-        electron_config = electron_configs[rand() % 18 + 1];
+        electron_config = element_node_array[rand() % 18 + 1]->get_electron_config();
         cout << electron_config << endl;
-        atomic_number = electron_configs_reverse[electron_config];
-        element_symbol = element_symbols[atomic_number];
+        atomic_number = electron_configs[electron_config];
+        element_symbol = element_node_array[atomic_number]->get_element_symbol();
 
         if (player1.check_shot(electron_config)){
             cout << player2name << " HIT! Element " << element_symbol << " has been shot down." << endl;

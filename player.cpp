@@ -9,9 +9,9 @@
 using namespace std;
 
 void player::place_ship(const std::string& element_symbol){
-    int atomic_number = atomic_numbers[element_symbol];
+    int atomic_number = element_symbols[element_symbol];
     if (atomic_number > 0){
-        ships[ electron_configs[atomic_number] ] = true;
+        ships[ element_node_array[atomic_number]->get_electron_config() ] = true;
         ++number_of_ships;
     }
 }
@@ -19,12 +19,12 @@ void player::place_ship(const std::string& element_symbol){
 void player::place_ship(const vector<string>& elements){
     vector<int> ship_atomic_numbers;
     for (int i = 0; i != elements.size(); ++i){
-        ship_atomic_numbers.push_back(atomic_numbers[elements[i]]);
+        ship_atomic_numbers.push_back(element_symbols[elements[i]]);
     }
 
     if (continuous_blocks(ship_atomic_numbers)){
         for (int i = 0; i != ship_atomic_numbers.size(); ++i){
-            ships[ electron_configs[ship_atomic_numbers[i]] ] = true;
+            ships[ element_node_array[ship_atomic_numbers[i]]->get_electron_config() ] = true;
             ++number_of_ships;
         }
     }
@@ -32,7 +32,7 @@ void player::place_ship(const vector<string>& elements){
 
 void player::place_ship(int atomic_number){
     if (atomic_number > 0 && atomic_number < 18){
-        ships[ electron_configs[atomic_number] ] = true;
+        ships[ element_node_array[atomic_number]->get_electron_config() ] = true;
         ++number_of_ships;
     }
 }
@@ -58,13 +58,6 @@ bool player::check_game_over(){
     return number_of_ships == 0;
 }
 
-bool player::continuous_blocks(vector<int>& numbers){
-    sort(numbers.begin(), numbers.end());
-    int ship_size = numbers.size();
-    if (numbers[1] - numbers[0] == 1){
-        // horizontal ship
-    } else if (){
-        // vertical ship
-    } 
-    return false;
+bool player::continuous_blocks(std::vector<int>& ship_atomic_numbers){
+
 }

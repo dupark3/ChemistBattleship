@@ -13,15 +13,13 @@
 using namespace std;
 
 // global map objects defined here and externally linked
-periodic_table periodic_table_object;
-std::map<std::string, int> atomic_numbers;
+std::map<std::string, int> element_symbols;
 std::map<std::string, int> electron_configs;
-// std::string element_symbols[19];
-// std::map<int, std::string> electron_configs_reverse;
+element_node* element_node_array[MAX_ELEMENT + 1];
 
 void load_periodic_table(){
     ifstream PeriodicTableFileStream;
-    PeriodicTableFileStream.open("abridged_PeriodicTableFileStream.txt");
+    PeriodicTableFileStream.open("abridged_periodictable.txt");
 
     if (!PeriodicTableFileStream){
         cerr << "Unable to open periodic table file";
@@ -34,20 +32,22 @@ void load_periodic_table(){
         // read symbol and store into an element_node and atomic_numbers hashmap
         string element_symbol;
         PeriodicTableFileStream >> element_symbol;
-        periodic_table_object.element_node_array[atomic_number]->element_symbol = element_symbol;
+        element_node_array[atomic_number] = new element_node;
+        element_node_array[atomic_number]->element_symbol = element_symbol;
 
         // read name and store into element_node
         string element_name;
         PeriodicTableFileStream >> element_name;
-        periodic_table_object.element_node_array[atomic_number]->element_name = element_name;
+        element_node_array[atomic_number]->element_name = element_name;
 
         // read electron config and store into an element_node and electron_configs hashmap
         string electron_config;
         PeriodicTableFileStream >> electron_config;
-        periodic_table_object.element_node_array[atomic_number]->electron_configuration = electron_config;
+        element_node_array[atomic_number]->electron_config = electron_config;
         electron_configs[electron_config] = atomic_number;
     }
-    
+
+
     // set correct pointers to adjacent nodes to the right and below
     for(int i = 1; i != MAX_ELEMENT; ++i){
         // four scenarios resulting from the possibility of a valid right/down neighbor or no right/down neighbors
@@ -64,18 +64,18 @@ void load_periodic_table(){
         } 
 
         if (both_valid[i]) {
-            periodic_table_object.element_node_array[i]->right_valid = periodic_table_object.element_node_array[i + 1];
-            periodic_table_object.element_node_array[i]->down_valid = periodic_table_object.element_node_array[i + next_row];
+            element_node_array[i]->right_ship = element_node_array[i + 1];
+            element_node_array[i]->down_ship = element_node_array[i + next_row];
         } else if (right_valid[i]) {
-            periodic_table_object.element_node_array[i]->right_valid = periodic_table_object.element_node_array[i + 1];
-            periodic_table_object.element_node_array[i]->down_valid = 0;
+            element_node_array[i]->right_ship = element_node_array[i + 1];
+            element_node_array[i]->down_ship = 0;
         } else if (down_valid[i]) {
-            periodic_table_object.element_node_array[i]->right_valid = 0;
-            periodic_table_object.element_node_array[i]->down_valid = periodic_table_object.element_node_array[i + next_row];
+            element_node_array[i]->right_ship = 0;
+            element_node_array[i]->down_ship = element_node_array[i + next_row];
         } else if (no_valid[i]) {
-            periodic_table_object.element_node_array[i]->right_valid = 0;
-            periodic_table_object.element_node_array[i]->down_valid = 0;
+            element_node_array[i]->right_ship = 0;
+            element_node_array[i]->down_ship = 0;
         }
-        
+
     }
 }
