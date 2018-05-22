@@ -20,7 +20,11 @@ bool player::place_ship(const vector<string>& elements){
     vector<int> ship_atomic_numbers;
 
     for (int i = 0; i != elements.size(); ++i){
-        ship_atomic_numbers.push_back(element_symbols[elements[i]]);
+        int atomic_number = element_symbols[elements[i]];
+        if (atomic_number == 0){
+            return false;
+        }
+        ship_atomic_numbers.push_back(atomic_number);
     }
 
     if (continuous_blocks(ship_atomic_numbers)){

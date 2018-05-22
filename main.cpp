@@ -18,8 +18,9 @@ int main(){
     if (cin >> player1name){
         cout << "Welcome, " << player1name << ", to the Chemist Battleship." << endl;
     }
-
     player player1(player1name);
+
+    // Ask player 1 to place a 3-block ship
     while (true){
         cout << "Place a 3-block ships by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
@@ -33,7 +34,6 @@ int main(){
         }
     }
 
-    
     // Set up player 2
     std::string player2name = "AI";
     player player2(player2name);
@@ -52,9 +52,10 @@ int main(){
         string electron_config;
         cin >> electron_config;
         int atomic_number = electron_configs[electron_config];
-        string element_symbol = element_node_array[atomic_number]->get_element_symbol();
+        string element_symbol;
 
         if(player2.check_shot(electron_config)){
+            element_symbol = element_node_array[atomic_number]->get_element_symbol();
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player2.check_game_over()){
                 cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
@@ -63,6 +64,7 @@ int main(){
         } else if (atomic_number == 0) {
             cout << player1name << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;
         } else {
+            element_symbol = element_node_array[atomic_number]->get_element_symbol();
             cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
         }
         
