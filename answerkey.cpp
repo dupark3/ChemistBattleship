@@ -1,4 +1,3 @@
-
 #include <cstdlib> // exit
 #include <fstream> // ifstream
 #include <iostream> // cerr

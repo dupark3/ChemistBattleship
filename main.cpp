@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <thread> // this_thread::sleep_for
+#include <vector>
 
 #include "player.h"
 #include "answerkey.h"
@@ -11,6 +12,7 @@ using namespace std;
 int main(){
     load_periodic_table();
 
+    // Set up player 1
     cout << "Enter your name: ";
     string player1name;
     if (cin >> player1name){
@@ -18,28 +20,27 @@ int main(){
     }
 
     player player1(player1name);
-    cout << "Place three 1 block ships by writing the element's symbols, separated by spaces: ";
-    string element;
-
-    for (int i = 0; i != 3; ++i){
-        cin >> element;
-        cout << "Placing " << element << "... " << endl;
-        player1.place_ship(element);
-    }
+    cout << "Place a 3-block ships by writing the element's symbols, separated by spaces: ";
+    string element1, element2, element3;
+    cin >> element1 >> element2 >> element3;
+    vector<string> elements = {element1, element2, element3};
+    player1.place_ship(elements);
     
+    // Set up player 2
     std::string player2name = "AI";
     player player2(player2name);
     cout << "player2 is placing three 1 block ships randomly..." << endl;
     player2.place_ship_randomly(3);
 
     int round = 1;
-    
-    // game loop, break points within
+
+    // game loop, break points within when all ships of a player has been sunk
     while (true){
         cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
-        // player1name's turn. input from player1 is electron config. 
-        // store atomic number and element symbol for convenience as local variables
+        
         cout << player1name << "'s turn to take a shot with an electron configuration: ";
+        
+        // store electron config, atomic number, & element symbol as local variables for convenience
         string electron_config;
         cin >> electron_config;
         int atomic_number = electron_configs_reverse[electron_config];
