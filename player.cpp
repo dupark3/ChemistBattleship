@@ -3,9 +3,8 @@
 #include <iostream>
 #include <vector>
 
-
-#include "player.h"
 #include "answerkey.h"
+#include "player.h"
 
 using namespace std;
 
