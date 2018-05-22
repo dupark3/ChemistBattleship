@@ -18,12 +18,15 @@ void player::place_ship(const std::string& element_symbol){
 
 void player::place_ship(const vector<string>& elements){
     vector<int> ship_atomic_numbers;
+
     for (int i = 0; i != elements.size(); ++i){
+        cout << "pushing back" << element_symbols[elements[i]] << endl;
         ship_atomic_numbers.push_back(element_symbols[elements[i]]);
     }
 
     if (continuous_blocks(ship_atomic_numbers)){
         for (int i = 0; i != ship_atomic_numbers.size(); ++i){
+            cout << "CHECK" << i << endl;
             ships[ element_node_array[ship_atomic_numbers[i]]->get_electron_config() ] = true;
             ++number_of_ships;
         }
@@ -59,5 +62,34 @@ bool player::check_game_over(){
 }
 
 bool player::continuous_blocks(std::vector<int>& ship_atomic_numbers){
+    if (ship_atomic_numbers.size() <= 1){
+        return true;
+    } 
+    
+    // find out if horizontal or vertical ship
+    bool horizontal = false;
+    sort(ship_atomic_numbers.begin(), ship_atomic_numbers.end());
+    if (ship_atomic_numbers[1] - ship_atomic_numbers[0] == 1){
+        horizontal = true;
+    }
+    for (int i = 0; i != ship_atomic_numbers.size(); ++i){
+        cout << ship_atomic_numbers[i] << " ";
+    }
 
+    for(int i = 0; i != ship_atomic_numbers.size() - 1; ++i){
+        
+        if (horizontal){
+            if (element_node_array[ ship_atomic_numbers[i] ]->get_right_ship() != 
+                element_node_array[ ship_atomic_numbers[i + 1] ]){
+                return false;
+            }    
+        } else {
+            if (element_node_array[ ship_atomic_numbers[i] ]->get_down_ship() != 
+                element_node_array[ ship_atomic_numbers[i + 1] ]){
+                return false;
+            }
+        }
+    }
+
+    return true;
 }

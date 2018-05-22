@@ -28,6 +28,8 @@ public:
     std::string get_element_symbol() { return element_symbol; }
     std::string get_electron_config() { return electron_config; }
     std::string get_element_name() { return element_name; }
+    element_node* get_right_ship() { return right_ship; }
+    element_node* get_down_ship() { return down_ship; }
 private:
     std::string element_symbol;
     std::string electron_config;

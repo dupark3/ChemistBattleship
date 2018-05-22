@@ -34,6 +34,7 @@ void load_periodic_table(){
         PeriodicTableFileStream >> element_symbol;
         element_node_array[atomic_number] = new element_node;
         element_node_array[atomic_number]->element_symbol = element_symbol;
+        element_symbols[element_symbol] = atomic_number;
 
         // read name and store into element_node
         string element_name;
