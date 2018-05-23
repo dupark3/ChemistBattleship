@@ -102,7 +102,7 @@ int main(){
         // player2name's turn
         cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";
 
-        electron_config = element_node_array[rand() % 18 + 1]->get_electron_config();
+        electron_config = element_node_array[rand() % 118 + 1]->get_electron_config();
         cout << electron_config << endl;
         atomic_number = electron_configs[electron_config];
         element_symbol = element_node_array[atomic_number]->get_element_symbol();
@@ -110,7 +110,7 @@ int main(){
         if (player1.check_shot(electron_config)){
             cout << player2name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player1.check_game_over()){
-                this_thread::sleep_for(chrono::milliseconds(250));
+                this_thread::sleep_for(chrono::milliseconds(300));
                 cout << "******************** GAME OVER, " << player2name << " IS VICTORIOUS ********************" << endl;
                 break;
             }
@@ -120,13 +120,13 @@ int main(){
             cout << player2name <<  " MISS! Element " << element_symbol << " is open waters." << endl;
         }
 
-        this_thread::sleep_for(chrono::milliseconds(250));
+        this_thread::sleep_for(chrono::milliseconds(300));
 
         cout << endl;
         cout << player1name << ": " << player1.ships_left() << " ships remaining" << endl;
         cout << player2name << ": " << player2.ships_left() << " ships remaining" << endl;        
 
-        this_thread::sleep_for(chrono::milliseconds(250));
+        this_thread::sleep_for(chrono::milliseconds(300));
     }
 
     return 0;
