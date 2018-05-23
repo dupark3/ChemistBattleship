@@ -112,6 +112,7 @@ vector<int> player::continuous_blocks(int atomic_number, int size_of_ship){
     if (horizontal == 0){
         for (int i = 0; i != size_of_ship; ++i){
             element_node* right_ship = element_node_array[atomic_number]->get_right_ship();
+
             if (!right_ship){
                 return { };
             } else {
@@ -123,21 +124,14 @@ vector<int> player::continuous_blocks(int atomic_number, int size_of_ship){
     } else { 
         // vertical ship
         for (int i = 0; i != size_of_ship; ++i){
-            int next_row;
-            if (atomic_number + i == 1){
-                next_row = 2;
-            } else if (atomic_number + i >= 2 && atomic_number + i <= 18){
-                next_row = 8;
-            } else if (atomic_number + i >= 19 && atomic_number + i <= 38){
-                next_row = 18;
-            } else if (atomic_number + i >= 39 && atomic_number + i <= 86){
-                next_row = 32;
-            } else { 
-                return { };
-            }
+            element_node* down_ship = element_node_array[atomic_number]->get_down_ship();
 
-            random_ship.push_back(atomic_number);
-            atomic_number += next_row;
+            if (!down_ship){
+                return { };
+            } else {
+                random_ship.push_back(atomic_number);
+                atomic_number = down_ship->get_atomic_number();
+            }
         }
     }
 
