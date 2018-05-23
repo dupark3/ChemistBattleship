@@ -11,14 +11,19 @@ using namespace std;
 
 /*
 TODO:
-1. AI places one 3-block ship randomly
-2. Place multiple ships
-3. Prevent adding ships on the same spot or overlapping
-4. Add % for how accurate your shots were
-5. Add special bomb that explodes in a + sign
-6. Expand the periodic table
-7. Two player game
-8. Make each turn a function to avoid repeating similar code
+o AI places one 3-block ship randomly
+o Use bucket method to create more random numbers
+o Place multiple ships
+o Prevent adding ships on the same spot or overlapping
+o Expand the periodic table
+o Make each turn a function to avoid repeating similar code
+o Make player class contain groups of ships instead of a huge list of electron configs to allow "sunk" info
+
+Extra Features:
+o Add % for how accurate your shots were
+o Add special bomb that explodes in a + sign
+o Two player game
+
 */
 
 int main(){
@@ -32,7 +37,7 @@ int main(){
     }
     player player1(player1name);
 
-    // Ask player 1 to place a 3-block ship
+    // Ask player 1 to place a 3-block ship until successful
     while (true){
         cout << "Place a 3-block ship by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
@@ -46,11 +51,20 @@ int main(){
         }
     }
 
+
+
+
+
     // Set up player 2 
     std::string player2name = "AI";
     player player2(player2name);
     cout << "player2 is placing a 3-block ship randomly..." << endl;
     player2.place_ship_randomly(3);
+
+
+
+
+
 
     int round = 1;
 

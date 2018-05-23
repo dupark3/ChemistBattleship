@@ -45,12 +45,17 @@ void player::place_ship(int atomic_number){
     }
 }
 
-// REFACTOR: use bucket method to create more random numbers
-// REFACTOR: ability to add three 3-block, two 4-block, and one 5-block ships. 
-void player::place_ship_randomly(int number_of_blocks){
-    for (int i = 0; i != number_of_blocks; ++i){
-        place_ship(rand() % 18 + 1);
-    }    
+
+void player::place_ship_randomly(int size_of_ship){
+    vector<int> random_ship;
+    
+    while (random_ship.empty()){
+        random_ship = continuous_blocks(rand() % 18 + 1, size_of_ship);
+    } 
+
+    for (int i = 0; i != size_of_ship; ++i){
+        place_ship(random_ship[i]);
+    }
 }
 
 bool player::check_shot(const std::string& electron_config){
@@ -93,4 +98,40 @@ bool player::continuous_blocks(std::vector<int>& ship_atomic_numbers){
     }
 
     return true;
+}
+
+vector<int> player::continuous_blocks(int first_atomic_number, int size_of_ship){
+    bool horizontal = rand() % 2;
+    vector<int> random_ship;
+
+    if (horizontal){
+        for (int i = 0; i != size_of_ship; ++i){
+            if (first_atomic_number + i > MAX_ELEMENT){
+                return { };
+            }
+            random_ship.push_back(first_atomic_number + i);
+        }
+    } 
+
+    // vertical ship
+    else { 
+        for (int i = 0; i != size_of_ship; ++i){
+            int next_row;
+            if (first_atomic_number + i == 1){
+                next_row = 2;
+            } else if (first_atomic_number >= 2 && first_atomic_number + i <= 10){
+                next_row = 8;
+            } else {
+                return { };
+            }
+            random_ship.push_back(first_atomic_number);
+            first_atomic_number += next_row;
+        }
+    }
+
+    if (continuous_blocks(random_ship)){
+        return random_ship;
+    } else {
+        return { };
+    }
 }

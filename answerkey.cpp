@@ -60,7 +60,7 @@ void load_periodic_table(){
         int next_row;
         if (i == 1){
             next_row = 2;
-        } else if (i >= 2 && i < 13){
+        } else if (i >= 2 && i <= 10){
             next_row = 8;
         } 
 

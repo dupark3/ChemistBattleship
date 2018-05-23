@@ -28,6 +28,7 @@ private:
     std::map<std::string, bool> ships; // map of electron config to a node of ship info
     int number_of_ships;
     bool continuous_blocks(std::vector<int>&);
+    std::vector<int> continuous_blocks(int, int);
 };
 
 #endif
