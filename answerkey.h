@@ -8,7 +8,7 @@ class element_node;
 
 /**************** global variables *******************/
 
-const int MAX_ELEMENT = 18;
+const int MAX_ELEMENT = 118;
 
 extern std::map<std::string, int> element_symbols; // map element symbol to atomic number
 extern std::map<std::string, int> electron_configs; // map electron config to atomic number
@@ -25,12 +25,14 @@ friend void load_periodic_table();
 public:
     element_node() : element_symbol(""), electron_config(""), 
                      right_ship(0), down_ship(0) { }
+    int get_atomic_number() { return atomic_number; }
     std::string get_element_symbol() { return element_symbol; }
     std::string get_electron_config() { return electron_config; }
     std::string get_element_name() { return element_name; }
     element_node* get_right_ship() { return right_ship; }
     element_node* get_down_ship() { return down_ship; }
 private:
+    int atomic_number;
     std::string element_symbol;
     std::string electron_config;
     std::string element_name;
