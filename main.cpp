@@ -9,6 +9,18 @@
 
 using namespace std;
 
+/*
+TODO:
+1. AI places one 3-block ship randomly
+2. Place multiple ships
+3. Prevent adding ships on the same spot or overlapping
+4. Add % for how accurate your shots were
+5. Add special bomb that explodes in a + sign
+6. Expand the periodic table
+7. Two player game
+8. Make each turn a function to avoid repeating similar code
+*/
+
 int main(){
     load_periodic_table();
 
@@ -16,13 +28,13 @@ int main(){
     cout << "Enter your name: ";
     string player1name;
     if (cin >> player1name){
-        cout << "Welcome, " << player1name << ", to the Chemist Battleship." << endl;
+        cout << "Welcome, " << player1name << ", to the Periodic Table Battleship." << endl;
     }
     player player1(player1name);
 
     // Ask player 1 to place a 3-block ship
     while (true){
-        cout << "Place a 3-block ships by writing the element's symbols, separated by spaces: ";
+        cout << "Place a 3-block ship by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
         cin >> element1 >> element2 >> element3;
         vector<string> elements = {element1, element2, element3};
@@ -34,10 +46,10 @@ int main(){
         }
     }
 
-    // Set up player 2
+    // Set up player 2 
     std::string player2name = "AI";
     player player2(player2name);
-    cout << "player2 is a 3-block ship randomly..." << endl;
+    cout << "player2 is placing a 3-block ship randomly..." << endl;
     player2.place_ship_randomly(3);
 
     int round = 1;
