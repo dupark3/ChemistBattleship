@@ -1,4 +1,6 @@
 #include <chrono> // chrono::milliseconds(ms)
+#include <cstdlib> // srand()
+#include <ctime> // time()
 #include <iostream>
 #include <string>
 #include <thread> // this_thread::sleep_for
@@ -11,18 +13,20 @@ using namespace std;
 
 /*
 TODO:
-o AI places one 3-block ship randomly
-o Use bucket method to create more random numbers
-o Place multiple ships
-o Prevent adding ships on the same spot or overlapping
-o Expand the periodic table
-o Make each turn a function to avoid repeating similar code
-o Make player class contain groups of ships instead of a huge list of electron configs to allow "sunk" info
+☑ AI places one 3-block ship randomly
+☑ Use srand() and seed with time to be more random
+☐ Use bucket method to create more random numbers
+☐ Expand the periodic table
+☐ Place multiple ships
+☐ Prevent adding ships on the same spot or overlapping
+☐ Make each turn a function to avoid repeating similar code
+☐ Make player class contain groups of ships instead of a huge list of electron configs to allow "sunk" info
+☐ Make AI smarter by shooting around a HIT until a ship is sunk
 
 Extra Features:
-o Add % for how accurate your shots were
-o Add special bomb that explodes in a + sign
-o Two player game
+☐ Add % for how accurate your shots were
+☐ Add special bomb that explodes in a + sign
+☐ Two player game
 
 */
 
@@ -52,17 +56,11 @@ int main(){
     }
 
 
-
-
-
     // Set up player 2 
     std::string player2name = "AI";
     player player2(player2name);
     cout << "player2 is placing a 3-block ship randomly..." << endl;
     player2.place_ship_randomly(3);
-
-
-
 
 
 

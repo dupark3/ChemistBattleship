@@ -1,5 +1,5 @@
 #include <algorithm> // sort()
-#include <cstdlib> // rand(), size_t
+#include <cstdlib> // rand(), srand(), size_t
 #include <iostream>
 #include <vector>
 
@@ -49,6 +49,8 @@ void player::place_ship(int atomic_number){
 void player::place_ship_randomly(int size_of_ship){
     vector<int> random_ship;
     
+    srand(time(0));
+
     while (random_ship.empty()){
         random_ship = continuous_blocks(rand() % 18 + 1, size_of_ship);
     } 
