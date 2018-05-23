@@ -1,5 +1,5 @@
 #include <algorithm> // sort()
-#include <cstdlib> // rand(), srand(), size_t
+#include <cstdlib> // rand()
 #include <iostream>
 #include <vector>
 
@@ -48,8 +48,6 @@ void player::place_ship(int atomic_number){
 
 void player::place_ship_randomly(int size_of_ship){
     vector<int> random_ship;
-    
-    srand(time(0));
 
     while (random_ship.empty()){
         random_ship = continuous_blocks(rand() % MAX_ELEMENT + 1, size_of_ship);
@@ -59,6 +57,7 @@ void player::place_ship_randomly(int size_of_ship){
         cout << element_node_array[random_ship[i]]->get_element_symbol() << ' ';
         place_ship(random_ship[i]);
     }
+    cout << endl;
 }
 
 bool player::check_shot(const std::string& electron_config){
@@ -104,10 +103,13 @@ bool player::continuous_blocks(std::vector<int>& ship_atomic_numbers){
 }
 
 vector<int> player::continuous_blocks(int atomic_number, int size_of_ship){
-    bool horizontal = rand() % 2;
+    int random = rand();
+    cout << "Random: " << random << endl;
+    int horizontal = random % 2;
+    cout << "Horizontal? : " << horizontal << endl;
     vector<int> random_ship;
 
-    if (horizontal){
+    if (horizontal == 0){
         for (int i = 0; i != size_of_ship; ++i){
             element_node* right_ship = element_node_array[atomic_number]->get_right_ship();
             if (!right_ship){
@@ -118,19 +120,22 @@ vector<int> player::continuous_blocks(int atomic_number, int size_of_ship){
             }
             
         }
-    } 
-
-    // vertical ship
-    else { 
+    } else { 
+        // vertical ship
         for (int i = 0; i != size_of_ship; ++i){
             int next_row;
             if (atomic_number + i == 1){
                 next_row = 2;
-            } else if (atomic_number >= 2 && atomic_number + i <= 10){
+            } else if (atomic_number + i >= 2 && atomic_number + i <= 18){
                 next_row = 8;
-            } else {
+            } else if (atomic_number + i >= 19 && atomic_number + i <= 38){
+                next_row = 18;
+            } else if (atomic_number + i >= 39 && atomic_number + i <= 86){
+                next_row = 32;
+            } else { 
                 return { };
             }
+
             random_ship.push_back(atomic_number);
             atomic_number += next_row;
         }
