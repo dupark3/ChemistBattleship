@@ -16,9 +16,11 @@ TODO:
 ☑ AI places one 3-block ship randomly
 ☑ Use srand() and seed with time to be more random
 ☑ Expand the periodic table
-☐ Use bucket method to create more random numbers
-☐ Place multiple ships
+☑ Place multiple ships
+☑ Fix the 6s-4f and 7s-5f transition being
 ☐ Prevent adding ships on the same spot or overlapping
+☐ Use bucket method to create more random numbers
+
 ☐ Make each turn a function to avoid repeating similar code
 ☐ Make player class contain groups of ships instead of a huge list of electron configs to allow "sunk" info
 ☐ Make AI smarter by shooting around a HIT until a ship is sunk
@@ -44,15 +46,14 @@ int main(){
     }
     player player1(player1name);
 
-    // Ask player 1 to place a 3-block ship until successful
-    while (true){
+    // Ask player 1 to place five 3-block ship until successful
+    for (int i = 0; i != 5; ){
         cout << "Place a 3-block ship by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
         cin >> element1 >> element2 >> element3;
         vector<string> elements = {element1, element2, element3};
         if (player1.place_ship(elements)){
-            cout << "Ship placed!" << endl;
-            break;
+            cout << "Ship #" << ++i << " placed at " << element1 << ", " << element2 << ", and " << element3 << endl;
         } else {
             cout << "Try again and ensure that your three elements are horizontal or vertical." << endl;
         }
@@ -86,7 +87,7 @@ int main(){
             element_symbol = element_node_array[atomic_number]->get_element_symbol();
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player2.check_game_over()){
-                this_thread::sleep_for(chrono::milliseconds(250));
+                this_thread::sleep_for(chrono::milliseconds(300));
                 cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
                 break;
             }
@@ -97,7 +98,7 @@ int main(){
             cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
         }
         
-        this_thread::sleep_for(chrono::milliseconds(250));
+        this_thread::sleep_for(chrono::milliseconds(300));
 
         // player2name's turn
         cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";

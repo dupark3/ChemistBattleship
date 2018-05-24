@@ -49,15 +49,15 @@ void player::place_ship(int atomic_number){
 void player::place_ship_randomly(int size_of_ship){
     vector<int> random_ship;
 
+    // pass a random number between [1,118] as the atomic number of the first element
     while (random_ship.empty()){
         random_ship = continuous_blocks(rand() % MAX_ELEMENT + 1, size_of_ship);
     } 
 
     for (int i = 0; i != size_of_ship; ++i){
-        cout << element_node_array[random_ship[i]]->get_element_symbol() << ' ';
         place_ship(random_ship[i]);
     }
-    cout << endl;
+    cout << "Random ship of size " << size_of_ship << " placed... " << endl;
 }
 
 bool player::check_shot(const std::string& electron_config){
@@ -81,7 +81,8 @@ bool player::continuous_blocks(std::vector<int>& ship_atomic_numbers){
     // find out if horizontal or vertical ship
     bool horizontal = false;
     sort(ship_atomic_numbers.begin(), ship_atomic_numbers.end());
-    if (ship_atomic_numbers[1] - ship_atomic_numbers[0] == 1){
+    if (element_node_array[ship_atomic_numbers[0]]->get_right_ship() == 
+        element_node_array[ship_atomic_numbers[1]]){
         horizontal = true;
     }
 
@@ -103,10 +104,7 @@ bool player::continuous_blocks(std::vector<int>& ship_atomic_numbers){
 }
 
 vector<int> player::continuous_blocks(int atomic_number, int size_of_ship){
-    int random = rand();
-    cout << "Random: " << random << endl;
-    int horizontal = random % 2;
-    cout << "Horizontal? : " << horizontal << endl;
+    int horizontal = rand() % 2;
     vector<int> random_ship;
 
     if (horizontal == 0){
