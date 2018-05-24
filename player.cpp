@@ -9,37 +9,31 @@
 using namespace std;
 
 void player::place_ship(const std::string& element_symbol){
-    int atomic_number = element_symbols[element_symbol];
-    if (atomic_number > 0){
-        ships[ element_node_array[atomic_number]->get_electron_config() ] = true;
-        ++number_of_ships;
-    }
+    place_ship(element_symbols[element_symbol]);
 }
 
 bool player::place_ship(const vector<string>& elements){
     vector<int> ship_atomic_numbers;
 
+    // convert element symbols to atomic number and store in a vector
     for (int i = 0; i != elements.size(); ++i){
         int atomic_number = element_symbols[elements[i]];
-        if (atomic_number == 0){
-            return false;
-        }
         ship_atomic_numbers.push_back(atomic_number);
     }
 
+    // if the blocks are continuous, place those ships. if not, return false. 
     if (continuous_blocks(ship_atomic_numbers)){
         for (int i = 0; i != ship_atomic_numbers.size(); ++i){
-            ships[ element_node_array[ship_atomic_numbers[i]]->get_electron_config() ] = true;
-            ++number_of_ships;
+            place_ship(ship_atomic_numbers[i]);
         }
         return true;
-    } else {
+    } else { 
         return false;
     }
 }
 
 void player::place_ship(int atomic_number){
-    if (atomic_number > 0 && atomic_number < MAX_ELEMENT){
+    if (atomic_number >= 1 && atomic_number <= MAX_ELEMENT){
         ships[ element_node_array[atomic_number]->get_electron_config() ] = true;
         ++number_of_ships;
     }
@@ -47,17 +41,16 @@ void player::place_ship(int atomic_number){
 
 
 void player::place_ship_randomly(int size_of_ship){
-    vector<int> random_ship;
+    vector<int> ship_atomic_numbers;
 
-    // pass a random number between [1,118] as the atomic number of the first element
-    while (random_ship.empty()){
-        random_ship = continuous_blocks(rand() % MAX_ELEMENT + 1, size_of_ship);
-    } 
+    // Pass a random number between [1,118] as the first element until valid ship position found
+    while (ship_atomic_numbers.empty()){
+        ship_atomic_numbers = continuous_blocks(rand() % MAX_ELEMENT + 1, size_of_ship);
+    }
 
     for (int i = 0; i != size_of_ship; ++i){
-        place_ship(random_ship[i]);
+        place_ship(ship_atomic_numbers[i]);
     }
-    cout << "Random ship of size " << size_of_ship << " placed... " << endl;
 }
 
 bool player::check_shot(const std::string& electron_config){
