@@ -1,5 +1,5 @@
-#ifndef GUARD_answerkey_h
-#define GUARD_answerkey_h
+#ifndef GUARD_periodic_table_h
+#define GUARD_periodic_table_h
 
 #include <map>
 #include <string>
