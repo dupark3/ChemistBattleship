@@ -18,7 +18,7 @@ TODO:
 ☑ Expand the periodic table
 ☑ Place multiple ships
 ☑ Fix the 6s-4f and 7s-5f transition being
-☐ Prevent adding ships on the same spot or overlapping
+☑ Prevent adding ships on the same spot or overlapping
 ☐ Use bucket method to create more random numbers
 
 ☐ Make each turn a function to avoid repeating similar code
@@ -27,9 +27,11 @@ TODO:
 
 
 Extra Features:
+☐ Print the periodic table on console at set-up phase
 ☐ Add % for how accurate your shots were
 ☐ Add special bomb that explodes in a + sign
-☐ Two player game
+☐ Earn special bomb if you identify other person's guess correctly 5 times in a row
+☐ Give user choice between single or multiplayer
 
 */
 
@@ -45,6 +47,8 @@ int main(){
         cout << "Welcome, " << player1name << ", to the Periodic Table Battleship." << endl;
     }
     player player1(player1name);
+
+    cout << endl;
 
     // Ask player 1 to place five 3-block ship until successful
     for (int i = 0; i != 5; ){
@@ -62,12 +66,10 @@ int main(){
     // Set up player 2 
     std::string player2name = "AI";
     player player2(player2name);
-    cout << "player2 is placing a 3-block ship randomly..." << endl;
-    player2.place_ship_randomly(3);
-    player2.place_ship_randomly(3);
-    player2.place_ship_randomly(3);
-    player2.place_ship_randomly(3);
-    player2.place_ship_randomly(3);
+    for(int i = 0; i != 5; ){
+        player2.place_ship_randomly(3);
+        cout << "Ship #" << ++i << " placed at a random location.";
+    }
 
     int round = 1;
 
@@ -80,7 +82,7 @@ int main(){
         // store electron config, atomic number, & element symbol as local variables for convenience
         string electron_config;
         cin >> electron_config;
-        int atomic_number = electron_configs[electron_config];
+        int atomic_number = atomic_number_from_config[electron_config];
         string element_symbol;
 
         if(player2.check_shot(electron_config)){
@@ -105,7 +107,7 @@ int main(){
 
         electron_config = element_node_array[rand() % 118 + 1]->get_electron_config();
         cout << electron_config << endl;
-        atomic_number = electron_configs[electron_config];
+        atomic_number = atomic_number_from_config[electron_config];
         element_symbol = element_node_array[atomic_number]->get_element_symbol();
 
         if (player1.check_shot(electron_config)){

@@ -10,8 +10,8 @@ class element_node;
 
 const int MAX_ELEMENT = 118;
 
-extern std::map<std::string, int> element_symbols; // map element symbol to atomic number
-extern std::map<std::string, int> electron_configs; // map electron config to atomic number
+extern std::map<std::string, int> atomic_number_from_symbol; // map element symbol to atomic number
+extern std::map<std::string, int> atomic_number_from_config; // map electron config to atomic number
 
 // array index 0 is left empty in order to match the index with the atomic number
 extern element_node* element_node_array[MAX_ELEMENT + 1];

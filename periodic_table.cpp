@@ -13,8 +13,8 @@
 using namespace std;
 
 // global map objects defined here and externally linked
-std::map<std::string, int> element_symbols;
-std::map<std::string, int> electron_configs;
+std::map<std::string, int> atomic_number_from_symbol;
+std::map<std::string, int> atomic_number_from_config;
 element_node* element_node_array[MAX_ELEMENT + 1];
 
 void load_periodic_table(){
@@ -35,7 +35,7 @@ void load_periodic_table(){
         element_node_array[atomic_number] = new element_node;
         element_node_array[atomic_number]->atomic_number = atomic_number;
         element_node_array[atomic_number]->element_symbol = element_symbol;
-        element_symbols[element_symbol] = atomic_number;
+        atomic_number_from_symbol[element_symbol] = atomic_number;
 
         // read name and store into element_node
         string element_name;
@@ -46,7 +46,7 @@ void load_periodic_table(){
         string electron_config;
         PeriodicTableFileStream >> electron_config;
         element_node_array[atomic_number]->electron_config = electron_config;
-        electron_configs[electron_config] = atomic_number;
+        atomic_number_from_config[electron_config] = atomic_number;
     }
 
 
