@@ -47,5 +47,6 @@ private:
 /**************** nonmember functions *******************/
 
 void load_periodic_table();
+void print_periodic_table();
 
 #endif

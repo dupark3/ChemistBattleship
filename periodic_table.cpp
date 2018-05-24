@@ -107,3 +107,28 @@ void load_periodic_table(){
     element_node_array[88]->right_ship = element_node_array[103];
 
 }
+
+void print_periodic_table(){
+    cout << 
+    "╔══╗                                               ╔══╗" << endl <<
+    "║H ║                                               ║He║" << endl <<
+    "╠══╬══╗                             ╔══╦══╦══╦══╦══╬══╣" << endl <<
+    "║Li║Be║                             ║B ║C ║N ║O ║F ║Ne║" << endl <<
+    "╠══╬══╣                             ╠══╬══╬══╬══╬══╬══╣" << endl <<
+    "║Na║Mg║                             ║Al║Si║P ║S ║Cl║Ar║" << endl <<
+    "╠══╬══╬══╦══╦══╦══╦══╦══╦══╦══╦══╦══╬══╬══╬══╬══╬══╬══╣" << endl <<
+    "║K ║Ca║Sc║Ti║V ║Cr║Mn║Fe║Co║Ni║Cu║Zn║Ga║Ge║As║Se║Br║Kr║" << endl <<
+    "╠══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣" << endl <<
+    "║Rb║Sr║Y ║Zr║Nb║Mo║Tc║Ru║Rh║Pd║Ag║Cd║In║Sn║Sb║Te║I ║Xe║" << endl <<
+    "╠══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣" << endl <<
+    "║Cs║Ba░Lu║Hf║Ta║W ║Re║Os║Ir║Pt║Au║Hg║Tl║Pb║Bi║Po║At║Rn║" << endl <<
+    "╠══╬══░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣" << endl <<
+    "║Fr║Ra░Lr║Rf║Db║Sg║Bh║Hs║Mt║Ds║Rg║Cn║Nh║Fl║Mc║Lv║Ts║Og║" << endl <<
+    "╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝" << endl <<
+    "      ╔══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╗" << endl <<
+    "      ░La║Ce║Pr║Nd║Pm║Sm║Eu║Gd║Tb║Dy║Ho║Er║Tm║Yb║" << endl <<
+    "      ░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣" << endl <<
+    "      ░Ac║Th║Pa║U ║Np║Pu║Am║Cm║Bk║Cf║Es║Fm║Md║No║" << endl <<
+    "      ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝" << endl;
+
+}

@@ -50,6 +50,8 @@ int main(){
 
     cout << endl;
 
+    print_periodic_table();
+
     // Ask player 1 to place five 3-block ship until successful
     for (int i = 0; i != 5; ){
         cout << "Place a 3-block ship by writing the element's symbols, separated by spaces: ";
@@ -68,7 +70,7 @@ int main(){
     player player2(player2name);
     for(int i = 0; i != 5; ){
         player2.place_ship_randomly(3);
-        cout << "Ship #" << ++i << " placed at a random location.";
+        cout << "Ship #" << ++i << " placed at a random location." << endl;
     }
 
     int round = 1;
