@@ -20,14 +20,12 @@ TODO:
 ☑ Fix the 6s-4f and 7s-5f transition being
 ☑ Prevent adding ships on the same spot or overlapping
 ☐ Use bucket method to create more random numbers
-
-☐ Make each turn a function to avoid repeating similar code
 ☐ Make player class contain groups of ships instead of a huge list of electron configs to allow "sunk" info
-☐ Make AI smarter by shooting around a HIT until a ship is sunk
-
+☐ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
+☐ Make each turn a function to avoid repeating similar code
 
 Extra Features:
-☐ Print the periodic table on console at set-up phase
+☑ Print the periodic table on console at set-up phase
 ☐ Add % for how accurate your shots were
 ☐ Add special bomb that explodes in a + sign
 ☐ Earn special bomb if you identify other person's guess correctly 5 times in a row
@@ -48,7 +46,7 @@ int main(){
     }
     player player1(player1name);
 
-    cout << endl;
+    cout << endl << "                   PERIODIC TABLE" << endl;
 
     print_periodic_table();
 
@@ -79,14 +77,16 @@ int main(){
     while (true){
         cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
         
+        // player1's turn
         cout << player1name << "'s turn to take a shot with an electron configuration: ";
         
-        // store electron config, atomic number, & element symbol as local variables for convenience
+        // store config, atomic number, symbol as local variables for convenience
         string electron_config;
         cin >> electron_config;
         int atomic_number = atomic_number_from_config[electron_config];
         string element_symbol;
 
+        // check_shot is called on the opponent's player object to see if it's a hit
         if(player2.check_shot(electron_config)){
             element_symbol = element_node_array[atomic_number]->get_element_symbol();
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
@@ -104,11 +104,14 @@ int main(){
         
         this_thread::sleep_for(chrono::milliseconds(300));
 
-        // player2name's turn
+        // player2's turn
         cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";
 
+        // pick a random shot
         electron_config = element_node_array[rand() % 118 + 1]->get_electron_config();
         cout << electron_config << endl;
+
+        // set local variables for conveneince of printing shot info
         atomic_number = atomic_number_from_config[electron_config];
         element_symbol = element_node_array[atomic_number]->get_element_symbol();
 
@@ -119,8 +122,6 @@ int main(){
                 cout << "******************** GAME OVER, " << player2name << " IS VICTORIOUS ********************" << endl;
                 break;
             }
-        } else if (atomic_number == 0) {
-            cout << player2name << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;
         } else {
             cout << player2name <<  " MISS! Element " << element_symbol << " is open waters." << endl;
         }
