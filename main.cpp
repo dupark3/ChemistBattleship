@@ -19,7 +19,7 @@ TODO:
 ☑ Place multiple ships
 ☑ Fix the 6s-4f and 7s-5f transition being
 ☑ Prevent adding ships on the same spot or overlapping
-☐ Use bucket method to create more random numbers
+☑ Use bucket method to create more random numbers
 ☐ Make player class contain groups of ships instead of a huge list of electron configs to allow "sunk" info
 ☐ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
 ☐ Make each turn a function to avoid repeating similar code
@@ -51,7 +51,7 @@ int main(){
     print_periodic_table();
 
     // Ask player 1 to place five 3-block ship until successful
-    for (int i = 0; i != 5; ){
+    for (int i = 0; i != 1; ){
         cout << "Place a 3-block ship by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
         cin >> element1 >> element2 >> element3;
@@ -108,7 +108,7 @@ int main(){
         cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";
 
         // pick a random shot
-        electron_config = element_node_array[my_rand(MAX_ELEMENT)]->get_electron_config();
+        electron_config = element_node_array[my_rand(MAX_ELEMENT) + 1]->get_electron_config();
         cout << electron_config << endl;
 
         // set local variables for conveneince of printing shot info

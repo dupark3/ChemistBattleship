@@ -141,10 +141,11 @@ vector<int> player::create_continuous_blocks(int atomic_number, int size_of_ship
 
 int my_rand(int max){
     int random_number;
-    int buckets = RAND_MAX / max;
-    while(random_number = rand() / buckets > max){
-        ;
-    }
-    return random_number + 1;
+    int bucket_size = RAND_MAX / max;
+    do{
+        random_number = rand() / bucket_size;
+    } while (random_number > max);
+
+    return random_number;
     // 0 1 2 3 4 5 6 7
 }
