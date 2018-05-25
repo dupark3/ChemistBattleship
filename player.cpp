@@ -43,7 +43,7 @@ void player::place_ship_randomly(int size_of_ship){
 
     // Pass a random number between [1,118] as the first element until valid ship position found
     while (ship_atomic_numbers.empty()){
-        ship_atomic_numbers = create_continuous_blocks(rand() % MAX_ELEMENT + 1, size_of_ship);
+        ship_atomic_numbers = create_continuous_blocks(my_rand(MAX_ELEMENT), size_of_ship);
     }
 
     for (int i = 0; i != size_of_ship; ++i){
@@ -102,7 +102,7 @@ bool player::check_if_continuous(std::vector<int>& ship_atomic_numbers){
 }
 
 vector<int> player::create_continuous_blocks(int atomic_number, int size_of_ship){
-    bool horizontal = rand() % 2;
+    bool horizontal = my_rand(2);
     vector<int> ship_atomic_numbers;
 
     if (horizontal){
@@ -145,6 +145,6 @@ int my_rand(int max){
     while(random_number = rand() / buckets > max){
         ;
     }
-    return random_number;
+    return random_number + 1;
     // 0 1 2 3 4 5 6 7
 }
