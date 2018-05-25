@@ -108,7 +108,7 @@ int main(){
         cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";
 
         // pick a random shot
-        electron_config = element_node_array[rand() % 118 + 1]->get_electron_config();
+        electron_config = element_node_array[my_rand(MAX_ELEMENT)]->get_electron_config();
         cout << electron_config << endl;
 
         // set local variables for conveneince of printing shot info

@@ -30,4 +30,8 @@ private:
     std::vector<int> create_continuous_blocks(int, int);
 };
 
+
+// nonmember functions
+int my_rand(int);
+
 #endif
