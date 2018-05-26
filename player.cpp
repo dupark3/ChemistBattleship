@@ -47,6 +47,7 @@ void player::place_ship_randomly(int size_of_ship){
     }
 
     for (int i = 0; i != size_of_ship; ++i){
+        cout << ship_atomic_numbers[i] << endl;
         place_ship(ship_atomic_numbers[i]);
     }
 }

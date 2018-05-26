@@ -88,6 +88,7 @@ int main(){
 
         // check_shot is called on the opponent's player object to see if it's a hit
         if(player2.check_shot(electron_config)){
+            player1.hit();
             element_symbol = element_node_array[atomic_number]->get_element_symbol();
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player2.check_game_over()){
@@ -96,8 +97,10 @@ int main(){
                 break;
             }
         } else if (atomic_number == 0) {
+            player1.missed();
             cout << player1name << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;
         } else {
+            player1.missed();
             element_symbol = element_node_array[atomic_number]->get_element_symbol();
             cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
         }
@@ -116,6 +119,7 @@ int main(){
         element_symbol = element_node_array[atomic_number]->get_element_symbol();
 
         if (player1.check_shot(electron_config)){
+            player2.hit();
             cout << player2name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player1.check_game_over()){
                 this_thread::sleep_for(chrono::milliseconds(300));
@@ -123,6 +127,7 @@ int main(){
                 break;
             }
         } else {
+            player2.missed();
             cout << player2name <<  " MISS! Element " << element_symbol << " is open waters." << endl;
         }
 
@@ -130,7 +135,9 @@ int main(){
 
         cout << endl;
         cout << player1name << ": " << player1.ships_left() << " ships remaining" << endl;
+        cout << player1name << ": " << player1.get_accuracy() << "\% accuracy" << endl;
         cout << player2name << ": " << player2.ships_left() << " ships remaining" << endl;        
+        cout << player2name << ": " << player2.get_accuracy() << "\% accuracy" << endl;
 
         this_thread::sleep_for(chrono::milliseconds(300));
     }
