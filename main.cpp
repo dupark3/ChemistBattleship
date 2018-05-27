@@ -134,10 +134,9 @@ int main(){
         this_thread::sleep_for(chrono::milliseconds(300));
 
         cout << endl;
-        cout << player1name << ": " << player1.ships_left() << " ships remaining" << endl;
-        cout << player1name << ": " << player1.get_accuracy() << "\% accuracy" << endl;
-        cout << player2name << ": " << player2.ships_left() << " ships remaining" << endl;        
-        cout << player2name << ": " << player2.get_accuracy() << "\% accuracy" << endl;
+        cout << "                 " << player1name << "           " << player2name << endl;
+        cout << "Ships remaining: " << player1.ships_left() << "            " << player2.ships_left() << endl;
+        cout << "Accuracy       : " << player1.get_accuracy() << "%           " << player2.get_accuracy() << '%' << endl;
 
         this_thread::sleep_for(chrono::milliseconds(300));
     }

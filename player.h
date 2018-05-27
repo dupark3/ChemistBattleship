@@ -22,8 +22,8 @@ public:
     bool check_game_over();
     int ships_left() { return number_of_ships; } 
     
-    void hit() { std::cout << "HITS: " << ++hits << std::endl; }
-    void missed() { std::cout << "MISSES: " << ++misses << std::endl; }
+    void hit() { ++hits; }
+    void missed() { ++misses; }
     int get_accuracy() { return ((double)hits / (hits + misses)) * 100; }
 
 private:
