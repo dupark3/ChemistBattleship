@@ -15,12 +15,13 @@ public:
     player(std::string s) : name(s), ships(), number_of_ships(0), hits(0), misses(0) { }
 
     // void place_ship(const std::string&);
-    bool place_ship(const std::vector<std::string>&);
-    void place_ship_randomly(int);
-    void place_ship(int);
+    bool place_ship(const std::vector<std::string>&, int);
+    void place_ship_randomly(int, int);
+    
     bool check_shot(const std::string&);
     bool check_game_over();
     int ships_left() { return number_of_ships; } 
+    bool ship_sunk(const std::map<std::string, bool>&);
     
     void hit() { ++hits; }
     void missed() { ++misses; }
@@ -28,10 +29,11 @@ public:
 
 private:
     std::string name;
-    std::map<std::string, bool> ships; // map of electron config to a node of ship info
+    std::vector< std::map<std::string, bool> > ships; // map of electron config to a node of ship info
     int number_of_ships, hits, misses;
     bool check_if_continuous(std::vector<int>&);
     std::vector<int> create_continuous_blocks(int, int);
+    bool check_unique(const std::string&);
     
 };
 
