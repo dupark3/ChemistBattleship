@@ -20,9 +20,12 @@ TODO:
 ☑ Fix the 6s-4f and 7s-5f transition being
 ☑ Prevent adding ships on the same spot or overlapping
 ☑ Use bucket method to create more random numbers
-☐ Make player class contain a vector of map of ships instead allow "sunk" info (change num of ships)
+☑ Make player class contain a vector of map of ships instead allow "sunk" info (change num of ships)
+☐ Unlink 3p down_ship to 3d. 3p should be linked to 4p
+☐ Place ships of varying sizes
 ☐ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
 ☐ Make each turn a function to avoid repeating similar code
+☐ Refactor int next_row(int atomic_number) to return the atomic number of the element below (0 if not found)
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
@@ -51,7 +54,7 @@ int main(){
     print_periodic_table();
 
     // Ask player 1 to place five 3-block ship until successful
-    for (int i = 0; i != 5; ++i){
+    for (int i = 0; i != 1; ++i){
         cout << "Place a 3-block ship by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
         cin >> element1 >> element2 >> element3;
@@ -66,7 +69,7 @@ int main(){
     // Set up player 2 
     std::string player2name = "AI";
     player player2(player2name);
-    for(int i = 0; i != 5; ++i){
+    for(int i = 0; i != 7; ++i){
         player2.place_ship_randomly(3, i);
         cout << "Ship #" << i + 1 << " placed at a random location." << endl;
     }
@@ -95,6 +98,8 @@ int main(){
                 this_thread::sleep_for(chrono::milliseconds(300));
                 cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
                 break;
+            } else if (player2.ship_sunk(electron_config)){
+                cout << "SHIP SUNK!" << endl;
             }
         } else if (atomic_number == 0) {
             player1.missed();
@@ -102,6 +107,9 @@ int main(){
         } else {
             player1.missed();
             element_symbol = element_node_array[atomic_number]->get_element_symbol();
+            if (player2.ship_sunk(electron_config)){
+
+            }
             cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
         }
         
@@ -125,6 +133,8 @@ int main(){
                 this_thread::sleep_for(chrono::milliseconds(300));
                 cout << "******************** GAME OVER, " << player2name << " IS VICTORIOUS ********************" << endl;
                 break;
+            } else if (player1.ship_sunk(electron_config)){
+                cout << "SHIP SUNK!" << endl;
             }
         } else {
             player2.missed();

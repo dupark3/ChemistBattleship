@@ -57,8 +57,10 @@ void player::place_ship_randomly(int size_of_ship, int ship_number){
     map<string, bool> ship_map;
     for (int i = 0; i != size_of_ship; ++i){
         string electron_config = element_node_array[ship_atomic_numbers[i]]->get_electron_config();
+        cout << electron_config << endl;
         ship_map[electron_config] = true;
     }
+
     ships.push_back(ship_map);
     ++number_of_ships;
 }
@@ -66,7 +68,8 @@ void player::place_ship_randomly(int size_of_ship, int ship_number){
 
 bool player::check_shot(const std::string& electron_config){
     for (int i = 0; i != number_of_ships; ++i){
-        if(ships[i][electron_config]){
+        
+        if(ships[i].find(electron_config) != ships[i].end()){
             ships[i][electron_config] = false;
             if (ship_sunk(ships[i])){
                 --number_of_ships;
@@ -170,9 +173,32 @@ bool player::ship_sunk(const map<string, bool>& ship){
     return true;
 }
 
+bool player::ship_sunk(const string& electron_config){
+    // iterate through the vector of maps
+    for (int i = 0; i != ships.size(); ++i){
+        
+        // search the map to see if it contains the electron_config
+        if (ships[i].find(electron_config) != ships[i].cend()){
+            
+            // if correct map found, iterate through the map to see if all blocks have been sunk
+            for (auto j = ships[i].begin(); j != ships[i].end(); ++j){
+                if (j->second == true){
+                    return false;
+                } 
+            }
+            
+            // if all blocks are false, then ship is sunk
+            return true;
+
+        }
+    }
+    // if electron_config does not exist in ships vector, return false
+    return false;
+}
+
 bool player::check_unique(const string& electron_config){
     for (int i = 0; i != number_of_ships; ++i){
-        if(ships[i][electron_config] == true){
+        if(ships[i].find(electron_config) != ships[i].cend()){
             return false;
         }
     }

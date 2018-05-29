@@ -22,6 +22,7 @@ public:
     bool check_game_over();
     int ships_left() { return number_of_ships; } 
     bool ship_sunk(const std::map<std::string, bool>&);
+    bool ship_sunk(const std::string&);
     
     void hit() { ++hits; }
     void missed() { ++misses; }
