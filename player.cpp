@@ -57,7 +57,6 @@ void player::place_ship_randomly(int size_of_ship, int ship_number){
     map<string, bool> ship_map;
     for (int i = 0; i != size_of_ship; ++i){
         string electron_config = element_node_array[ship_atomic_numbers[i]]->get_electron_config();
-        cout << electron_config << endl;
         ship_map[electron_config] = true;
     }
 

@@ -21,11 +21,12 @@ TODO:
 ☑ Prevent adding ships on the same spot or overlapping
 ☑ Use bucket method to create more random numbers
 ☑ Make player class contain a vector of map of ships instead allow "sunk" info (change num of ships)
-☐ Unlink 3p down_ship to 3d. 3p should be linked to 4p
+☑ Unlink 3p down_ship to 3d. 3p should be linked to 4p
+☑ Refactor int next_row(int atomic_number) to return the atomic number of the element below (0 if not found)
 ☐ Place ships of varying sizes
 ☐ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
 ☐ Make each turn a function to avoid repeating similar code
-☐ Refactor int next_row(int atomic_number) to return the atomic number of the element below (0 if not found)
+
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
@@ -52,26 +53,66 @@ int main(){
     cout << endl << "                   PERIODIC TABLE" << endl;
 
     print_periodic_table();
-
-    // Ask player 1 to place five 3-block ship until successful
-    for (int i = 0; i != 1; ++i){
-        cout << "Place a 3-block ship by writing the element's symbols, separated by spaces: ";
+    
+    // Ask player 1 to place four 3-block ship until successful
+    cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
+    for (int i = 0; i != 4; ++i){
+        cout << "Place a 3-block ship #" << i + 1 
+             << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
         cin >> element1 >> element2 >> element3;
         vector<string> elements = {element1, element2, element3};
         if (player1.place_ship(elements, i)){
             cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", and " << element3 << endl;
         } else {
-            cout << "Try again and ensure that your three elements are horizontal or vertical." << endl;
+            cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
+        }
+    }
+
+    // Ask player 1 to place three 4-block ship until successful
+    cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
+    for (int i = 0; i != 3; ++i){
+        cout << "Place a 4-block ship #" << i + 1 
+             << " by writing the element's symbols, separated by spaces: ";
+        string element1, element2, element3, element4;
+        cin >> element1 >> element2 >> element3 >> element4;
+        vector<string> elements = {element1, element2, element3, element4};
+        if (player1.place_ship(elements, i)){
+            cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", " << element3 << ", and " << element4 << endl;
+        } else {
+            cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
+        }
+    }
+
+    // Ask player 1 to place two 5-block ship until successful
+    cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
+    for (int i = 0; i != 2; ++i){
+        cout << "Place a 5-block ship #" << i + 1 
+             << " by writing the element's symbols, separated by spaces: ";
+        string element1, element2, element3, element4, element5;
+        cin >> element1 >> element2 >> element3 >> element4 >> element5;
+        vector<string> elements = {element1, element2, element3, element4, element5};
+        if (player1.place_ship(elements, i)){
+            cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", " << element3 << ", " << element4 << ", and " << element5 << endl;
+        } else {
+            cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
 
     // Set up player 2 
     std::string player2name = "AI";
     player player2(player2name);
-    for(int i = 0; i != 7; ++i){
+    for(int i = 0; i != 4; ++i){
         player2.place_ship_randomly(3, i);
-        cout << "Ship #" << i + 1 << " placed at a random location." << endl;
+        cout << "Ship #" << i + 1 << " of size 3 placed at a random location." << endl;
+    }
+    for(int i = 0; i != 3; ++i){
+        player2.place_ship_randomly(4, i);
+        cout << "Ship #" << i + 1 << " of size 4 placed at a random location." << endl;
+    }
+    for(int i = 0; i != 2; ++i){
+        player2.place_ship_randomly(5, i);
+        cout << "Ship #" << i + 1 << " of size 5 placed at a random location." << endl;
     }
 
     int round = 1;
