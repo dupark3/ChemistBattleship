@@ -47,6 +47,8 @@ private:
 /**************** nonmember functions *******************/
 
 void load_periodic_table();
+int next_rows_atomic_number(int);
 void print_periodic_table();
+
 
 #endif

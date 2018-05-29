@@ -76,26 +76,17 @@ void load_periodic_table(){
 
         map<int, bool> no_valid    = { {118, 1}, {102, 1} };
         
-        int next_row;
-        if (i == 1){
-            next_row = 2;
-        } else if (i >= 2 && i <= 18){
-            next_row = 8;
-        } else if (i >= 19 && i <= 38){
-            next_row = 18;
-        } else if (i >= 39 && i <= 86){
-            next_row = 32;
-        }
+        int next_row = next_rows_atomic_number(i);
 
         if (both_valid[i]) {
             element_node_array[i]->right_ship = element_node_array[i + 1];
-            element_node_array[i]->down_ship = element_node_array[i + next_row];
+            element_node_array[i]->down_ship = element_node_array[next_row];
         } else if (right_valid[i]) {
             element_node_array[i]->right_ship = element_node_array[i + 1];
             element_node_array[i]->down_ship = 0;
         } else if (down_valid[i]) {
             element_node_array[i]->right_ship = 0;
-            element_node_array[i]->down_ship = element_node_array[i + next_row];
+            element_node_array[i]->down_ship = element_node_array[next_row];
         } else if (no_valid[i]) {
             element_node_array[i]->right_ship = 0;
             element_node_array[i]->down_ship = 0;
@@ -106,6 +97,20 @@ void load_periodic_table(){
     element_node_array[56]->right_ship = element_node_array[71];
     element_node_array[88]->right_ship = element_node_array[103];
 
+}
+
+int next_rows_atomic_number(int atomic_number){
+    if (atomic_number == 1){
+        return atomic_number + 2;
+    } else if (atomic_number >= 2 && atomic_number <= 12){
+        return atomic_number + 8;
+    } else if (atomic_number >= 13 && atomic_number <= 38){
+        return atomic_number + 18;
+    } else if (atomic_number >= 39 && atomic_number <= 86){
+        return atomic_number + 32;
+    } else {
+        return 0;
+    }
 }
 
 void print_periodic_table(){
