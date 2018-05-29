@@ -80,16 +80,20 @@ void load_periodic_table(){
 
         if (both_valid[i]) {
             element_node_array[i]->right_ship = element_node_array[i + 1];
-            element_node_array[i]->down_ship = element_node_array[next_row];
+            element_node_array[i + 1]->left_ship = element_node_array[i];
+            element_node_array[i]->below_ship = element_node_array[next_row];
+            element_node_array[next_row]->above_ship = element_node_array[i];
         } else if (right_valid[i]) {
             element_node_array[i]->right_ship = element_node_array[i + 1];
-            element_node_array[i]->down_ship = 0;
+            element_node_array[i + 1]->left_ship = element_node_array[i];
+            element_node_array[i]->below_ship = 0;
         } else if (down_valid[i]) {
             element_node_array[i]->right_ship = 0;
-            element_node_array[i]->down_ship = element_node_array[next_row];
+            element_node_array[i]->below_ship = element_node_array[next_row];
+            element_node_array[next_row]->above_ship = element_node_array[i];
         } else if (no_valid[i]) {
             element_node_array[i]->right_ship = 0;
-            element_node_array[i]->down_ship = 0;
+            element_node_array[i]->below_ship = 0;
         }
     }
     

@@ -24,13 +24,16 @@ class element_node{
 friend void load_periodic_table();
 public:
     element_node() : element_symbol(""), electron_config(""), 
-                     right_ship(0), down_ship(0) { }
+                     right_ship(0), below_ship(0) { }
     int get_atomic_number() { return atomic_number; }
     std::string get_element_symbol() { return element_symbol; }
     std::string get_electron_config() { return electron_config; }
     std::string get_element_name() { return element_name; }
     element_node* get_right_ship() { return right_ship; }
-    element_node* get_down_ship() { return down_ship; }
+    element_node* get_below_ship() { return below_ship; }
+    element_node* get_left_ship() { return left_ship; }
+    element_node* get_above_ship() { return above_ship; }
+    
 private:
     int atomic_number;
     std::string element_symbol;
@@ -39,7 +42,9 @@ private:
 
     // pointer to the nods on the right and below this node on the actual periodic table. 0 if not valid.
     element_node* right_ship;
-    element_node* down_ship;
+    element_node* below_ship;
+    element_node* left_ship;
+    element_node* above_ship;
 };
 
 
