@@ -182,11 +182,6 @@ void calculate_possibilities(){
 }
 
 
-// we need below ship depth - 2
-bool calculate_below_ships(element_node* element_pointer, int level = 1){
-    
-}
-
 void print_periodic_table(){
                                    
                                    

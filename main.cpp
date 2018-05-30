@@ -6,6 +6,7 @@
 #include <thread> // this_thread::sleep_for
 #include <vector>
 
+#include "AI.h"
 #include "periodic_table.h"
 #include "player.h"
 
@@ -56,6 +57,7 @@ int main(){
     print_periodic_table();
     
     // Ask player 1 to place four 3-block ship until successful
+    /*
     cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 4; ++i){
         cout << "Place a 3-block ship #" << i + 1 
@@ -84,7 +86,7 @@ int main(){
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-
+*/
     // Ask player 1 to place two 5-block ship until successful
     cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 2; ++i){
@@ -102,7 +104,7 @@ int main(){
 
     // Set up player 2 
     std::string player2name = "AI";
-    player player2(player2name);
+    AI player2(player2name);
     for(int i = 0; i != 4; ++i){
         player2.place_ship_randomly(3, i);
         cout << "Ship #" << i + 1 << " of size 3 placed at a random location." << endl;
@@ -164,8 +166,8 @@ int main(){
         // player2's turn
         cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";
 
-        // pick a random shot
-        electron_config = element_node_array[my_rand(MAX_ELEMENT) + 1]->get_electron_config();
+        // take an educated shot
+        electron_config = player2.take_educated_shot(player1);
         cout << electron_config << endl;
 
         // set local variables for conveneince of printing shot info

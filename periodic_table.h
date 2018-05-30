@@ -23,6 +23,7 @@ extern element_node* element_node_array[MAX_ELEMENT + 1];
 class element_node{
 friend void load_periodic_table();
 friend void calculate_possibilities();
+friend class AI;
 public:
     element_node() : element_symbol(""), electron_config(""), 
                      right_ship(0), below_ship(0) { }
