@@ -97,10 +97,12 @@ void load_periodic_table(){
         }
     }
     
-    // fix transition from 6s/7s to 4f/5f
+    // fix transition from 6s/7s to 5d/6d
     element_node_array[56]->right_ship = element_node_array[71];
+    element_node_array[71]->left_ship = element_node_array[56];
     element_node_array[88]->right_ship = element_node_array[103];
-
+    element_node_array[103]->left_ship = element_node_array[88];
+    calculate_possibilities();
 }
 
 int next_rows_atomic_number(int atomic_number){
@@ -115,6 +117,74 @@ int next_rows_atomic_number(int atomic_number){
     } else {
         return 0;
     }
+}
+
+void calculate_possibilities(){
+    for (int i = 1; i != 118; ++i){
+        element_node* element_pointer = element_node_array[i];
+
+        if(element_pointer->below_ship 
+            && element_pointer->below_ship->below_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->possibilities;
+        }
+
+        if(element_pointer->below_ship 
+            && element_pointer->below_ship->below_ship 
+            && element_pointer->below_ship->below_ship->below_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->below_ship->possibilities;
+        }
+
+        if(element_pointer->below_ship 
+            && element_pointer->below_ship->below_ship 
+            && element_pointer->below_ship->below_ship->below_ship 
+            && element_pointer->below_ship->below_ship->below_ship->below_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->below_ship->possibilities;
+        }
+
+        if(element_pointer->right_ship 
+            && element_pointer->right_ship->right_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->possibilities;
+        }
+
+        if(element_pointer->right_ship 
+            && element_pointer->right_ship->right_ship 
+            && element_pointer->right_ship->right_ship->right_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->right_ship->possibilities;
+        }
+
+        if(element_pointer->right_ship 
+            && element_pointer->right_ship->right_ship 
+            && element_pointer->right_ship->right_ship->right_ship 
+            && element_pointer->right_ship->right_ship->right_ship->right_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->right_ship->possibilities;
+        }   
+    }
+
+    for (int i = 1; i != 119; ++i){
+        cout << element_node_array[i]->element_symbol << " : " << element_node_array[i]->possibilities << endl;
+    }
+}
+
+
+// we need below ship depth - 2
+bool calculate_below_ships(element_node* element_pointer, int level = 1){
+    
 }
 
 void print_periodic_table(){

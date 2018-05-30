@@ -22,6 +22,7 @@ extern element_node* element_node_array[MAX_ELEMENT + 1];
 
 class element_node{
 friend void load_periodic_table();
+friend void calculate_possibilities();
 public:
     element_node() : element_symbol(""), electron_config(""), 
                      right_ship(0), below_ship(0) { }
@@ -45,6 +46,8 @@ private:
     element_node* below_ship;
     element_node* left_ship;
     element_node* above_ship;
+
+    int possibilities;
 };
 
 
@@ -55,5 +58,6 @@ void load_periodic_table();
 int next_rows_atomic_number(int);
 void print_periodic_table();
 
+void calculate_possibilities();
 
 #endif

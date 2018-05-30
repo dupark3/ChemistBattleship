@@ -23,7 +23,8 @@ TODO:
 ☑ Make player class contain a vector of map of ships instead allow "sunk" info (change num of ships)
 ☑ Unlink 3p down_ship to 3d. 3p should be linked to 4p
 ☑ Refactor int next_row(int atomic_number) to return the atomic number of the element below (0 if not found)
-☐ Place ships of varying sizes
+☑ Place ships of varying sizes
+☐ AI class created that inherits the player class
 ☐ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
 ☐ Make each turn a function to avoid repeating similar code
 
@@ -114,6 +115,10 @@ int main(){
         player2.place_ship_randomly(5, i);
         cout << "Ship #" << i + 1 << " of size 5 placed at a random location." << endl;
     }
+
+
+
+    /**********************************GAME START*********************************************/
 
     int round = 1;
 

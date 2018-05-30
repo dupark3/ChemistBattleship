@@ -105,7 +105,7 @@ bool player::check_if_continuous(std::vector<int>& ship_atomic_numbers){
                 return false;
             }    
         } else {
-            if (element_node_array[ ship_atomic_numbers[i] ]->get_down_ship() != 
+            if (element_node_array[ ship_atomic_numbers[i] ]->get_below_ship() != 
                 element_node_array[ ship_atomic_numbers[i + 1] ]){
                 return false;
             }
@@ -136,31 +136,21 @@ vector<int> player::create_continuous_blocks(int atomic_number, int size_of_ship
     } else { 
         // vertical ship
         for (int i = 0; i != size_of_ship; ++i){
-            element_node* down_ship = element_node_array[atomic_number]->get_down_ship();
+            element_node* below_ship = element_node_array[atomic_number]->get_below_ship();
             string electron_config = element_node_array[atomic_number]->get_electron_config();
 
             // if current atomic number doesn't have a down neighbor OR 
             // if this player already has a ship at the current atomic number, return empty vec
-            if (!down_ship || !check_unique(electron_config)){
+            if (!below_ship || !check_unique(electron_config)){
                 return { };
             } else {
                 ship_atomic_numbers.push_back(atomic_number);
-                atomic_number = down_ship->get_atomic_number();
+                atomic_number = below_ship->get_atomic_number();
             }
         }
     }
 
     return ship_atomic_numbers;
-}
-
-int my_rand(int max){
-    int random_number;
-    int bucket_size = RAND_MAX / max;
-    do{
-        random_number = rand() / bucket_size;
-    } while (random_number > max);
-
-    return random_number;
 }
 
 bool player::ship_sunk(const map<string, bool>& ship){
@@ -202,4 +192,21 @@ bool player::check_unique(const string& electron_config){
         }
     }
     return true;
+}
+
+
+// NON MEMBER FUNCTIONS
+
+int my_rand(int max){
+    int random_number;
+    int bucket_size = RAND_MAX / max;
+    do{
+        random_number = rand() / bucket_size;
+    } while (random_number > max);
+
+    return random_number;
+}
+
+int intelligent_rand(){
+
 }

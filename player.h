@@ -20,18 +20,20 @@ public:
     
     bool check_shot(const std::string&);
     bool check_game_over();
-    int ships_left() { return number_of_ships; } 
+
     bool ship_sunk(const std::map<std::string, bool>&);
     bool ship_sunk(const std::string&);
     
     void hit() { ++hits; }
     void missed() { ++misses; }
     int get_accuracy() { return ((double)hits / (hits + misses)) * 100; }
+    int ships_left() { return number_of_ships; } 
 
-private:
+protected:
     std::string name;
     std::vector< std::map<std::string, bool> > ships; // map of electron config to a node of ship info
     int number_of_ships, hits, misses;
+
     bool check_if_continuous(std::vector<int>&);
     std::vector<int> create_continuous_blocks(int, int);
     bool check_unique(const std::string&);
@@ -41,5 +43,6 @@ private:
 
 // nonmember functions
 int my_rand(int);
+int intelligent_rand();
 
 #endif
