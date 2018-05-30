@@ -26,7 +26,8 @@ friend void calculate_possibilities();
 friend class AI;
 public:
     element_node() : element_symbol(""), electron_config(""), 
-                     right_ship(0), below_ship(0) { }
+                     right_ship(0), below_ship(0), left_ship(0), above_ship(0),
+                     possibilities(0), status(0) { }
     int get_atomic_number() { return atomic_number; }
     std::string get_element_symbol() { return element_symbol; }
     std::string get_electron_config() { return electron_config; }
@@ -49,6 +50,7 @@ private:
     element_node* above_ship;
 
     int possibilities;
+    int status; // 0 if unknown, 1 if hit, -1 if miss or sunk
 };
 
 

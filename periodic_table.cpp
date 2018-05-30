@@ -122,7 +122,7 @@ int next_rows_atomic_number(int atomic_number){
 void calculate_possibilities(){
     for (int i = 1; i != 118; ++i){
         element_node* element_pointer = element_node_array[i];
-
+        
         if(element_pointer->below_ship 
             && element_pointer->below_ship->below_ship){
             ++element_pointer->possibilities;
@@ -175,7 +175,7 @@ void calculate_possibilities(){
             ++element_pointer->right_ship->right_ship->right_ship->possibilities;
         }   
     }
-
+        
     for (int i = 1; i != 119; ++i){
         cout << element_node_array[i]->element_symbol << " : " << element_node_array[i]->possibilities << endl;
     }

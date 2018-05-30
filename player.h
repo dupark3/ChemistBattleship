@@ -10,6 +10,7 @@
 class ship;
 
 class player{
+friend class AI;
 public:
     player() : name(), ships(), number_of_ships(), hits(), misses() { }
     player(std::string s) : name(s), ships(), number_of_ships(0), hits(0), misses(0) { }
@@ -22,7 +23,7 @@ public:
     bool check_game_over();
 
     bool ship_sunk(const std::map<std::string, bool>&);
-    bool ship_sunk(const std::string&);
+    bool ship_sunk(const std::string&) const;
     
     void hit() { ++hits; }
     void missed() { ++misses; }
@@ -43,6 +44,5 @@ protected:
 
 // nonmember functions
 int my_rand(int);
-int intelligent_rand();
 
 #endif

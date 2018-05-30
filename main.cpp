@@ -175,7 +175,7 @@ int main(){
         element_symbol = element_node_array[atomic_number]->get_element_symbol();
 
         if (player1.check_shot(electron_config)){
-            player2.hit();
+            player2.hit(player1, atomic_number);
             cout << player2name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player1.check_game_over()){
                 this_thread::sleep_for(chrono::milliseconds(300));
@@ -185,7 +185,7 @@ int main(){
                 cout << "SHIP SUNK!" << endl;
             }
         } else {
-            player2.missed();
+            player2.missed(player1, atomic_number);
             cout << player2name <<  " MISS! Element " << element_symbol << " is open waters." << endl;
         }
 

@@ -162,7 +162,7 @@ bool player::ship_sunk(const map<string, bool>& ship){
     return true;
 }
 
-bool player::ship_sunk(const string& electron_config){
+bool player::ship_sunk(const string& electron_config) const{
     // iterate through the vector of maps
     for (int i = 0; i != ships.size(); ++i){
         
