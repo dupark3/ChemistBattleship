@@ -65,27 +65,41 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
 
 void AI::recalculate_after_hit(const player& player1, int atomic_number){
     element_node* element_pointer = element_node_array[atomic_number];
-    if (element_pointer->above_ship){
-        if (element_pointer->above_ship->status == 0){
-            element_pointer->above_ship->possibilities += 10;
+    
+    // add more to above ship if it exsits
+    if (element_pointer->above_ship && element_pointer->above_ship->status == 0){
+        element_pointer->above_ship->possibilities += 10;
+        
+        // if below_ship exists and has already been hit, ship may be vertical. 
+        if (element_pointer->below_ship && element_pointer->below_ship->status == 1){
+            element_pointer->above_ship->possibilities += 20;
         }
     }
 
-    if (element_pointer->below_ship){
-        if (element_pointer->below_ship->status == 0){
-            element_pointer->below_ship->possibilities += 10;
+    if (element_pointer->below_ship && element_pointer->below_ship->status == 0){
+        element_pointer->below_ship->possibilities += 10;
+        
+        if (element_pointer->above_ship && element_pointer->above_ship->status == 1){
+            element_pointer->below_ship->possibilities += 20;
         }
     }
 
-    if (element_pointer->right_ship){
-        if (element_pointer->right_ship->status == 0){
-            element_pointer->right_ship->possibilities += 10;
+    if (element_pointer->right_ship && element_pointer->right_ship->status == 0){
+        element_pointer->right_ship->possibilities += 10;
+        
+        // if left ship is already hit, ship may be horizontal. add more probability to the right
+        if (element_pointer->left_ship && element_pointer->left_ship->status == 1){
+            element_pointer->right_ship->possibilities += 20;
         }
+        
     }
 
-    if (element_pointer->left_ship){
-        if (element_pointer->left_ship->status == 0){
-            element_pointer->left_ship->possibilities += 10;
+    if (element_pointer->left_ship && element_pointer->left_ship->status == 0){
+        element_pointer->left_ship->possibilities += 10;
+
+        // if right ship already hit, ship may be horizontal
+        if (element_pointer->right_ship && element_pointer->right_ship->status == 1){
+            element_pointer->left_ship->possibilities += 10;   
         }
     }
 
