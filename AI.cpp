@@ -12,8 +12,9 @@ using namespace std;
 string AI::take_educated_shot(const player& player1){
     int max_possibility = 0;
     vector<element_node*> best_elements_to_shoot;
+
     for (int i = 1; i != 119; ++i){
-        if (element_node_array[i]->possibilities > max_possibility){
+        if (element_node_array[i]->possibilities > max_possibility && element_node_array[i]->status == 0){
             max_possibility = element_node_array[i]->possibilities;
             best_elements_to_shoot.clear();
             best_elements_to_shoot.push_back(element_node_array[i]);
@@ -21,8 +22,20 @@ string AI::take_educated_shot(const player& player1){
             best_elements_to_shoot.push_back(element_node_array[i]);
         }
     }
-    int rand = my_rand(best_elements_to_shoot.size());
-    return best_elements_to_shoot[rand]->get_electron_config();
+    
+    int rand;
+    
+    // if no compelling location, 25% chance of hitting anywhere, 75% chance hitting high possibility
+    int hit_high_or_low = my_rand(4);
+    if (max_possibility <= 20 && hit_high_or_low == 0){
+        do {
+            rand = my_rand(118) + 1;    
+        } while (element_node_array[rand]->status != 0);
+        return element_node_array[rand]->get_electron_config();
+    } else {
+        rand = my_rand(best_elements_to_shoot.size());
+        return best_elements_to_shoot[rand]->get_electron_config();
+    }
     
 }
 
