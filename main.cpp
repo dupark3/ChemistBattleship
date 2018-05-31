@@ -33,7 +33,7 @@ Extra Features:
 ☑ Add % for how accurate your shots were
 ☐ Earn special bomb if you identify other person's guess correctly 5 times in a row
 ☐ Add special bomb that explodes in a + sign
-☐ Give user choice between single or multiplayer
+☐ Implement multiplayer (choice between playing against computer or another person)
 
 */
 
@@ -166,11 +166,26 @@ int main(){
 
         // take an educated shot
         electron_config = player2.take_educated_shot(player1);
-        cout << electron_config << endl;
-
-        // set local variables for conveneince of printing shot info
         atomic_number = atomic_number_from_config[electron_config];
         element_symbol = element_node_array[atomic_number]->get_element_symbol();
+        cout << electron_config << endl;
+        
+        // ask user to identify this electron config
+        cout << "Identify the element: ";
+        string element_symbol_guess;
+        cin >> element_symbol_guess;
+        if (element_symbol == element_symbol_guess){
+            player1.correct_guess();
+            cout << "Correct! You have identified " << player1.get_correct_guesses() << " in a row. " << endl;
+            if (player1.get_correct_guesses() == 5){
+                player1.earn_X_bomb();
+                player1.reset_guesses();
+                cout << "With five correct guesses in a row, you have earned an X-bomb. Write X to use. " << endl;
+            }
+        } else {
+            player1.reset_guesses();
+            cout << "Incorrect. Number of correct guesses have been reset to zero. " << endl;
+        }
 
         if (player1.check_shot(electron_config)){
             player2.hit(player1, atomic_number);
