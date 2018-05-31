@@ -29,11 +29,13 @@ string AI::take_educated_shot(const player& player1){
 
 void AI::hit(const player& player1, int atomic_number){
     element_node_array[atomic_number]->status = 1;
+    element_node_array[atomic_number]->possibilities = 0;
     recalculate_possibilities(player1, atomic_number);
 }
 
 void AI::missed(const player& player1, int atomic_number){
     element_node_array[atomic_number]->status = -1;
+    element_node_array[atomic_number]->possibilities = 0;
     recalculate_possibilities(player1, atomic_number);
 }
 
@@ -102,9 +104,109 @@ void AI::recalculate_after_hit(const player& player1, int atomic_number){
             element_pointer->left_ship->possibilities += 10;   
         }
     }
-
 }
 
 void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number){
     element_node* element_pointer = element_node_array[atomic_number];
+
+    // subtract from elements to the right
+    if (element_pointer->right_ship 
+        && element_pointer->right_ship->right_ship){
+        --element_pointer->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->possibilities;
+    }
+
+    if (element_pointer->right_ship 
+        && element_pointer->right_ship->right_ship
+        && element_pointer->right_ship->right_ship->right_ship){
+        --element_pointer->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->right_ship->possibilities;
+    }
+
+    if (element_pointer->right_ship 
+        && element_pointer->right_ship->right_ship
+        && element_pointer->right_ship->right_ship->right_ship
+        && element_pointer->right_ship->right_ship->right_ship->right_ship){
+        --element_pointer->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->right_ship->right_ship->possibilities;
+    }
+    // subtract from elements to the left
+    if (element_pointer->left_ship 
+        && element_pointer->left_ship->left_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->possibilities;
+    }
+
+    if (element_pointer->left_ship 
+        && element_pointer->left_ship->left_ship
+        && element_pointer->left_ship->left_ship->left_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->left_ship->possibilities;
+    }
+
+    if (element_pointer->left_ship 
+        && element_pointer->left_ship->left_ship
+        && element_pointer->left_ship->left_ship->left_ship
+        && element_pointer->left_ship->left_ship->left_ship->left_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->left_ship->left_ship->possibilities;
+    }
+
+    // subtract from elements above    
+    if (element_pointer->above_ship 
+        && element_pointer->above_ship->above_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->possibilities;
+    }
+
+    if (element_pointer->above_ship 
+        && element_pointer->above_ship->above_ship
+        && element_pointer->above_ship->above_ship->above_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->above_ship->possibilities;
+    }
+
+    if (element_pointer->above_ship 
+        && element_pointer->above_ship->above_ship
+        && element_pointer->above_ship->above_ship->above_ship
+        && element_pointer->above_ship->above_ship->above_ship->above_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->above_ship->above_ship->possibilities;
+    }
+
+
+    // subtract from elements below
+    if (element_pointer->below_ship 
+        && element_pointer->below_ship->below_ship){
+        --element_pointer->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->possibilities;
+    }
+
+    if (element_pointer->below_ship 
+        && element_pointer->below_ship->below_ship
+        && element_pointer->below_ship->below_ship->below_ship){
+        --element_pointer->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->below_ship->possibilities;
+    }
+
+    if (element_pointer->below_ship 
+        && element_pointer->below_ship->below_ship
+        && element_pointer->below_ship->below_ship->below_ship
+        && element_pointer->below_ship->below_ship->below_ship->below_ship){
+        --element_pointer->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->below_ship->below_ship->possibilities;
+    }
+
 }
