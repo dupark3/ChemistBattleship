@@ -12,7 +12,7 @@ class ship;
 class player{
 friend class AI;
 public:
-    player() : name(), ships(), number_of_ships(), hits(), misses() { }
+    player() : name(), ships(), number_of_ships(0), hits(0), misses(0) { }
     player(std::string s) : name(s), ships(), number_of_ships(0), hits(0), misses(0) { }
 
     // void place_ship(const std::string&);

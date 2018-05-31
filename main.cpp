@@ -25,16 +25,14 @@ TODO:
 ☑ Unlink 3p down_ship to 3d. 3p should be linked to 4p
 ☑ Refactor int next_row(int atomic_number) to return the atomic number of the element below (0 if not found)
 ☑ Place ships of varying sizes
-☐ AI class created that inherits the player class
-☐ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
-☐ Make each turn a function to avoid repeating similar code
-
+☑ AI class created that inherits the player class
+☑ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
 ☑ Add % for how accurate your shots were
-☐ Add special bomb that explodes in a + sign
 ☐ Earn special bomb if you identify other person's guess correctly 5 times in a row
+☐ Add special bomb that explodes in a + sign
 ☐ Give user choice between single or multiplayer
 
 */
@@ -57,7 +55,7 @@ int main(){
     print_periodic_table();
     
     // Ask player 1 to place four 3-block ship until successful
-    /*
+    
     cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 4; ++i){
         cout << "Place a 3-block ship #" << i + 1 
@@ -86,7 +84,7 @@ int main(){
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-*/
+    
     // Ask player 1 to place two 5-block ship until successful
     cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 2; ++i){
@@ -139,7 +137,7 @@ int main(){
 
         // check_shot is called on the opponent's player object to see if it's a hit
         if(player2.check_shot(electron_config)){
-            player1.hit();
+            player1.hit(); // for calculating accuracy. increments number of hits
             element_symbol = element_node_array[atomic_number]->get_element_symbol();
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player2.check_game_over()){

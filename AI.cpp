@@ -40,12 +40,14 @@ string AI::take_educated_shot(const player& player1){
 }
 
 void AI::hit(const player& player1, int atomic_number){
+    ++hits;
     element_node_array[atomic_number]->status = 1;
     element_node_array[atomic_number]->possibilities = 0;
     recalculate_possibilities(player1, atomic_number);
 }
 
 void AI::missed(const player& player1, int atomic_number){
+    ++misses;
     element_node_array[atomic_number]->status = -1;
     element_node_array[atomic_number]->possibilities = 0;
     recalculate_possibilities(player1, atomic_number);
@@ -74,11 +76,6 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
     } else if (element_pointer->status == -1){
         recalculate_after_miss_or_sink(player1, atomic_number);
     }
-
-    for (int i = 1; i != 119; ++i){
-        cout << element_node_array[i]->element_symbol << " : " << element_node_array[i]->possibilities << endl;
-    }
-    
 }
 
 void AI::recalculate_after_hit(const player& player1, int atomic_number){
@@ -284,9 +281,5 @@ void calculate_possibilities(){
             ++element_pointer->right_ship->right_ship->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->right_ship->right_ship->possibilities;
         }   
-    }
-        
-    for (int i = 1; i != 119; ++i){
-        cout << element_node_array[i]->element_symbol << " : " << element_node_array[i]->possibilities << endl;
     }
 }
