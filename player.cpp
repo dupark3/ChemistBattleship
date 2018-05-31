@@ -67,8 +67,7 @@ void player::place_ship_randomly(int size_of_ship, int ship_number){
 
 bool player::check_shot(const std::string& electron_config){
     for (int i = 0; i != number_of_ships; ++i){
-        
-        if(ships[i].find(electron_config) != ships[i].end()){
+        if(ships[i].find(electron_config) != ships[i].end() && ships[i][electron_config] == true){
             ships[i][electron_config] = false;
             if (ship_sunk(ships[i])){
                 --number_of_ships;
@@ -76,7 +75,7 @@ bool player::check_shot(const std::string& electron_config){
             return true;
         }
     }
-    return false; 
+    return false;
 }
 
 bool player::check_game_over(){

@@ -10,7 +10,6 @@
 using namespace std;
 
 string AI::take_educated_shot(const player& player1){
-    
     int max_possibility = 0;
     vector<element_node*> best_elements_to_shoot;
     for (int i = 1; i != 119; ++i){
@@ -61,6 +60,10 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
         recalculate_after_hit(player1, atomic_number);
     } else if (element_pointer->status == -1){
         recalculate_after_miss_or_sink(player1, atomic_number);
+    }
+
+    for (int i = 1; i != 119; ++i){
+        cout << element_node_array[i]->element_symbol << " : " << element_node_array[i]->possibilities << endl;
     }
     
 }
@@ -208,5 +211,4 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->below_ship->below_ship->below_ship->possibilities;
         --element_pointer->below_ship->below_ship->below_ship->below_ship->possibilities;
     }
-
 }
