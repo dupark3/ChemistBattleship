@@ -61,6 +61,6 @@ void load_periodic_table();
 int next_rows_atomic_number(int);
 void print_periodic_table();
 
-void calculate_possibilities();
+
 
 #endif

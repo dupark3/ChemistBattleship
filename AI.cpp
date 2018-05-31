@@ -212,3 +212,68 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->below_ship->below_ship->below_ship->below_ship->possibilities;
     }
 }
+
+
+void calculate_possibilities(){
+    for (int i = 1; i != 119; ++i){
+        element_node* element_pointer = element_node_array[i];
+        
+        if(element_pointer->below_ship 
+            && element_pointer->below_ship->below_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->possibilities;
+        }
+
+        if(element_pointer->below_ship 
+            && element_pointer->below_ship->below_ship 
+            && element_pointer->below_ship->below_ship->below_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->below_ship->possibilities;
+        }
+
+        if(element_pointer->below_ship 
+            && element_pointer->below_ship->below_ship 
+            && element_pointer->below_ship->below_ship->below_ship 
+            && element_pointer->below_ship->below_ship->below_ship->below_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->below_ship->possibilities;
+            ++element_pointer->below_ship->below_ship->below_ship->below_ship->possibilities;
+        }
+
+        if(element_pointer->right_ship 
+            && element_pointer->right_ship->right_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->possibilities;
+        }
+
+        if(element_pointer->right_ship 
+            && element_pointer->right_ship->right_ship 
+            && element_pointer->right_ship->right_ship->right_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->right_ship->possibilities;
+        }
+
+        if(element_pointer->right_ship 
+            && element_pointer->right_ship->right_ship 
+            && element_pointer->right_ship->right_ship->right_ship 
+            && element_pointer->right_ship->right_ship->right_ship->right_ship){
+            ++element_pointer->possibilities;
+            ++element_pointer->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->right_ship->possibilities;
+            ++element_pointer->right_ship->right_ship->right_ship->right_ship->possibilities;
+        }   
+    }
+        
+    for (int i = 1; i != 119; ++i){
+        cout << element_node_array[i]->element_symbol << " : " << element_node_array[i]->possibilities << endl;
+    }
+}
