@@ -18,7 +18,7 @@ public:
     player(std::string s) : name(s), ships(), number_of_ships(0), 
                             hits(0), misses(0), 
                             correct_guesses(0), X_bombs(0), 
-                            consecutive_correct_configs(0), short_hand_allowed(0) { }
+                            consecutive_correct_configs(0) { }
     
     // Place ship with vector of configs or with size of ship and ship_number
     bool place_ship(const std::vector<std::string>&);
@@ -37,6 +37,8 @@ public:
     void missed() { ++misses; ++consecutive_correct_configs; }
     void misfire() { ++misses; consecutive_correct_configs = 0; }
     int get_accuracy() const { return ((double)hits / (hits + misses)) * 100; }
+    int get_consecutive_correct_configs() { return consecutive_correct_configs; }
+    bool short_form_allowed() { return consecutive_correct_configs >= 3; }
     
     // X_bomb support member functions
     void correct_guess() { ++correct_guesses; }
@@ -59,7 +61,6 @@ protected:
     bool check_unique(const std::string&);
     
     int consecutive_correct_configs;
-    bool short_hand_allowed;
 
 };
 

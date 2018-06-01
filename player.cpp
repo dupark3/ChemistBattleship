@@ -282,7 +282,9 @@ string convert_to_long_form(const string& short_hand_config){
         long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6.6s2.4f14.5d10.6p6";
     } else if (short_hand_config.substr(0, 4) == "[Og]"){
         long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6.6s2.4f14.5d10.6p6.7s2.5f14.6d10.7p6";
-    } 
+    } else {
+        return short_hand_config;
+    }
     
     // if there are more than 4 letters, it must have trailing config after noble gas [??]
     if (short_hand_config.size() > 4){

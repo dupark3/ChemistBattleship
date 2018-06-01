@@ -126,11 +126,20 @@ int main(){
     while (true){
         cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
         
-        // player1's turn
-        cout << player1name << " has " << player1.get_X_bomb() << " X-bombs." << endl;
-        cout << player1name << "'s turn to take a shot with an electron configuration: ";
+        // PLAYER 1's TURN
+        // Display number of X-bombs
+        cout << player1name << " has " << player1.get_X_bomb() << " X-bombs. Enter \"X\" to use." << endl;
         
-        // store config, atomic number, symbol as local variables for convenience
+        // Alert whether player can use short form or not
+        if (player1.short_form_allowed()){
+            cout << player1name << " is allowed to use short form with ";
+        } else {
+            cout << player1name << " is not allowed to use short form with only ";
+        }
+        cout << player1.get_consecutive_correct_configs() << " consecutive non-misfires." << endl;
+
+        // Ask for config
+        cout << player1name << "'s turn to take a shot with an electron configuration: ";
         string electron_config;
         cin >> electron_config;
         
@@ -140,6 +149,11 @@ int main(){
             player1.lose_X_bomb();
             cout << "X-Bomb Activated! Enter the electron configuration of the center of your X-Bomb: ";
             cin >> electron_config;
+            
+            // pass config through conversion. will not change it if it was long form already.
+            if (player1.short_form_allowed()){
+                electron_config = convert_to_long_form(electron_config);
+            }
 
             vector< pair<string, bool> > X_bomb_result = player2.check_X_bomb(electron_config);
 
@@ -166,10 +180,12 @@ int main(){
             }
         }
         
-        electron_config = convert_to_long_form(electron_config);
+        // if no X-bomb was used, we must check for short form
+        if (player1.short_form_allowed()){
+            electron_config = convert_to_long_form(electron_config);
+        }
         int atomic_number = atomic_number_from_config[electron_config];
         string element_symbol;
-        
 
         // check_shot is called on the opponent's player object to see if it's a hit
         if(player2.check_shot(electron_config)){
