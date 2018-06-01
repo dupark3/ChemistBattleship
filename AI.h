@@ -17,6 +17,14 @@ private:
     void recalculate_after_miss_or_sink(const player&, int);
 };
 
+class AI_element_node : public element_node {
+public: 
+    AI_element_node() { }
+private:
+    int possibilities;
+    int status;
+};
+
 
 
 #endif

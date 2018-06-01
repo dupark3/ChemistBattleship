@@ -12,45 +12,48 @@ const int MAX_ELEMENT = 118;
 
 extern std::map<std::string, int> atomic_number_from_symbol; // map element symbol to atomic number
 extern std::map<std::string, int> atomic_number_from_config; // map electron config to atomic number
-
-// array index 0 is left empty in order to match the index with the atomic number
-extern element_node* element_node_array[MAX_ELEMENT + 1];
-
+extern element_node* element_node_array[MAX_ELEMENT + 1]; // array index 0 is empty. index = atomic number
 
 
 /**************** class element_node *******************/
 
 class element_node{
+
 friend void load_periodic_table();
 friend void calculate_possibilities();
 friend class AI;
 friend class player;
+
 public:
-    element_node() : element_symbol(""), electron_config(""), 
+    // Default constructor
+    element_node() : atomic_number(0), element_symbol(), electron_config(), element_name(), 
                      right_ship(0), below_ship(0), left_ship(0), above_ship(0),
                      possibilities(0), status(0) { }
+
+    // Accessor member functions
     int get_atomic_number() { return atomic_number; }
     std::string get_element_symbol() { return element_symbol; }
     std::string get_electron_config() { return electron_config; }
     std::string get_element_name() { return element_name; }
-    element_node* get_right_ship() { return right_ship; }
-    element_node* get_below_ship() { return below_ship; }
     element_node* get_left_ship() { return left_ship; }
+    element_node* get_right_ship() { return right_ship; }
     element_node* get_above_ship() { return above_ship; }
-    
+    element_node* get_below_ship() { return below_ship; }
+
 private:
     int atomic_number;
     std::string element_symbol;
     std::string electron_config;
     std::string element_name;
 
-    // pointer to the nods on the right and below this node on the actual periodic table. 0 if not valid.
-    element_node* right_ship;
-    element_node* below_ship;
+    // Pointers to the neighboring element_nodes. 0 if no neighbor.
     element_node* left_ship;
+    element_node* right_ship;
     element_node* above_ship;
+    element_node* below_ship;
 
-    int possibilities;
+    // These members should really be in AI class, but needed to be linked to each element_node
+    int possibilities; 
     int status; // 0 if unknown, 1 if hit, -1 if miss or sunk
 };
 

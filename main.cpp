@@ -19,9 +19,9 @@ TODO:
 ☑ Use srand() and seed with time to be more random
 ☑ Expand the periodic table
 ☑ Place multiple ships
-☑ Fix the 6s-4f and 7s-5f transition being
+☑ Fix the 6s-4f and 7s-5f transition
 ☑ Prevent adding ships on the same spot or overlapping
-☑ Use bucket method to create more random numbers
+☑ Use bucket method to make rand() more evenly random
 ☑ Make player class contain a vector of map of ships instead allow "sunk" info (change num of ships)
 ☑ Unlink 3p down_ship to 3d. 3p should be linked to 4p
 ☑ Refactor int next_row(int atomic_number) to return the atomic number of the element below (0 if not found)
@@ -32,16 +32,20 @@ TODO:
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
 ☑ Add % for how accurate your shots were
-☐ Earn special bomb if you identify other person's guess correctly 5 times in a row
-☐ Add special bomb that explodes in a + sign
+☑ Earn special bomb if you identify other person's guess correctly 5 times in a row
+☑ Add special bomb that explodes in an X sign
+☐ Allow short-hand electron config after five consecutive non-misfires
 ☐ Implement multiplayer (choice between playing against computer or another person)
 
 */
 
 int main(){
+    // seed rand() with time
     srand(time(0));
 
     load_periodic_table();
+    cout << endl << "                   PERIODIC TABLE" << endl;
+    print_periodic_table();
 
     // Set up player 1
     cout << "Enter your name: ";
@@ -51,26 +55,23 @@ int main(){
     }
     player player1(player1name);
 
-    cout << endl << "                   PERIODIC TABLE" << endl;
 
-    print_periodic_table();
 
     // Ask player 1 to place four 3-block ship until successful
-
-/*    cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
-    for (int i = 0; i != 4; ++i){
+    cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
+    for (int i = 0; i != 1; ++i){
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
         cin >> element1 >> element2 >> element3;
         vector<string> elements = {element1, element2, element3};
-        if (player1.place_ship(elements, i)){
+        if (player1.place_ship(elements)){
             cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", and " << element3 << endl;
         } else {
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-
+/*
     // Ask player 1 to place three 4-block ship until successful
     cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
     for (int i = 0; i != 3; ++i){
@@ -79,13 +80,13 @@ int main(){
         string element1, element2, element3, element4;
         cin >> element1 >> element2 >> element3 >> element4;
         vector<string> elements = {element1, element2, element3, element4};
-        if (player1.place_ship(elements, i)){
+        if (player1.place_ship(elements)){
             cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", " << element3 << ", and " << element4 << endl;
         } else {
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-*/
+
     // Ask player 1 to place two 5-block ship until successful
     cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 2; ++i){
@@ -94,36 +95,34 @@ int main(){
         string element1, element2, element3, element4, element5;
         cin >> element1 >> element2 >> element3 >> element4 >> element5;
         vector<string> elements = {element1, element2, element3, element4, element5};
-        if (player1.place_ship(elements, i)){
+        if (player1.place_ship(elements)){
             cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", " << element3 << ", " << element4 << ", and " << element5 << endl;
         } else {
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
-    }
+    }*/
 
     // Set up player 2 
     std::string player2name = "AI";
+    cout << endl << player2name << " is placing his ships..." << endl;
     AI player2(player2name);
     for(int i = 0; i != 4; ++i){
-        player2.place_ship_randomly(3, i);
+        player2.place_ship_randomly(3);
         cout << "Ship #" << i + 1 << " of size 3 placed at a random location." << endl;
     }
     for(int i = 0; i != 3; ++i){
-        player2.place_ship_randomly(4, i);
+        player2.place_ship_randomly(4);
         cout << "Ship #" << i + 1 << " of size 4 placed at a random location." << endl;
     }
     for(int i = 0; i != 2; ++i){
-        player2.place_ship_randomly(5, i);
+        player2.place_ship_randomly(5);
         cout << "Ship #" << i + 1 << " of size 5 placed at a random location." << endl;
     }
 
-
-
     /**********************************GAME START*********************************************/
 
-    int round = 1;
-
     // game loop, break points within when all ships of a player has been sunk
+    int round = 1;
     while (true){
         cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
         
@@ -135,7 +134,8 @@ int main(){
         string electron_config;
         cin >> electron_config;
         
-        // check the use of X-bomb. Check the four corners of the X.
+        // check the use of X-bomb. Check only the four corners of the X. 
+        // Leave center element for check_shot() in the following if statement
         if (electron_config == "X" && player1.get_X_bomb() > 0){
             player1.lose_X_bomb();
             cout << "X-Bomb Activated! Enter the electron configuration of the center of your X-Bomb: ";
@@ -166,8 +166,10 @@ int main(){
             }
         }
         
+        electron_config = convert_to_long_form(electron_config);
         int atomic_number = atomic_number_from_config[electron_config];
         string element_symbol;
+        
 
         // check_shot is called on the opponent's player object to see if it's a hit
         if(player2.check_shot(electron_config)){
@@ -182,7 +184,7 @@ int main(){
                 cout << "SHIP SUNK!" << endl;
             }
         } else if (atomic_number == 0) {
-            player1.missed();
+            player1.misfire();
             cout << player1name << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;
         } else {
             player1.missed();

@@ -29,31 +29,31 @@ void load_periodic_table(){
     // read and load info
     int atomic_number;
     while(PeriodicTableFileStream >> atomic_number){
-        // read symbol and store into an element_node and atomic_numbers hashmap
-        string element_symbol;
-        PeriodicTableFileStream >> element_symbol;
+        // allocate memory for an element_node. 
         element_node_array[atomic_number] = new element_node;
         element_node_array[atomic_number]->atomic_number = atomic_number;
+
+        // read symbol and store into element_node and atomic_numbers_from_symbol hashmap
+        string element_symbol;
+        PeriodicTableFileStream >> element_symbol;
         element_node_array[atomic_number]->element_symbol = element_symbol;
         atomic_number_from_symbol[element_symbol] = atomic_number;
 
-        // read name and store into element_node
+        // read name and store into element_node 
         string element_name;
         PeriodicTableFileStream >> element_name;
         element_node_array[atomic_number]->element_name = element_name;
 
-        // read electron config and store into an element_node and electron_configs hashmap
+        // read config and store into element_node and atomic_numbers_from_config hashmap
         string electron_config;
         PeriodicTableFileStream >> electron_config;
         element_node_array[atomic_number]->electron_config = electron_config;
         atomic_number_from_config[electron_config] = atomic_number;
     }
 
-
-    // set correct pointers to adjacent nodes to the right and below
-    for(int i = 1; i != MAX_ELEMENT; ++i){
-        // four scenarios resulting from the possibility of a valid right/down
-        // neighbor or no right/down neighbors
+    // set correct pointers to adjacent nodes to the right, left, below, above
+    for(int i = 1; i != MAX_ELEMENT + 1; ++i){
+        // four types resulting from the possibility of a valid/invalid right/down neighbors
         map<int, bool> both_valid  = { {3, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1},
         {9, 1}, {11, 1}, {13, 1}, {14, 1}, {15, 1}, {16, 1}, {17, 1}, {19, 1}, 
         {20,1}, {21, 1}, {22, 1}, {23, 1}, {24, 1}, {25, 1}, {26, 1}, {27, 1}, 
