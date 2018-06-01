@@ -24,6 +24,7 @@ class element_node{
 friend void load_periodic_table();
 friend void calculate_possibilities();
 friend class AI;
+friend class player;
 public:
     element_node() : element_symbol(""), electron_config(""), 
                      right_ship(0), below_ship(0), left_ship(0), above_ship(0),

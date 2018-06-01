@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <thread> // this_thread::sleep_for
+#include <utility> // pair
 #include <vector>
 
 #include "AI.h"
@@ -53,10 +54,10 @@ int main(){
     cout << endl << "                   PERIODIC TABLE" << endl;
 
     print_periodic_table();
-    
+
     // Ask player 1 to place four 3-block ship until successful
-    
-    cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
+
+/*    cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 4; ++i){
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -84,7 +85,7 @@ int main(){
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-    
+*/
     // Ask player 1 to place two 5-block ship until successful
     cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 2; ++i){
@@ -127,11 +128,44 @@ int main(){
         cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
         
         // player1's turn
+        cout << player1name << " has " << player1.get_X_bomb() << " X-bombs." << endl;
         cout << player1name << "'s turn to take a shot with an electron configuration: ";
         
         // store config, atomic number, symbol as local variables for convenience
         string electron_config;
         cin >> electron_config;
+        
+        // check the use of X-bomb. Check the four corners of the X.
+        if (electron_config == "X" && player1.get_X_bomb() > 0){
+            player1.lose_X_bomb();
+            cout << "X-Bomb Activated! Enter the electron configuration of the center of your X-Bomb: ";
+            cin >> electron_config;
+
+            vector< pair<string, bool> > X_bomb_result = player2.check_X_bomb(electron_config);
+
+            for (int i = 0; i != X_bomb_result.size(); ++i){
+                int atomic_number = atomic_number_from_config[X_bomb_result[i].first];
+                string element_symbol = element_node_array[atomic_number]->get_element_symbol();
+                string corner_electron_config = X_bomb_result[i].first;
+                bool hit = X_bomb_result[i].second;
+                
+                if (hit){
+                    player1.hit();
+                    cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
+                    if (player2.check_game_over()){
+                        this_thread::sleep_for(chrono::milliseconds(300));
+                        cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
+                        return 0;
+                    } else if (player2.ship_sunk(corner_electron_config)){
+                        cout << "SHIP SUNK at " << element_symbol << "!" << endl;
+                    }
+                } else {
+                    player1.missed();
+                    cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
+                }
+            }
+        }
+        
         int atomic_number = atomic_number_from_config[electron_config];
         string element_symbol;
 
@@ -143,7 +177,7 @@ int main(){
             if (player2.check_game_over()){
                 this_thread::sleep_for(chrono::milliseconds(300));
                 cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
-                break;
+                return 0;
             } else if (player2.ship_sunk(electron_config)){
                 cout << "SHIP SUNK!" << endl;
             }
@@ -153,9 +187,6 @@ int main(){
         } else {
             player1.missed();
             element_symbol = element_node_array[atomic_number]->get_element_symbol();
-            if (player2.ship_sunk(electron_config)){
-
-            }
             cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
         }
         
@@ -180,7 +211,7 @@ int main(){
             if (player1.get_correct_guesses() == 5){
                 player1.earn_X_bomb();
                 player1.reset_guesses();
-                cout << "With five correct guesses in a row, you have earned an X-bomb. Write X to use. " << endl;
+                cout << "You have earned an X-bomb. You have " << player1.get_X_bomb() << " X-bombs. Write X to use. " << endl;
             }
         } else {
             player1.reset_guesses();

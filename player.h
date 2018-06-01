@@ -4,6 +4,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <utility> // pair
 
 #include "periodic_table.h"
 
@@ -13,7 +14,7 @@ class player{
 friend class AI;
 public:
     player() : name(), ships(), number_of_ships(0), hits(0), misses(0) { }
-    player(std::string s) : name(s), ships(), number_of_ships(0), hits(0), misses(0) { }
+    player(std::string s) : name(s), ships(), number_of_ships(0), hits(0), misses(0), X_bombs(3) { }
 
     // void place_ship(const std::string&);
     bool place_ship(const std::vector<std::string>&, int);
@@ -34,6 +35,9 @@ public:
     int get_correct_guesses() const { return correct_guesses; }
     void reset_guesses() { correct_guesses = 0; }
     void earn_X_bomb() { ++X_bombs; }
+    void lose_X_bomb() { --X_bombs; }
+    std::vector< std::pair<std::string, bool> > check_X_bomb(const std::string&);
+    int get_X_bomb() { return X_bombs; }
 
 
 protected:

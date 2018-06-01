@@ -194,6 +194,60 @@ bool player::check_unique(const string& electron_config){
 }
 
 
+vector< pair<string, bool> > player::check_X_bomb(const std::string& electron_config){
+    --X_bombs;
+
+    int atomic_number = atomic_number_from_config[electron_config];
+    element_node* center_element = element_node_array[atomic_number];
+    vector< pair<string, bool> > X_bomb_results;
+
+    // check the top two corners and push_back into return vector
+    if(center_element->above_ship){
+        if (center_element->above_ship->left_ship){
+            string corner_electron_config = center_element->above_ship->left_ship->get_electron_config();
+            
+            // true if shot made, false if missed
+            if (check_shot(corner_electron_config)){
+                X_bomb_results.push_back( {corner_electron_config, true} );
+            } else {
+                X_bomb_results.push_back( {corner_electron_config, false} );
+            }
+        }
+
+        if (center_element->above_ship->right_ship){
+            string corner_electron_config = center_element->above_ship->right_ship->get_electron_config();
+            if (check_shot(corner_electron_config)){
+                X_bomb_results.push_back( {corner_electron_config, true} );
+            } else {
+                X_bomb_results.push_back( {corner_electron_config, false} );
+            }
+        }
+    }
+
+    // check bottom two corners
+    if (center_element->below_ship){
+        if (center_element->below_ship->left_ship){
+            string corner_electron_config = center_element->below_ship->left_ship->get_electron_config();
+            if (check_shot(corner_electron_config)){
+                X_bomb_results.push_back( {corner_electron_config, true} );
+            } else {
+                X_bomb_results.push_back( {corner_electron_config, false} );
+            }
+        }
+        if (center_element->below_ship->right_ship){
+            string corner_electron_config = center_element->below_ship->right_ship->get_electron_config();
+            if (check_shot(corner_electron_config)){
+                X_bomb_results.push_back( {corner_electron_config, true} );
+            } else {
+                X_bomb_results.push_back( {corner_electron_config, false} );
+            }
+        }
+    }
+
+    return X_bomb_results;
+    
+}
+
 // NON MEMBER FUNCTIONS
 
 int my_rand(int max){
@@ -206,6 +260,3 @@ int my_rand(int max){
     return random_number;
 }
 
-int intelligent_rand(){
-
-}
