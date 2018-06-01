@@ -1,7 +1,6 @@
 PERIODIC TABLE BATTLESHIP VERSION 1.01
 
 If you don't know what an electron configuration is, read the following...
-
     Each element on the periodic table has an electron configuration "address" associated with it. There are four "sublevels" or areas in the periodic table: s, p, d, and f. There are seven "levels" or rows in the periodic table, 1 through 7. Each element's electron configuration is a coded address, like a url. This address is a combination of every level, sublevel, and sublevel's number of electrons that precede the element's location in the periodic table. For example, Helium is 1s2 since it is in row 1, block s, and there are two electrons in sublevel 1s. Lithium would be 1s2 2s1. The number of electrons is written as a superscript, but that format is ignored for the purposes of this game. 
 
 
