@@ -264,7 +264,7 @@ string convert_to_long_form(const string& short_hand_config){
     
     // if short_hand is smaller than 4, it can't be a valid config. prevent seg fault by exiting.
     if (short_hand_config.size() < 4){
-        return "";
+        return short_hand_config;
     }
 
     // if the first four letters are a noble gas in brackets, convert it to its config in long form

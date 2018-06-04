@@ -130,30 +130,24 @@ void load_periodic_table(std::vector<T*>& node_vector){
         std::map<int, bool> no_valid    = { {118, 1}, {102, 1} };
         
         int next_row = next_rows_atomic_number(i);
-        std::cout << "Element: " << node_vector[i]->element_symbol;
 
         if (both_valid[i]) {
-            std::cout << " Both Valid";
             node_vector[i]->right_ship = node_vector[i + 1];
             node_vector[i + 1]->left_ship = node_vector[i];
             node_vector[i]->below_ship = node_vector[next_row];
             node_vector[next_row]->above_ship = node_vector[i];
         } else if (right_valid[i]) {
-            std::cout << " Right Valid";
             node_vector[i]->right_ship = node_vector[i + 1];
             node_vector[i + 1]->left_ship = node_vector[i];
             node_vector[i]->below_ship = 0;
         } else if (down_valid[i]) {
-            std::cout << " Down Valid";
             node_vector[i]->right_ship = 0;
             node_vector[i]->below_ship = node_vector[next_row];
             node_vector[next_row]->above_ship = node_vector[i];
         } else if (no_valid[i]) {
-            std::cout << " No Valid";
             node_vector[i]->right_ship = 0;
             node_vector[i]->below_ship = 0;
         }
-        std::cout << std::endl;
     }
     
     // fix transition from 6s/7s to 5d/6d

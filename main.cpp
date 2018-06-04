@@ -61,7 +61,7 @@ int main(){
 
     // Ask player 1 to place four 3-block ship until successful
     cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
-    for (int i = 0; i != 1; ++i){
+    for (int i = 0; i != 4; ++i){
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
@@ -73,7 +73,7 @@ int main(){
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-    /*
+    
     // Ask player 1 to place three 4-block ship until successful
     cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
     for (int i = 0; i != 3; ++i){
@@ -103,7 +103,7 @@ int main(){
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-    */
+    
 
     // Set up player 2 
     std::string player2name = "AI";

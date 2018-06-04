@@ -26,7 +26,7 @@ string AI::take_educated_shot(const player& player1){
     
     // if no compelling location, 25% chance of hitting anywhere, 75% chance hitting high possibility
     int hit_high_or_low = my_rand(4);
-    if (max_possibility <= 20 && hit_high_or_low == 0){
+    if (max_possibility <= 25 && hit_high_or_low == 0){
         do {
             rand = my_rand(118) + 1;    
         } while (AI_element_node_vector[rand]->status != 0);
@@ -75,11 +75,6 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
     } else if (element_pointer->status == -1){
         recalculate_after_miss_or_sink(player1, atomic_number);
     }
-
-    for (int i = 0; i != 119; ++i){
-        cout << i << " : " << AI_element_node_vector[i]->possibilities << endl;
-    }
-
 }
 
 void AI::recalculate_after_hit(const player& player1, int atomic_number){
@@ -175,6 +170,61 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->left_ship->left_ship->left_ship->left_ship->possibilities;
     }
 
+    // subtract from left/right 3-ship
+    if (element_pointer->left_ship 
+        && element_pointer->right_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->right_ship->possibilities;
+    }
+
+    // subtract from left/right 4-ships
+    if (element_pointer->left_ship 
+        && element_pointer->right_ship
+        && element_pointer->right_ship->right_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->possibilities;
+    }
+
+    if (element_pointer->left_ship 
+        && element_pointer->left_ship->left_ship 
+        && element_pointer->right_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->possibilities;
+        --element_pointer->right_ship->possibilities;
+    }
+
+    // subtract from left/right 5-ships
+    if (element_pointer->left_ship 
+        && element_pointer->left_ship->left_ship 
+        && element_pointer->left_ship->left_ship->left_ship
+        && element_pointer->right_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->left_ship->possibilities;
+        --element_pointer->right_ship->possibilities;
+    }
+
+    if (element_pointer->left_ship 
+        && element_pointer->left_ship->left_ship 
+        && element_pointer->right_ship
+        && element_pointer->right_ship->right_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->left_ship->left_ship->possibilities;
+        --element_pointer->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->possibilities;
+    }
+
+    if (element_pointer->left_ship 
+        && element_pointer->right_ship
+        && element_pointer->right_ship->right_ship
+        && element_pointer->right_ship->right_ship->right_ship){
+        --element_pointer->left_ship->possibilities;
+        --element_pointer->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->possibilities;
+        --element_pointer->right_ship->right_ship->right_ship->possibilities;
+    }
+
     // subtract from elements above    
     if (element_pointer->above_ship 
         && element_pointer->above_ship->above_ship){
@@ -225,17 +275,70 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->below_ship->below_ship->below_ship->possibilities;
         --element_pointer->below_ship->below_ship->below_ship->below_ship->possibilities;
     }
+
+    // subtract from above/below 3-ship
+    if (element_pointer->above_ship 
+        && element_pointer->below_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->below_ship->possibilities;
+    }
+
+    // subtract from above/below 4-ships
+    if (element_pointer->above_ship 
+        && element_pointer->below_ship
+        && element_pointer->below_ship->below_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->possibilities;
+    }
+
+    if (element_pointer->above_ship 
+        && element_pointer->above_ship->above_ship 
+        && element_pointer->below_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->possibilities;
+        --element_pointer->below_ship->possibilities;
+    }
+
+    // subtract from above/below 5-ships
+    if (element_pointer->above_ship 
+        && element_pointer->above_ship->above_ship 
+        && element_pointer->above_ship->above_ship->above_ship
+        && element_pointer->below_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->above_ship->possibilities;
+        --element_pointer->below_ship->possibilities;
+    }
+
+    if (element_pointer->above_ship 
+        && element_pointer->above_ship->above_ship 
+        && element_pointer->below_ship
+        && element_pointer->below_ship->below_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->above_ship->above_ship->possibilities;
+        --element_pointer->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->possibilities;
+    }
+
+    if (element_pointer->above_ship 
+        && element_pointer->below_ship
+        && element_pointer->below_ship->below_ship
+        && element_pointer->below_ship->below_ship->below_ship){
+        --element_pointer->above_ship->possibilities;
+        --element_pointer->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->possibilities;
+        --element_pointer->below_ship->below_ship->below_ship->possibilities;
+    }
 }
 
 
 void AI::calculate_possibilities(){
     for (int i = 1; i != 119; ++i){
         AI_element_node* element_pointer = AI_element_node_vector[i];
-        cout << "Element: " << element_pointer->element_symbol;
 
         if(element_pointer->below_ship 
             && element_pointer->below_ship->below_ship){
-            cout << " Three down";
             ++element_pointer->possibilities;
             ++element_pointer->below_ship->possibilities;
             ++element_pointer->below_ship->below_ship->possibilities;
@@ -244,7 +347,6 @@ void AI::calculate_possibilities(){
         if(element_pointer->below_ship 
             && element_pointer->below_ship->below_ship 
             && element_pointer->below_ship->below_ship->below_ship){
-            cout << " Four down";
             ++element_pointer->possibilities;
             ++element_pointer->below_ship->possibilities;
             ++element_pointer->below_ship->below_ship->possibilities;
@@ -255,7 +357,6 @@ void AI::calculate_possibilities(){
             && element_pointer->below_ship->below_ship 
             && element_pointer->below_ship->below_ship->below_ship 
             && element_pointer->below_ship->below_ship->below_ship->below_ship){
-            cout << " Five down";
             ++element_pointer->possibilities;
             ++element_pointer->below_ship->possibilities;
             ++element_pointer->below_ship->below_ship->possibilities;
@@ -265,7 +366,6 @@ void AI::calculate_possibilities(){
 
         if(element_pointer->right_ship 
             && element_pointer->right_ship->right_ship){
-            cout << " Three right";
             ++element_pointer->possibilities;
             ++element_pointer->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->possibilities;
@@ -274,7 +374,6 @@ void AI::calculate_possibilities(){
         if(element_pointer->right_ship 
             && element_pointer->right_ship->right_ship 
             && element_pointer->right_ship->right_ship->right_ship){
-            cout << " Four right";
             ++element_pointer->possibilities;
             ++element_pointer->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->possibilities;
@@ -285,17 +384,12 @@ void AI::calculate_possibilities(){
             && element_pointer->right_ship->right_ship 
             && element_pointer->right_ship->right_ship->right_ship 
             && element_pointer->right_ship->right_ship->right_ship->right_ship){
-            cout << " Five right";
             ++element_pointer->possibilities;
             ++element_pointer->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->right_ship->right_ship->possibilities;
         }   
-        cout << endl;
     }
 
-    for (int i = 0; i != 119; ++i){
-        cout << AI_element_node_vector[i]->element_symbol << " : " << AI_element_node_vector[i]->possibilities << endl;
-    }
 }
