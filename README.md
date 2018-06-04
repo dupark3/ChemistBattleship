@@ -1,4 +1,4 @@
-# PERIODIC TABLE BATTLESHIP VERSION 1.01
+# PERIODIC TABLE BATTLESHIP VERSION 1.02
 
 ## Electron Configuration Basics
 If you don't know what an electron configuration is, read the following...
@@ -7,12 +7,12 @@ If you don't know what an electron configuration is, read the following...
 
 
 ## RULES:
-1. Player must add four 3-block ships, three 4-block ships, and two 2-block ship.
+1. Player must add four 3-block ships, three 4-block ships, and two 2-block ships.
 2. Ships must be horizontal or vertical groups of elements that physically touch each other.
 2. Player must "shoot" by writing the electron configuration in the following format: 
                 
-                        Long form: 1s2.2s2.2p6.3s2.3p3
-                        Short form: [Ne]3s2.3p3
+                        Long form                      : 1s2.2s2.2p6.3s2.3p3
+                        Short form (when combo reached): [Ne]3s2.3p3 
 
 3. The only exceptions to electron configurations are Chromium ([Ar]4s1.3d5) and Copper ([Ar]4s1.3d10). Assume all others follow Aufbau's principle. 
 5. We will assume that the 4f sublevel starts from La to Yb. Lu is in the 5p sublevel.
@@ -21,8 +21,8 @@ If you don't know what an electron configuration is, read the following...
 
 
 ## GAME FEATURES:
-1. Player gains SHORT FORM PRIVILEGE with 3 or more streak of correct electron configuration shots. He/She can then write noble gas configuration in the following shots. However, any misfire will reset the streak and player will lose this privilege until the streak is built back up. 
-2. Player gains one X-BOMB for every five consecutive identifications of elements that the opponent is trying to shoot. To use the X-BOMB, player enters "X" instead of a configuration, which activates the bomb. Then the player must enter the center element of the X, and it will explode in an X shape to hit five elements at once.
+1. Player gains SHORT FORM BONUS with 3 or more streak of correct electron configuration shots. He/She can then write noble gas configuration to make a shot. However, any misfire will reset the streak and player will lose this bonus until the streak is built back up. 
+2. Player gains one X-BOMB for every five consecutive identifications of elements that the opponent is trying to shoot. To use the X-BOMB, player enters "X" instead of a configuration, which activates the bomb. Then the player must enter the center element of the X, and it will explode in an X shape to hit up to five elements at once.
 
 
 
