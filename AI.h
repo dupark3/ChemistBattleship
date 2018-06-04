@@ -10,7 +10,6 @@
 class AI_element_node;
 
 class AI : public player {
-
     // friend declarations
         friend class AI_element_node;
         template <class T> friend void load_periodic_table(std::vector<T*>&);
@@ -21,7 +20,14 @@ class AI : public player {
             load_periodic_table(AI_element_node_vector);
             calculate_possibilities(); 
         }
-        std::string take_educated_shot(const player&);
+        // need destructor to avoid major memory leak
+        /*~AI() {
+            for (int i = 0; i != 119; ++i){
+                delete AI_element_node_vector[i];
+            }
+        }*/
+
+        std::string take_educated_shot();
         void hit(const player&, int);
         void missed(const player&, int);
 
@@ -33,8 +39,10 @@ class AI : public player {
         void recalculate_after_miss_or_sink(const player&, int);
 };
 
+
+/* AI_element_node and a vector of AI_element_node pointers is used to support
+the calculation of the number of possible ships on any given element block. */
 class AI_element_node : public element_node {
-    
     // friend declarations
         friend class AI;
         template <class T> friend void load_periodic_table(std::vector<T*>&);

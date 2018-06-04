@@ -3,12 +3,12 @@
 #include <string>
 #include <vector>
 
-#include "AI.h"
-#include "player.h"
+#include "AI.h" 
+#include "player.h" // player object passed in order to 
 
 using namespace std;
 
-string AI::take_educated_shot(const player& player1){
+string AI::take_educated_shot(){
     int max_possibility = 0;
     vector<element_node*> best_elements_to_shoot;
 
