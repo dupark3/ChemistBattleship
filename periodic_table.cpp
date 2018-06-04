@@ -1,7 +1,3 @@
-#include <map>
-#include <string>
-#include <vector>
-
 #include "periodic_table.h"
 
 using namespace std;

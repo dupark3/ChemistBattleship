@@ -1,7 +1,5 @@
 #include <algorithm> // sort()
 #include <cstdlib> // rand()
-#include <iostream>
-#include <vector>
 
 #include "periodic_table.h"
 #include "player.h"

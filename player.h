@@ -1,9 +1,6 @@
 #ifndef GUARD_player_h
 #define GUARD_player_h
 
-#include <map>
-#include <string>
-#include <vector>
 #include <utility> // pair used in returning hit/miss info on 4 elements after check_X_bomb()
 
 #include "periodic_table.h"

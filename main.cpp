@@ -31,10 +31,7 @@ Extra Features:
 #include <cstdlib> // srand(), rand()
 #include <ctime> // time()
 #include <iostream>
-#include <string>
 #include <thread> // this_thread::sleep_for
-#include <utility> // pair
-#include <vector>
 
 #include "AI.h"
 #include "periodic_table.h"

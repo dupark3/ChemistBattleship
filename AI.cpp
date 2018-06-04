@@ -1,7 +1,6 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include <vector>
 
 #include "AI.h" 
 #include "player.h" // player object passed sometimes to check for sunk ships
