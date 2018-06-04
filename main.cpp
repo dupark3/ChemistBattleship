@@ -145,7 +145,6 @@ int main(){
             cout << "Short-form bonus inactive." << endl;
         }
         
-
         // Ask for config
         cout << endl << player1name << "'s turn to take a shot with an electron configuration: ";
         string electron_config;

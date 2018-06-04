@@ -70,7 +70,7 @@ void load_periodic_table(std::vector<T*>& node_vector){
 
     if (!PeriodicTableFileStream){
         std::cerr << "Unable to open periodic table file";
-        std::exit(1);
+        std::exit(1); // throw exception here instead?
     }
 
     // insert empty node into index 0 since there is no element at atomic number 0
