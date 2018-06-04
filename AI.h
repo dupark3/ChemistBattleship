@@ -40,9 +40,15 @@ class AI_element_node : public element_node {
         template <class T> friend void load_periodic_table(std::vector<T*>&);
 
     public: 
-        AI_element_node() : possibilities(0), status(0) { }
+        AI_element_node() : right_ship(0), below_ship(0), left_ship(0), above_ship(0),
+                            possibilities(0), status(0) { }
 
     private:
+        AI_element_node* left_ship;
+        AI_element_node* right_ship;
+        AI_element_node* above_ship;
+        AI_element_node* below_ship;
+
         int possibilities;
         int status;
 };

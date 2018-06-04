@@ -53,7 +53,7 @@ void AI::missed(const player& player1, int atomic_number){
 }
 
 void AI::recalculate_possibilities(const player& player1, int atomic_number){
-    element_node* element_pointer = AI_element_node_vector[atomic_number];
+    AI_element_node* element_pointer = AI_element_node_vector[atomic_number];
     string electron_config = element_pointer->get_electron_config();
 
     // if ship is sunk, convert the status of each element in the ship to -1
@@ -83,7 +83,7 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
 }
 
 void AI::recalculate_after_hit(const player& player1, int atomic_number){
-    element_node* element_pointer = AI_element_node_vector[atomic_number];
+    AI_element_node* element_pointer = AI_element_node_vector[atomic_number];
     
     // add more to above ship if it exsits
     if (element_pointer->above_ship && element_pointer->above_ship->status == 0){
@@ -231,9 +231,11 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
 void AI::calculate_possibilities(){
     for (int i = 1; i != 119; ++i){
         AI_element_node* element_pointer = AI_element_node_vector[i];
-        
+        cout << "Element: " << element_pointer->element_symbol;
+
         if(element_pointer->below_ship 
             && element_pointer->below_ship->below_ship){
+            cout << " Three down";
             ++element_pointer->possibilities;
             ++element_pointer->below_ship->possibilities;
             ++element_pointer->below_ship->below_ship->possibilities;
@@ -242,6 +244,7 @@ void AI::calculate_possibilities(){
         if(element_pointer->below_ship 
             && element_pointer->below_ship->below_ship 
             && element_pointer->below_ship->below_ship->below_ship){
+            cout << " Four down";
             ++element_pointer->possibilities;
             ++element_pointer->below_ship->possibilities;
             ++element_pointer->below_ship->below_ship->possibilities;
@@ -252,6 +255,7 @@ void AI::calculate_possibilities(){
             && element_pointer->below_ship->below_ship 
             && element_pointer->below_ship->below_ship->below_ship 
             && element_pointer->below_ship->below_ship->below_ship->below_ship){
+            cout << " Five down";
             ++element_pointer->possibilities;
             ++element_pointer->below_ship->possibilities;
             ++element_pointer->below_ship->below_ship->possibilities;
@@ -261,6 +265,7 @@ void AI::calculate_possibilities(){
 
         if(element_pointer->right_ship 
             && element_pointer->right_ship->right_ship){
+            cout << " Three right";
             ++element_pointer->possibilities;
             ++element_pointer->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->possibilities;
@@ -269,6 +274,7 @@ void AI::calculate_possibilities(){
         if(element_pointer->right_ship 
             && element_pointer->right_ship->right_ship 
             && element_pointer->right_ship->right_ship->right_ship){
+            cout << " Four right";
             ++element_pointer->possibilities;
             ++element_pointer->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->possibilities;
@@ -279,15 +285,17 @@ void AI::calculate_possibilities(){
             && element_pointer->right_ship->right_ship 
             && element_pointer->right_ship->right_ship->right_ship 
             && element_pointer->right_ship->right_ship->right_ship->right_ship){
+            cout << " Five right";
             ++element_pointer->possibilities;
             ++element_pointer->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->right_ship->right_ship->possibilities;
         }   
+        cout << endl;
     }
 
     for (int i = 0; i != 119; ++i){
-        cout << i << " : " << AI_element_node_vector[i]->possibilities << endl;
+        cout << AI_element_node_vector[i]->element_symbol << " : " << AI_element_node_vector[i]->possibilities << endl;
     }
 }

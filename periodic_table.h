@@ -32,8 +32,7 @@ class element_node{
     public:
         // Default constructor
         element_node() : atomic_number(0), element_symbol(), electron_config(), element_name(), 
-                         right_ship(0), below_ship(0), left_ship(0), above_ship(0),
-                         possibilities(0), status(0) { }
+                         right_ship(0), below_ship(0), left_ship(0), above_ship(0) { }
 
         // Accessor member functions
         int get_atomic_number() { return atomic_number; }
@@ -56,10 +55,6 @@ class element_node{
         element_node* right_ship;
         element_node* above_ship;
         element_node* below_ship;
-
-        // These members should really be in AI class, but needed to be linked to each element_node
-        int possibilities; 
-        int status; // 0 if unknown, 1 if hit, -1 if miss or sunk
 };
 
 
@@ -69,7 +64,7 @@ class element_node{
 int next_rows_atomic_number(int);
 
 template <class T>
-void load_periodic_table(std::vector<T*>& element_node_vector){
+void load_periodic_table(std::vector<T*>& node_vector){
     std::ifstream PeriodicTableFileStream;
     PeriodicTableFileStream.open("periodictable.txt");
 
@@ -79,8 +74,8 @@ void load_periodic_table(std::vector<T*>& element_node_vector){
     }
 
     // insert empty node into index 0 since there is no element at atomic number 0
-    T* empty_element_node;
-    element_node_vector.push_back(empty_element_node);
+    T* empty_element_node = new T;
+    node_vector.push_back(empty_element_node);
 
     // read and load info
     int atomic_number;
@@ -88,24 +83,24 @@ void load_periodic_table(std::vector<T*>& element_node_vector){
     while(PeriodicTableFileStream >> atomic_number){
         // allocate memory for an element_node. 
         T* new_element_node = new T;
-        element_node_vector.push_back(new_element_node);
-        element_node_vector[atomic_number]->atomic_number = atomic_number;
+        node_vector.push_back(new_element_node);
+        node_vector[atomic_number]->atomic_number = atomic_number;
 
         // read symbol and store into element_node and atomic_numbers_from_symbol hashmap
         std::string element_symbol;
         PeriodicTableFileStream >> element_symbol;
-        element_node_vector[atomic_number]->element_symbol = element_symbol;
+        node_vector[atomic_number]->element_symbol = element_symbol;
         atomic_number_from_symbol[element_symbol] = atomic_number;
 
         // read name and store into element_node 
         std::string element_name;
         PeriodicTableFileStream >> element_name;
-        element_node_vector[atomic_number]->element_name = element_name;
+        node_vector[atomic_number]->element_name = element_name;
 
         // read config and store into element_node and atomic_numbers_from_config hashmap
         std::string electron_config;
         PeriodicTableFileStream >> electron_config;
-        element_node_vector[atomic_number]->electron_config = electron_config;
+        node_vector[atomic_number]->electron_config = electron_config;
         atomic_number_from_config[electron_config] = atomic_number;
     }
 
@@ -135,31 +130,37 @@ void load_periodic_table(std::vector<T*>& element_node_vector){
         std::map<int, bool> no_valid    = { {118, 1}, {102, 1} };
         
         int next_row = next_rows_atomic_number(i);
+        std::cout << "Element: " << node_vector[i]->element_symbol;
 
         if (both_valid[i]) {
-            element_node_vector[i]->right_ship = element_node_vector[i + 1];
-            element_node_vector[i + 1]->left_ship = element_node_vector[i];
-            element_node_vector[i]->below_ship = element_node_vector[next_row];
-            element_node_vector[next_row]->above_ship = element_node_vector[i];
+            std::cout << " Both Valid";
+            node_vector[i]->right_ship = node_vector[i + 1];
+            node_vector[i + 1]->left_ship = node_vector[i];
+            node_vector[i]->below_ship = node_vector[next_row];
+            node_vector[next_row]->above_ship = node_vector[i];
         } else if (right_valid[i]) {
-            element_node_vector[i]->right_ship = element_node_vector[i + 1];
-            element_node_vector[i + 1]->left_ship = element_node_vector[i];
-            element_node_vector[i]->below_ship = 0;
+            std::cout << " Right Valid";
+            node_vector[i]->right_ship = node_vector[i + 1];
+            node_vector[i + 1]->left_ship = node_vector[i];
+            node_vector[i]->below_ship = 0;
         } else if (down_valid[i]) {
-            element_node_vector[i]->right_ship = 0;
-            element_node_vector[i]->below_ship = element_node_vector[next_row];
-            element_node_vector[next_row]->above_ship = element_node_vector[i];
+            std::cout << " Down Valid";
+            node_vector[i]->right_ship = 0;
+            node_vector[i]->below_ship = node_vector[next_row];
+            node_vector[next_row]->above_ship = node_vector[i];
         } else if (no_valid[i]) {
-            element_node_vector[i]->right_ship = 0;
-            element_node_vector[i]->below_ship = 0;
+            std::cout << " No Valid";
+            node_vector[i]->right_ship = 0;
+            node_vector[i]->below_ship = 0;
         }
+        std::cout << std::endl;
     }
     
     // fix transition from 6s/7s to 5d/6d
-    element_node_vector[56]->right_ship = element_node_vector[71];
-    element_node_vector[71]->left_ship = element_node_vector[56];
-    element_node_vector[88]->right_ship = element_node_vector[103];
-    element_node_vector[103]->left_ship = element_node_vector[88];
+    node_vector[56]->right_ship = node_vector[71];
+    node_vector[71]->left_ship = node_vector[56];
+    node_vector[88]->right_ship = node_vector[103];
+    node_vector[103]->left_ship = node_vector[88];
     
 }
 
