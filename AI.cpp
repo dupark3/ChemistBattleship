@@ -124,7 +124,9 @@ void AI::recalculate_after_hit(const player& player1, int atomic_number){
 void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number){
     AI_element_node* element_pointer = AI_element_node_vector[atomic_number];
 
-    // subtract from elements to the right
+    // There are up to 24 possible ships that are no longer viable due to a miss/sink
+
+    // ship lies to the right only
     if (element_pointer->right_ship 
         && element_pointer->right_ship->right_ship){
         --element_pointer->right_ship->possibilities;
@@ -148,7 +150,8 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->right_ship->right_ship->right_ship->possibilities;
         --element_pointer->right_ship->right_ship->right_ship->right_ship->possibilities;
     }
-    // subtract from elements to the left
+
+    // ship lies to the left only
     if (element_pointer->left_ship 
         && element_pointer->left_ship->left_ship){
         --element_pointer->left_ship->possibilities;
@@ -173,14 +176,14 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->left_ship->left_ship->left_ship->left_ship->possibilities;
     }
 
-    // subtract from left/right 3-ship
+    // ship of size 3 stradles horizontally
     if (element_pointer->left_ship 
         && element_pointer->right_ship){
         --element_pointer->left_ship->possibilities;
         --element_pointer->right_ship->possibilities;
     }
 
-    // subtract from left/right 4-ships
+    // ship of size 4 stradles horizontally
     if (element_pointer->left_ship 
         && element_pointer->right_ship
         && element_pointer->right_ship->right_ship){
@@ -197,7 +200,7 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->right_ship->possibilities;
     }
 
-    // subtract from left/right 5-ships
+    // ship of size 5 stradles horizontally
     if (element_pointer->left_ship 
         && element_pointer->left_ship->left_ship 
         && element_pointer->left_ship->left_ship->left_ship
@@ -228,7 +231,7 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->right_ship->right_ship->right_ship->possibilities;
     }
 
-    // subtract from elements above    
+    // ship lies to the above only  
     if (element_pointer->above_ship 
         && element_pointer->above_ship->above_ship){
         --element_pointer->above_ship->possibilities;
@@ -254,7 +257,7 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
     }
 
 
-    // subtract from elements below
+    // ship lies to the below only
     if (element_pointer->below_ship 
         && element_pointer->below_ship->below_ship){
         --element_pointer->below_ship->possibilities;
@@ -279,14 +282,14 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->below_ship->below_ship->below_ship->below_ship->possibilities;
     }
 
-    // subtract from above/below 3-ship
+    // ship of size 3 stradles vertically
     if (element_pointer->above_ship 
         && element_pointer->below_ship){
         --element_pointer->above_ship->possibilities;
         --element_pointer->below_ship->possibilities;
     }
 
-    // subtract from above/below 4-ships
+    // ship of size 4 stradles vertically
     if (element_pointer->above_ship 
         && element_pointer->below_ship
         && element_pointer->below_ship->below_ship){
@@ -303,7 +306,7 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->below_ship->possibilities;
     }
 
-    // subtract from above/below 5-ships
+    // ship of size 5 stradles vertically
     if (element_pointer->above_ship 
         && element_pointer->above_ship->above_ship 
         && element_pointer->above_ship->above_ship->above_ship
