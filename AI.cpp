@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "AI.h" 
-#include "player.h" // player object passed in order to 
+#include "player.h" // player object passed sometimes to check for sunk ships
 
 using namespace std;
 
@@ -124,7 +124,8 @@ void AI::recalculate_after_hit(const player& player1, int atomic_number){
 void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number){
     AI_element_node* element_pointer = AI_element_node_vector[atomic_number];
 
-    // There are up to 24 possible ships that are no longer viable due to a miss/sink
+    // There are up to 24 possible ships that are affected due to a miss/sink
+    // 24 different if statements written for readability. 
 
     // ship lies to the right only
     if (element_pointer->right_ship 
@@ -132,7 +133,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->right_ship->possibilities;
         --element_pointer->right_ship->right_ship->possibilities;
     }
-
     if (element_pointer->right_ship 
         && element_pointer->right_ship->right_ship
         && element_pointer->right_ship->right_ship->right_ship){
@@ -140,7 +140,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->right_ship->right_ship->possibilities;
         --element_pointer->right_ship->right_ship->right_ship->possibilities;
     }
-
     if (element_pointer->right_ship 
         && element_pointer->right_ship->right_ship
         && element_pointer->right_ship->right_ship->right_ship
@@ -157,7 +156,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->left_ship->possibilities;
         --element_pointer->left_ship->left_ship->possibilities;
     }
-
     if (element_pointer->left_ship 
         && element_pointer->left_ship->left_ship
         && element_pointer->left_ship->left_ship->left_ship){
@@ -165,7 +163,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->left_ship->left_ship->possibilities;
         --element_pointer->left_ship->left_ship->left_ship->possibilities;
     }
-
     if (element_pointer->left_ship 
         && element_pointer->left_ship->left_ship
         && element_pointer->left_ship->left_ship->left_ship
@@ -191,7 +188,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->right_ship->possibilities;
         --element_pointer->right_ship->right_ship->possibilities;
     }
-
     if (element_pointer->left_ship 
         && element_pointer->left_ship->left_ship 
         && element_pointer->right_ship){
@@ -210,7 +206,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->left_ship->left_ship->left_ship->possibilities;
         --element_pointer->right_ship->possibilities;
     }
-
     if (element_pointer->left_ship 
         && element_pointer->left_ship->left_ship 
         && element_pointer->right_ship
@@ -220,7 +215,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->right_ship->possibilities;
         --element_pointer->right_ship->right_ship->possibilities;
     }
-
     if (element_pointer->left_ship 
         && element_pointer->right_ship
         && element_pointer->right_ship->right_ship
@@ -237,7 +231,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->above_ship->possibilities;
         --element_pointer->above_ship->above_ship->possibilities;
     }
-
     if (element_pointer->above_ship 
         && element_pointer->above_ship->above_ship
         && element_pointer->above_ship->above_ship->above_ship){
@@ -245,7 +238,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->above_ship->above_ship->possibilities;
         --element_pointer->above_ship->above_ship->above_ship->possibilities;
     }
-
     if (element_pointer->above_ship 
         && element_pointer->above_ship->above_ship
         && element_pointer->above_ship->above_ship->above_ship
@@ -256,14 +248,12 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->above_ship->above_ship->above_ship->above_ship->possibilities;
     }
 
-
     // ship lies to the below only
     if (element_pointer->below_ship 
         && element_pointer->below_ship->below_ship){
         --element_pointer->below_ship->possibilities;
         --element_pointer->below_ship->below_ship->possibilities;
     }
-
     if (element_pointer->below_ship 
         && element_pointer->below_ship->below_ship
         && element_pointer->below_ship->below_ship->below_ship){
@@ -271,7 +261,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->below_ship->below_ship->possibilities;
         --element_pointer->below_ship->below_ship->below_ship->possibilities;
     }
-
     if (element_pointer->below_ship 
         && element_pointer->below_ship->below_ship
         && element_pointer->below_ship->below_ship->below_ship
@@ -297,7 +286,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->below_ship->possibilities;
         --element_pointer->below_ship->below_ship->possibilities;
     }
-
     if (element_pointer->above_ship 
         && element_pointer->above_ship->above_ship 
         && element_pointer->below_ship){
@@ -316,7 +304,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->above_ship->above_ship->above_ship->possibilities;
         --element_pointer->below_ship->possibilities;
     }
-
     if (element_pointer->above_ship 
         && element_pointer->above_ship->above_ship 
         && element_pointer->below_ship
@@ -326,7 +313,6 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
         --element_pointer->below_ship->possibilities;
         --element_pointer->below_ship->below_ship->possibilities;
     }
-
     if (element_pointer->above_ship 
         && element_pointer->below_ship
         && element_pointer->below_ship->below_ship
@@ -342,6 +328,9 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
 void AI::calculate_possibilities(){
     for (int i = 1; i != 119; ++i){
         AI_element_node* node = AI_element_node_vector[i];
+
+        // These two if-statements are a combination of six possibilities.
+        // Less readable, a bit condensed. 
 
         // if current element has at least two elements below, it can have a ship
         if (node->below_ship && node->below_ship->below_ship){

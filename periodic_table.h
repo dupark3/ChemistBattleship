@@ -106,7 +106,9 @@ void load_periodic_table(std::vector<T*>& node_vector){
 
     // set correct pointers to adjacent nodes to the right, left, below, above
     for(int i = 1; i != MAX_ELEMENT + 1; ++i){
+        
         // four types resulting from the possibility of a valid/invalid right/down neighbors
+        // hard coding necessary here to represent the unique shape of the periodic table
         std::map<int, bool> both_valid  = { {3, 1}, {5, 1}, {6, 1}, {7, 1}, {8, 1},
         {9, 1}, {11, 1}, {13, 1}, {14, 1}, {15, 1}, {16, 1}, {17, 1}, {19, 1}, 
         {20,1}, {21, 1}, {22, 1}, {23, 1}, {24, 1}, {25, 1}, {26, 1}, {27, 1}, 
