@@ -56,7 +56,7 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
     AI_element_node* element_pointer = AI_element_node_vector[atomic_number];
     string electron_config = element_pointer->get_electron_config();
 
-    // if ship is sunk, convert the status of each element in the ship to -1
+    // if ship is sunk, convert the status of each element in the ship to -1 from 1
     if (player1.ship_sunk(electron_config)){
         // iterate through player1's vector until the correct map is found for this ship
         for (int i = 0; i != player1.ships.size(); ++i){
@@ -65,7 +65,6 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
                     int atomic_number = atomic_number_from_config[j->first];
                     AI_element_node_vector[atomic_number]->status = -1;
                 }
-
             }
         }
     }
@@ -80,34 +79,38 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
 void AI::recalculate_after_hit(const player& player1, int atomic_number){
     AI_element_node* element_pointer = AI_element_node_vector[atomic_number];
     
-    // add more to above ship if it exsits
+    // add 10 to possibilities of the above ship if it exsits
     if (element_pointer->above_ship && element_pointer->above_ship->status == 0){
         element_pointer->above_ship->possibilities += 10;
         
-        // if below_ship exists and has already been hit, ship may be vertical. 
+        // if right_ship exists and has already been hit, ship may be vertical. 
         if (element_pointer->below_ship && element_pointer->below_ship->status == 1){
             element_pointer->above_ship->possibilities += 20;
         }
     }
 
+    // add 10 to possibilities of the below ship if it exists
     if (element_pointer->below_ship && element_pointer->below_ship->status == 0){
         element_pointer->below_ship->possibilities += 10;
         
+        // if above ship exists and has already been hit, ship may be vertical
         if (element_pointer->above_ship && element_pointer->above_ship->status == 1){
             element_pointer->below_ship->possibilities += 20;
         }
     }
 
+    // add 10 to possibilities of the right_ship if it exists
     if (element_pointer->right_ship && element_pointer->right_ship->status == 0){
         element_pointer->right_ship->possibilities += 10;
         
-        // if left ship is already hit, ship may be horizontal. add more probability to the right
+        // if left ship exists and has already been hit, ship may be horizontal. 
         if (element_pointer->left_ship && element_pointer->left_ship->status == 1){
             element_pointer->right_ship->possibilities += 20;
         }
         
     }
 
+    // add 10 to possibilities of the left ship if it exists
     if (element_pointer->left_ship && element_pointer->left_ship->status == 0){
         element_pointer->left_ship->possibilities += 10;
 
@@ -335,61 +338,48 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
 
 void AI::calculate_possibilities(){
     for (int i = 1; i != 119; ++i){
-        AI_element_node* element_pointer = AI_element_node_vector[i];
+        AI_element_node* node = AI_element_node_vector[i];
 
-        if(element_pointer->below_ship 
-            && element_pointer->below_ship->below_ship){
-            ++element_pointer->possibilities;
-            ++element_pointer->below_ship->possibilities;
-            ++element_pointer->below_ship->below_ship->possibilities;
+        // if current element has at least two elements below, it can have a ship
+        if (node->below_ship && node->below_ship->below_ship){
+            int ship_count = 1;
+            if (node->below_ship->below_ship->below_ship){
+                ++ship_count;
+                if (node->below_ship->below_ship->below_ship->below_ship){
+                    ++ship_count;
+                    // if a five ship can exist, add one to the fifth element here
+                    ++node->below_ship->below_ship
+                                     ->below_ship->below_ship
+                                     ->possibilities;
+                }
+                // the fourth element gets ship_count - 1 added since it is not part of the three-block ship
+                node->below_ship->below_ship->below_ship->possibilities += ship_count - 1;
+            }
+            // first three elements get the ship_count added since they are part of every ship
+            node->possibilities += ship_count;
+            node->below_ship->possibilities += ship_count;
+            node->below_ship->below_ship->possibilities += ship_count;
         }
-
-        if(element_pointer->below_ship 
-            && element_pointer->below_ship->below_ship 
-            && element_pointer->below_ship->below_ship->below_ship){
-            ++element_pointer->possibilities;
-            ++element_pointer->below_ship->possibilities;
-            ++element_pointer->below_ship->below_ship->possibilities;
-            ++element_pointer->below_ship->below_ship->below_ship->possibilities;
+    
+        // if current element has at least two elements to the right, it can have a ship
+        if (node->right_ship && node->right_ship->right_ship){
+            int ship_count = 1;
+            if (node->right_ship->right_ship->right_ship){
+                ++ship_count;
+                if (node->right_ship->right_ship->right_ship->right_ship){
+                    ++ship_count;
+                    // if a five ship can exist, add one to the fifth element here
+                    ++node->right_ship->right_ship
+                                     ->right_ship->right_ship
+                                     ->possibilities;
+                }
+                // the fourth element gets ship_count - 1 added since it is not part of the three-block ship
+                node->right_ship->right_ship->right_ship->possibilities += ship_count - 1;
+            }
+            // first three elements get the ship_count added since they are part of every ship
+            node->possibilities += ship_count;
+            node->right_ship->possibilities += ship_count;
+            node->right_ship->right_ship->possibilities += ship_count;
         }
-
-        if(element_pointer->below_ship 
-            && element_pointer->below_ship->below_ship 
-            && element_pointer->below_ship->below_ship->below_ship 
-            && element_pointer->below_ship->below_ship->below_ship->below_ship){
-            ++element_pointer->possibilities;
-            ++element_pointer->below_ship->possibilities;
-            ++element_pointer->below_ship->below_ship->possibilities;
-            ++element_pointer->below_ship->below_ship->below_ship->possibilities;
-            ++element_pointer->below_ship->below_ship->below_ship->below_ship->possibilities;
-        }
-
-        if(element_pointer->right_ship 
-            && element_pointer->right_ship->right_ship){
-            ++element_pointer->possibilities;
-            ++element_pointer->right_ship->possibilities;
-            ++element_pointer->right_ship->right_ship->possibilities;
-        }
-
-        if(element_pointer->right_ship 
-            && element_pointer->right_ship->right_ship 
-            && element_pointer->right_ship->right_ship->right_ship){
-            ++element_pointer->possibilities;
-            ++element_pointer->right_ship->possibilities;
-            ++element_pointer->right_ship->right_ship->possibilities;
-            ++element_pointer->right_ship->right_ship->right_ship->possibilities;
-        }
-
-        if(element_pointer->right_ship 
-            && element_pointer->right_ship->right_ship 
-            && element_pointer->right_ship->right_ship->right_ship 
-            && element_pointer->right_ship->right_ship->right_ship->right_ship){
-            ++element_pointer->possibilities;
-            ++element_pointer->right_ship->possibilities;
-            ++element_pointer->right_ship->right_ship->possibilities;
-            ++element_pointer->right_ship->right_ship->right_ship->possibilities;
-            ++element_pointer->right_ship->right_ship->right_ship->right_ship->possibilities;
-        }   
     }
-
 }
