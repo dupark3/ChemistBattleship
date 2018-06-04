@@ -13,7 +13,7 @@ TODO:
 ☑ Place ships of varying sizes
 ☑ AI class created that inherits the player class
 ☑ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
-☐ Remove dependency of AI class on element_node class (inherit and use load_periodic_table())
+☑ Remove dependency of AI class on element_node class (inherit and use load_periodic_table())
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
@@ -22,6 +22,7 @@ Extra Features:
 ☑ Add special bomb that explodes in an X sign
 ☑ Allow short-hand electron config after five consecutive non-misfires
 ☐ Implement multiplayer (choice between playing against computer or another person)
+☐ Provide a periodic table board that keeps track of hits/misses/sinks for the user
 
 */
 
@@ -61,7 +62,7 @@ int main(){
 
     // Ask player 1 to place four 3-block ship until successful
     cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
-    for (int i = 0; i != 4; ++i){
+    for (int i = 0; i != 1; ++i){
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
@@ -73,7 +74,7 @@ int main(){
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-    
+    /*
     // Ask player 1 to place three 4-block ship until successful
     cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
     for (int i = 0; i != 3; ++i){
@@ -103,7 +104,7 @@ int main(){
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-    
+    */
 
     // Set up player 2 
     std::string player2name = "AI";
@@ -134,15 +135,16 @@ int main(){
         cout << player1name << " has " << player1.get_X_bomb() << " X-bombs. Enter \"X\" to use." << endl;
         
         // Alert whether player can use short form or not
+        cout << player1name << " has " << player1.get_consecutive_correct_configs() << " consecutive correct configurations. ";
         if (player1.short_form_allowed()){
-            cout << player1name << " is allowed to use short form with ";
+            cout << "Short-form bonus activated." << endl;
         } else {
-            cout << player1name << " is not allowed to use short form with only ";
+            cout << "Short-form bonus inactive." << endl;
         }
-        cout << player1.get_consecutive_correct_configs() << " consecutive non-misfires." << endl;
+        
 
         // Ask for config
-        cout << player1name << "'s turn to take a shot with an electron configuration: ";
+        cout << endl << player1name << "'s turn to take a shot with an electron configuration: ";
         string electron_config;
         cin >> electron_config;
         
@@ -178,7 +180,7 @@ int main(){
                     }
                 } else {
                     player1.missed();
-                    cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
+                    cout << player1name << " MISSED! Element " << element_symbol << " is open waters." << endl;
                 }
             }
         }
@@ -208,7 +210,7 @@ int main(){
         } else {
             player1.missed();
             element_symbol = element_node_vector[atomic_number]->get_element_symbol();
-            cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
+            cout << player1name << " MISSED! Element " << element_symbol << " is open waters." << endl;
         }
         
         this_thread::sleep_for(chrono::milliseconds(300));
@@ -217,7 +219,7 @@ int main(){
         cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";
 
         // take an educated shot
-        electron_config = player2.take_educated_shot(player1);
+        electron_config = player2.take_educated_shot();
         atomic_number = atomic_number_from_config[electron_config];
         element_symbol = element_node_vector[atomic_number]->get_element_symbol();
         cout << electron_config << endl;
@@ -228,7 +230,7 @@ int main(){
         cin >> element_symbol_guess;
         if (element_symbol == element_symbol_guess){
             player1.correct_guess();
-            cout << "Correct! You have identified " << player1.get_correct_guesses() << " in a row. " << endl;
+            cout << endl << "Correct! You have identified " << player1.get_correct_guesses() << " in a row. " << endl;
             if (player1.get_correct_guesses() == 5){
                 player1.earn_X_bomb();
                 player1.reset_guesses();
@@ -236,8 +238,9 @@ int main(){
             }
         } else {
             player1.reset_guesses();
-            cout << "Incorrect. Number of correct guesses have been reset to zero. " << endl;
+            cout << endl << "Incorrect. Number of correct guesses have been reset to zero. " << endl;
         }
+
 
         if (player1.check_shot(electron_config)){
             player2.hit(player1, atomic_number);
@@ -251,7 +254,7 @@ int main(){
             }
         } else {
             player2.missed(player1, atomic_number);
-            cout << player2name <<  " MISS! Element " << element_symbol << " is open waters." << endl;
+            cout << player2name <<  " MISSED! Element " << element_symbol << " is open waters." << endl;
         }
 
         this_thread::sleep_for(chrono::milliseconds(300));
