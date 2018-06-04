@@ -4,10 +4,11 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <utility> // pair
+#include <utility> // pair used in returning hit/miss info on 4 elements after check_X_bomb()
 
 #include "periodic_table.h"
 
+// forward declarations
 class ship;
 
 class player{

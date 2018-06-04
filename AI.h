@@ -1,30 +1,50 @@
 #ifndef GUARD_AI_h
 #define GUARD_AI_h
 
-#include "player.h"
+#include <vector>
 
-void calculate_possibilities();
+#include "player.h" // AI class inherits player class 
+#include "periodic_table.h" // AI_element_node class inherits element_node class
+
+// forward declarations
+class AI_element_node;
 
 class AI : public player {
-public: 
-    AI(std::string s) : player(s) { calculate_possibilities(); }
-    std::string take_educated_shot(const player&);
-    void hit(const player&, int);
-    void missed(const player&, int);
-private:
-    void recalculate_possibilities(const player&, int);
-    void recalculate_after_hit(const player&, int);
-    void recalculate_after_miss_or_sink(const player&, int);
+
+    // friend declarations
+        friend class AI_element_node;
+        template <class T> friend void load_periodic_table(std::vector<T*>&);
+
+    public: 
+        AI() : player() { }
+        AI(std::string s) : player(s) { 
+            load_periodic_table(AI_element_node_vector);
+            calculate_possibilities(); 
+        }
+        std::string take_educated_shot(const player&);
+        void hit(const player&, int);
+        void missed(const player&, int);
+
+    private:
+        std::vector<AI_element_node*> AI_element_node_vector;
+        void calculate_possibilities();
+        void recalculate_possibilities(const player&, int);
+        void recalculate_after_hit(const player&, int);
+        void recalculate_after_miss_or_sink(const player&, int);
 };
 
 class AI_element_node : public element_node {
-public: 
-    AI_element_node() { }
-private:
-    int possibilities;
-    int status;
+    
+    // friend declarations
+        friend class AI;
+        template <class T> friend void load_periodic_table(std::vector<T*>&);
+
+    public: 
+        AI_element_node() : possibilities(0), status(0) { }
+
+    private:
+        int possibilities;
+        int status;
 };
-
-
 
 #endif

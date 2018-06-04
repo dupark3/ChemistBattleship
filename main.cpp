@@ -1,18 +1,3 @@
-#include <chrono> // chrono::milliseconds(ms)
-#include <cstdlib> // srand(), rand()
-#include <ctime> // time()
-#include <iostream>
-#include <string>
-#include <thread> // this_thread::sleep_for
-#include <utility> // pair
-#include <vector>
-
-#include "AI.h"
-#include "periodic_table.h"
-#include "player.h"
-
-using namespace std;
-
 /*
 TODO:
 ☑ AI places one 3-block ship randomly
@@ -28,22 +13,39 @@ TODO:
 ☑ Place ships of varying sizes
 ☑ AI class created that inherits the player class
 ☑ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
+☐ Remove dependency of AI class on element_node class (inherit and use load_periodic_table())
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
 ☑ Add % for how accurate your shots were
 ☑ Earn special bomb if you identify other person's guess correctly 5 times in a row
 ☑ Add special bomb that explodes in an X sign
-☐ Allow short-hand electron config after five consecutive non-misfires
+☑ Allow short-hand electron config after five consecutive non-misfires
 ☐ Implement multiplayer (choice between playing against computer or another person)
 
 */
+
+
+#include <chrono> // chrono::milliseconds(ms)
+#include <cstdlib> // srand(), rand()
+#include <ctime> // time()
+#include <iostream>
+#include <string>
+#include <thread> // this_thread::sleep_for
+#include <utility> // pair
+#include <vector>
+
+#include "AI.h"
+#include "periodic_table.h"
+#include "player.h"
+
+using namespace std;
 
 int main(){
     // seed rand() with time
     srand(time(0));
 
-    load_periodic_table();
+    load_periodic_table(element_node_vector);
     cout << endl << "                   PERIODIC TABLE" << endl;
     print_periodic_table();
 
@@ -71,7 +73,7 @@ int main(){
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
     }
-/*
+    /*
     // Ask player 1 to place three 4-block ship until successful
     cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
     for (int i = 0; i != 3; ++i){
@@ -100,7 +102,8 @@ int main(){
         } else {
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
         }
-    }*/
+    }
+    */
 
     // Set up player 2 
     std::string player2name = "AI";
@@ -159,7 +162,7 @@ int main(){
 
             for (int i = 0; i != X_bomb_result.size(); ++i){
                 int atomic_number = atomic_number_from_config[X_bomb_result[i].first];
-                string element_symbol = element_node_array[atomic_number]->get_element_symbol();
+                string element_symbol = element_node_vector[atomic_number]->get_element_symbol();
                 string corner_electron_config = X_bomb_result[i].first;
                 bool hit = X_bomb_result[i].second;
                 
@@ -190,7 +193,7 @@ int main(){
         // check_shot is called on the opponent's player object to see if it's a hit
         if(player2.check_shot(electron_config)){
             player1.hit(); // for calculating accuracy. increments number of hits
-            element_symbol = element_node_array[atomic_number]->get_element_symbol();
+            element_symbol = element_node_vector[atomic_number]->get_element_symbol();
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player2.check_game_over()){
                 this_thread::sleep_for(chrono::milliseconds(300));
@@ -204,7 +207,7 @@ int main(){
             cout << player1name << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;
         } else {
             player1.missed();
-            element_symbol = element_node_array[atomic_number]->get_element_symbol();
+            element_symbol = element_node_vector[atomic_number]->get_element_symbol();
             cout << player1name << " MISS! Element " << element_symbol << " is open waters." << endl;
         }
         
@@ -216,7 +219,7 @@ int main(){
         // take an educated shot
         electron_config = player2.take_educated_shot(player1);
         atomic_number = atomic_number_from_config[electron_config];
-        element_symbol = element_node_array[atomic_number]->get_element_symbol();
+        element_symbol = element_node_vector[atomic_number]->get_element_symbol();
         cout << electron_config << endl;
         
         // ask user to identify this electron config

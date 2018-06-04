@@ -19,7 +19,7 @@ bool player::place_ship(const vector<string>& element_symbols){
     // convert element symbols of each element in this ship to atomic number
     for (int i = 0; i != ship_size; ++i){
         int atomic_number = atomic_number_from_symbol[element_symbols[i]];
-        string electron_config = element_node_array[atomic_number]->get_electron_config();
+        string electron_config = element_node_vector[atomic_number]->get_electron_config();
 
         // check every ship the player owns for a match. If already exists, do not allow placing this ship
         for (int j = 0; j != number_of_ships; ++j){
@@ -35,7 +35,7 @@ bool player::place_ship(const vector<string>& element_symbols){
     if (check_if_continuous(ship_atomic_numbers)){
         map<string, bool> ship_map;
         for (int i = 0; i != ship_size; ++i){
-            string electron_config = element_node_array[ship_atomic_numbers[i]]->get_electron_config();
+            string electron_config = element_node_vector[ship_atomic_numbers[i]]->get_electron_config();
             ship_map[electron_config] = true;
         }
         ships.push_back(ship_map);
@@ -56,7 +56,7 @@ void player::place_ship_randomly(int size_of_ship){
 
     map<string, bool> ship_map;
     for (int i = 0; i != size_of_ship; ++i){
-        string electron_config = element_node_array[ship_atomic_numbers[i]]->get_electron_config();
+        string electron_config = element_node_vector[ship_atomic_numbers[i]]->get_electron_config();
         ship_map[electron_config] = true;
     }
 
@@ -91,21 +91,21 @@ bool player::check_if_continuous(std::vector<int>& ship_atomic_numbers){
     bool horizontal = false;
     sort(ship_atomic_numbers.begin(), ship_atomic_numbers.end());
 
-    if (element_node_array[ship_atomic_numbers[0]]->get_right_ship() == 
-        element_node_array[ship_atomic_numbers[1]]){
+    if (element_node_vector[ship_atomic_numbers[0]]->get_right_ship() == 
+        element_node_vector[ship_atomic_numbers[1]]){
         horizontal = true;
     }
 
     // check if all elements in the ship are connected by pointers
     for(int i = 0; i != ship_atomic_numbers.size() - 1; ++i){   
         if (horizontal){
-            if (element_node_array[ ship_atomic_numbers[i] ]->get_right_ship() != 
-                element_node_array[ ship_atomic_numbers[i + 1] ]){
+            if (element_node_vector[ ship_atomic_numbers[i] ]->get_right_ship() != 
+                element_node_vector[ ship_atomic_numbers[i + 1] ]){
                 return false;
             }    
         } else {
-            if (element_node_array[ ship_atomic_numbers[i] ]->get_below_ship() != 
-                element_node_array[ ship_atomic_numbers[i + 1] ]){
+            if (element_node_vector[ ship_atomic_numbers[i] ]->get_below_ship() != 
+                element_node_vector[ ship_atomic_numbers[i + 1] ]){
                 return false;
             }
         }
@@ -120,8 +120,8 @@ vector<int> player::create_continuous_blocks(int atomic_number, int size_of_ship
 
     if (horizontal){
         for (int i = 0; i != size_of_ship; ++i){
-            element_node* right_ship = element_node_array[atomic_number]->get_right_ship();
-            string electron_config = element_node_array[atomic_number]->get_electron_config();
+            element_node* right_ship = element_node_vector[atomic_number]->get_right_ship();
+            string electron_config = element_node_vector[atomic_number]->get_electron_config();
 
             // if current atomic number doesn't have a right neighbor OR 
             // if this player already has a ship at the current atomic number, return empty vec
@@ -135,8 +135,8 @@ vector<int> player::create_continuous_blocks(int atomic_number, int size_of_ship
     } else { 
         // vertical ship
         for (int i = 0; i != size_of_ship; ++i){
-            element_node* below_ship = element_node_array[atomic_number]->get_below_ship();
-            string electron_config = element_node_array[atomic_number]->get_electron_config();
+            element_node* below_ship = element_node_vector[atomic_number]->get_below_ship();
+            string electron_config = element_node_vector[atomic_number]->get_electron_config();
 
             // if current atomic number doesn't have a down neighbor OR 
             // if this player already has a ship at the current atomic number, return empty vec
@@ -197,7 +197,7 @@ bool player::check_unique(const string& electron_config){
 vector< pair<string, bool> > player::check_X_bomb(const std::string& electron_config){
 
     int atomic_number = atomic_number_from_config[electron_config];
-    element_node* center_element = element_node_array[atomic_number];
+    element_node* center_element = element_node_vector[atomic_number];
     vector< pair<string, bool> > X_bomb_results;
 
     // check the top two corners and push_back into return vector

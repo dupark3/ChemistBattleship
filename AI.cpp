@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <iostream>
 #include <map>
 #include <string>
@@ -14,12 +13,12 @@ string AI::take_educated_shot(const player& player1){
     vector<element_node*> best_elements_to_shoot;
 
     for (int i = 1; i != 119; ++i){
-        if (element_node_array[i]->possibilities > max_possibility && element_node_array[i]->status == 0){
-            max_possibility = element_node_array[i]->possibilities;
+        if (AI_element_node_vector[i]->possibilities > max_possibility && AI_element_node_vector[i]->status == 0){
+            max_possibility = AI_element_node_vector[i]->possibilities;
             best_elements_to_shoot.clear();
-            best_elements_to_shoot.push_back(element_node_array[i]);
-        } else if (element_node_array[i]->possibilities == max_possibility) {
-            best_elements_to_shoot.push_back(element_node_array[i]);
+            best_elements_to_shoot.push_back(AI_element_node_vector[i]);
+        } else if (AI_element_node_vector[i]->possibilities == max_possibility) {
+            best_elements_to_shoot.push_back(AI_element_node_vector[i]);
         }
     }
     
@@ -30,8 +29,8 @@ string AI::take_educated_shot(const player& player1){
     if (max_possibility <= 20 && hit_high_or_low == 0){
         do {
             rand = my_rand(118) + 1;    
-        } while (element_node_array[rand]->status != 0);
-        return element_node_array[rand]->get_electron_config();
+        } while (AI_element_node_vector[rand]->status != 0);
+        return AI_element_node_vector[rand]->get_electron_config();
     } else {
         rand = my_rand(best_elements_to_shoot.size());
         return best_elements_to_shoot[rand]->get_electron_config();
@@ -41,20 +40,20 @@ string AI::take_educated_shot(const player& player1){
 
 void AI::hit(const player& player1, int atomic_number){
     ++hits;
-    element_node_array[atomic_number]->status = 1;
-    element_node_array[atomic_number]->possibilities = 0;
+    AI_element_node_vector[atomic_number]->status = 1;
+    AI_element_node_vector[atomic_number]->possibilities = 0;
     recalculate_possibilities(player1, atomic_number);
 }
 
 void AI::missed(const player& player1, int atomic_number){
     ++misses;
-    element_node_array[atomic_number]->status = -1;
-    element_node_array[atomic_number]->possibilities = 0;
+    AI_element_node_vector[atomic_number]->status = -1;
+    AI_element_node_vector[atomic_number]->possibilities = 0;
     recalculate_possibilities(player1, atomic_number);
 }
 
 void AI::recalculate_possibilities(const player& player1, int atomic_number){
-    element_node* element_pointer = element_node_array[atomic_number];
+    element_node* element_pointer = AI_element_node_vector[atomic_number];
     string electron_config = element_pointer->get_electron_config();
 
     // if ship is sunk, convert the status of each element in the ship to -1
@@ -64,7 +63,7 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
             if (player1.ships[i].find(electron_config) != player1.ships[i].cend()){
                 for (auto j = player1.ships[i].begin(); j != player1.ships[i].end(); ++j){
                     int atomic_number = atomic_number_from_config[j->first];
-                    element_node_array[atomic_number]->status = -1;
+                    AI_element_node_vector[atomic_number]->status = -1;
                 }
 
             }
@@ -76,10 +75,15 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
     } else if (element_pointer->status == -1){
         recalculate_after_miss_or_sink(player1, atomic_number);
     }
+
+    for (int i = 0; i != 119; ++i){
+        cout << i << " : " << AI_element_node_vector[i]->possibilities << endl;
+    }
+
 }
 
 void AI::recalculate_after_hit(const player& player1, int atomic_number){
-    element_node* element_pointer = element_node_array[atomic_number];
+    element_node* element_pointer = AI_element_node_vector[atomic_number];
     
     // add more to above ship if it exsits
     if (element_pointer->above_ship && element_pointer->above_ship->status == 0){
@@ -120,7 +124,7 @@ void AI::recalculate_after_hit(const player& player1, int atomic_number){
 }
 
 void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number){
-    element_node* element_pointer = element_node_array[atomic_number];
+    AI_element_node* element_pointer = AI_element_node_vector[atomic_number];
 
     // subtract from elements to the right
     if (element_pointer->right_ship 
@@ -224,9 +228,9 @@ void AI::recalculate_after_miss_or_sink(const player& player1, int atomic_number
 }
 
 
-void calculate_possibilities(){
+void AI::calculate_possibilities(){
     for (int i = 1; i != 119; ++i){
-        element_node* element_pointer = element_node_array[i];
+        AI_element_node* element_pointer = AI_element_node_vector[i];
         
         if(element_pointer->below_ship 
             && element_pointer->below_ship->below_ship){
@@ -281,5 +285,9 @@ void calculate_possibilities(){
             ++element_pointer->right_ship->right_ship->right_ship->possibilities;
             ++element_pointer->right_ship->right_ship->right_ship->right_ship->possibilities;
         }   
+    }
+
+    for (int i = 0; i != 119; ++i){
+        cout << i << " : " << AI_element_node_vector[i]->possibilities << endl;
     }
 }
