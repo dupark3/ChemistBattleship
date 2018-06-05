@@ -33,7 +33,9 @@ Extra Features:
 #include <iostream>
 #include <thread> // this_thread::sleep_for
 
+
 #include "AI.h"
+#include "gameboard.h"
 #include "periodic_table.h"
 #include "player.h"
 
@@ -42,7 +44,10 @@ using namespace std;
 int main(){
     // seed rand() with time
     srand(time(0));
-
+    Display display;
+    display.initialize();
+    display.wait();
+    display.off();
     load_periodic_table(element_node_vector);
     cout << endl << "                   PERIODIC TABLE" << endl;
     print_periodic_table();
