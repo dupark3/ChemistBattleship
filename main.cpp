@@ -46,11 +46,15 @@ int main(){
     srand(time(0));
     Display display;
     display.initialize();
+    
+    
+    display.print_periodic_table();
     display.wait();
     display.off();
+
     load_periodic_table(element_node_vector);
     cout << endl << "                   PERIODIC TABLE" << endl;
-    print_periodic_table();
+
 
     // Set up player 1
     cout << "Enter your name: ";
