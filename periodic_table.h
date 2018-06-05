@@ -160,8 +160,4 @@ void load_periodic_table(std::vector<T*>& node_vector){
     
 }
 
-void print_periodic_table();
-
-
-
 #endif

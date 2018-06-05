@@ -48,7 +48,7 @@ int main(){
     display.initialize();
     
     
-    display.print_periodic_table();
+    display.print_periodic_tables();
     display.wait();
     display.off();
 

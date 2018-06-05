@@ -22,7 +22,7 @@ public:
         endwin();
     }
 
-    void print_periodic_table();
+    void print_periodic_tables();
 
 };
 
