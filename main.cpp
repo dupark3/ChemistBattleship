@@ -28,7 +28,7 @@ Extra Features:
 
 
 #include <chrono> // chrono::milliseconds(ms)
-#include <cstdlib> // srand(), rand()
+#include <cstdlib> // srand(), rand(), 
 #include <ctime> // time()
 #include <iostream>
 #include <thread> // this_thread::sleep_for
@@ -44,27 +44,19 @@ using namespace std;
 int main(){
     // seed rand() with time
     srand(time(0));
-    Display display;
-    display.initialize();
-    
-    
-    display.print_periodic_tables();
-    display.wait();
-    display.off();
-
     load_periodic_table(element_node_vector);
-    cout << endl << "                   PERIODIC TABLE" << endl;
 
+    system("clear");
+    print_periodic_tables();
+    
 
-    // Set up player 1
     cout << "Enter your name: ";
     string player1name;
     if (cin >> player1name){
-        cout << "Welcome, " << player1name << ", to the Periodic Table Battleship." << endl;
+        cout << "Welcome, " << player1name << ", to the Periodic Table Battleship" << endl;
     }
     player player1(player1name);
-
-
+    
 
     // Ask player 1 to place four 3-block ship until successful
     cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
@@ -82,6 +74,8 @@ int main(){
         }
         cin.clear();
     }
+    system("clear");
+    print_periodic_tables();
     
     // Ask player 1 to place three 4-block ship until successful
     cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
@@ -100,6 +94,9 @@ int main(){
         cin.clear();
     }
 
+    system("clear");
+    print_periodic_tables();
+
     // Ask player 1 to place two 5-block ship until successful
     cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 2; ++i){
@@ -117,6 +114,8 @@ int main(){
         cin.clear();
     }
     
+    system("clear");
+    print_periodic_tables();
 
     // Set up player 2 
     std::string player2name = "AI";
@@ -135,15 +134,17 @@ int main(){
         cout << "Ship #" << i + 1 << " of size 5 placed at a random location." << endl;
     }
 
-    /**********************************GAME START*********************************************/
-
+    /**********************************game START*********************************************/
+    system("clear");
+    print_periodic_tables();
+    
     // game loop, break points within when all ships of a player has been sunk
     int round = 1;
     while (true){
         cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
         
         // PLAYER 1's TURN
-        // Display number of X-bombs
+        // game number of X-bombs
         cout << player1name << " has " << player1.get_X_bomb() << " X-bombs. Enter \"X\" to use." << endl;
         
         // Alert whether player can use short form or not
@@ -277,6 +278,6 @@ int main(){
 
         this_thread::sleep_for(chrono::milliseconds(300));
     }
-
+    
     return 0;
 }
