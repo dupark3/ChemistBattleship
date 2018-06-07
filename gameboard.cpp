@@ -113,6 +113,9 @@ void display_driver::print_periodic_tables(){
     printf("       ░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣                  ░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
     printf("       ░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║                  ░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║\n", ship_status[89], ship_status[90], ship_status[91], ship_status[92], ship_status[93], ship_status[94], ship_status[95], ship_status[96], ship_status[97], ship_status[98], ship_status[99], ship_status[100], ship_status[101], ship_status[102], shot_status[89], shot_status[90], shot_status[91], shot_status[92], shot_status[93], shot_status[94], shot_status[95], shot_status[96], shot_status[97], shot_status[98], shot_status[99], shot_status[100], shot_status[101], shot_status[102]);
     printf("       ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝                  ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝\n");
+    printf("\n");
+    printf("                                    X-BOMB:  ??      SHORT-FORM BONUS:  ??\n");
+
 }
 
 void display_driver::place_ship(const std::vector<std::string>& ship_symbols){
@@ -134,6 +137,14 @@ void display_driver::player_shot(int atomic_number, bool hit){
     print_periodic_tables();
 }
 
+void display_driver::enemy_shot(int atomic_number, bool hit){
+    if (hit){
+        ship_status[atomic_number] = &sunk[0];
+    } else {
+        ship_status[atomic_number] = &miss[0];
+    }
+    print_periodic_tables();
+}
 /*
     cout << 
     printf("                     YOUR SHIPS                           printf("

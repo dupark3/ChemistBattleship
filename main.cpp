@@ -256,6 +256,7 @@ int main(){
 
         if (player1.check_shot(electron_config)){
             player2.hit(player1, atomic_number);
+            display.enemy_shot(atomic_number, true);
             cout << player2name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player1.check_game_over()){
                 this_thread::sleep_for(chrono::milliseconds(300));
@@ -266,6 +267,7 @@ int main(){
             }
         } else {
             player2.missed(player1, atomic_number);
+            display.enemy_shot(atomic_number, false);
             cout << player2name <<  " MISSED! Element " << element_symbol << " is open waters." << endl;
         }
 
