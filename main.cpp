@@ -44,13 +44,15 @@ using namespace std;
 int main(){
     // seed rand() with time
     srand(time(0));
-    load_periodic_table(element_node_vector);
-    display_driver display;
 
-    
+    // load periodictable.txt into answer key data structures
+    load_periodic_table(element_node_vector);
+
+    // create display_driver class object to control game board
+    display_driver display;
     display.print_periodic_tables();
     
-
+    // SET UP PLAYER 1
     cout << "Enter your name: ";
     string player1name;
     if (cin >> player1name){
@@ -76,8 +78,6 @@ int main(){
         }
         cin.clear();
     }
-    system("clear");
-    display.print_periodic_tables();
     
     // Ask player 1 to place three 4-block ship until successful
     cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
@@ -97,9 +97,6 @@ int main(){
         cin.clear();
     }
 
-    system("clear");
-    display.print_periodic_tables();
-
     // Ask player 1 to place two 5-block ship until successful
     cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 2; ++i){
@@ -117,9 +114,6 @@ int main(){
         }
         cin.clear();
     }
-    
-    system("clear");
-    display.print_periodic_tables();
 
     // Set up player 2 
     std::string player2name = "AI";
@@ -139,11 +133,9 @@ int main(){
     }
 
     /**********************************game START*********************************************/
-    system("clear");
-    display.print_periodic_tables();
+    int round = 1;
 
     // game loop, break points within when all ships of a player has been sunk
-    int round = 1;
     while (true){
         cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
         
@@ -186,6 +178,7 @@ int main(){
                 
                 if (hit){
                     player1.hit();
+                    display.player_shot(atomic_number, true);
                     cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
                     if (player2.check_game_over()){
                         this_thread::sleep_for(chrono::milliseconds(300));
@@ -196,6 +189,7 @@ int main(){
                     }
                 } else {
                     player1.missed();
+                    display.player_shot(atomic_number, false);
                     cout << player1name << " MISSED! Element " << element_symbol << " is open waters." << endl;
                 }
             }
@@ -211,6 +205,7 @@ int main(){
         // check_shot is called on the opponent's player object to see if it's a hit
         if(player2.check_shot(electron_config)){
             player1.hit(); // for calculating accuracy. increments number of hits
+            display.player_shot(atomic_number, true);
             element_symbol = element_node_vector[atomic_number]->get_element_symbol();
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player2.check_game_over()){
@@ -225,6 +220,7 @@ int main(){
             cout << player1name << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;
         } else {
             player1.missed();
+            display.player_shot(atomic_number, false);
             element_symbol = element_node_vector[atomic_number]->get_element_symbol();
             cout << player1name << " MISSED! Element " << element_symbol << " is open waters." << endl;
         }

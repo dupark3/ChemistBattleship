@@ -125,6 +125,15 @@ void display_driver::place_ship(const std::vector<std::string>& ship_symbols){
     print_periodic_tables();
 }
 
+void display_driver::player_shot(int atomic_number, bool hit){
+    if (hit){
+        shot_status[atomic_number] = &sunk[0];
+    } else {
+        shot_status[atomic_number] = &miss[0];
+    }
+    print_periodic_tables();
+}
+
 /*
     cout << 
     printf("                     YOUR SHIPS                           printf("
