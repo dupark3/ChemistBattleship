@@ -134,11 +134,9 @@ void display_driver::print_periodic_tables(){
              << player1_pointer->get_correct_guesses() << endl;
     
         cout << endl 
-             << player1_pointer->get_name() << "\'s ACCURACY: "
-             << player1_pointer->get_accuracy()
-             << "%     " 
-             << player2_pointer->get_name() << "\'s ACCURACY: "
-             << player2_pointer->get_accuracy() << "%" << endl;    
+             << "            " << player1_pointer->get_name() << "    " << player2_pointer->get_name() << endl 
+             << "  ACCURACY: " << player1_pointer->get_accuracy() << "%    " << player2_pointer->get_accuracy() << "%" << endl
+             << "SHIPS LEFT: " << player1_pointer->ships_left() << "     " << player2_pointer->ships_left() << endl;    
     }
     
     cout << "******************************************************************************************************************" << endl;
