@@ -88,6 +88,7 @@ int main(){
         cin >> element1 >> element2 >> element3 >> element4;
         vector<string> elements = {element1, element2, element3, element4};
         if (player1.place_ship(elements)){
+            display.place_ship(elements);
             cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", " << element3 << ", and " << element4 << endl;
         } else {
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
@@ -108,6 +109,7 @@ int main(){
         cin >> element1 >> element2 >> element3 >> element4 >> element5;
         vector<string> elements = {element1, element2, element3, element4, element5};
         if (player1.place_ship(elements)){
+            display.place_ship(elements);
             cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", " << element3 << ", " << element4 << ", and " << element5 << endl;
         } else {
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;

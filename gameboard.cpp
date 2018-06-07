@@ -123,7 +123,6 @@ void display_driver::place_ship(const std::vector<std::string>& ship_symbols){
         ship_status[atomic_number] = &ship[0];
     }
     print_periodic_tables();
-
 }
 
 /*
