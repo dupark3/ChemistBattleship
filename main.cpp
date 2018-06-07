@@ -22,7 +22,7 @@ Extra Features:
 ☑ Add special bomb that explodes in an X sign
 ☑ Allow short-hand electron config after five consecutive non-misfires
 ☐ Implement multiplayer (choice between playing against computer or another person)
-☐ Provide a periodic table board that keeps track of hits/misses/sinks for the user
+☑ Provide a periodic table board that keeps track of hits/misses/sinks for the user
 
 */
 
@@ -55,15 +55,15 @@ int main(){
     // SET UP PLAYER 1
     cout << "Enter your name: ";
     string player1name;
-    if (cin >> player1name){
-        cout << "Welcome, " << player1name << ", to the Periodic Table Battleship" << endl;
-    }
+    cin >> player1name;
     player player1(player1name);
     
+    display.print_periodic_tables();
+    cout << "Welcome, " << player1name << ", to the Periodic Table Battleship" << endl;
 
     // Ask player 1 to place four 3-block ship until successful
-    cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
     for (int i = 0; i != 4; ++i){
+        cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
@@ -71,17 +71,18 @@ int main(){
         vector<string> elements = {element1, element2, element3};
         if (player1.place_ship(elements)){
             display.place_ship(elements);
-            cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", and " << element3 << endl;
+            cout << "Ship #" << i + 1 << " of size 3 placed at " << element1 << ", " << element2 << ", and " << element3 << endl;
         } else {
-            cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
+            display.print_periodic_tables();
+            cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
             --i;
         }
         cin.clear();
     }
     
     // Ask player 1 to place three 4-block ship until successful
-    cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
     for (int i = 0; i != 3; ++i){
+        cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
         cout << "Place a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4;
@@ -89,17 +90,19 @@ int main(){
         vector<string> elements = {element1, element2, element3, element4};
         if (player1.place_ship(elements)){
             display.place_ship(elements);
-            cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", " << element3 << ", and " << element4 << endl;
+            cout << "Ship #" << i + 1 << " of size 4 placed at " << element1 << ", " << element2 << ", " << element3 << ", and " << element4 << endl;
         } else {
-            cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
+            display.print_periodic_tables();
+            cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
             --i;
         }
         cin.clear();
     }
 
     // Ask player 1 to place two 5-block ship until successful
-    cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
+    
     for (int i = 0; i != 2; ++i){
+        cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
         cout << "Place a 5-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4, element5;
@@ -107,9 +110,10 @@ int main(){
         vector<string> elements = {element1, element2, element3, element4, element5};
         if (player1.place_ship(elements)){
             display.place_ship(elements);
-            cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", " << element3 << ", " << element4 << ", and " << element5 << endl;
+            cout << "Ship #" << i + 1 << " of size 5 placed at " << element1 << ", " << element2 << ", " << element3 << ", " << element4 << ", and " << element5 << endl;
         } else {
-            cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
+            display.print_periodic_tables();
+            cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
             --i;
         }
         cin.clear();
@@ -121,22 +125,21 @@ int main(){
     AI player2(player2name);
     for(int i = 0; i != 4; ++i){
         player2.place_ship_randomly(3);
-        cout << "Ship #" << i + 1 << " of size 3 placed at a random location." << endl;
     }
     for(int i = 0; i != 3; ++i){
         player2.place_ship_randomly(4);
-        cout << "Ship #" << i + 1 << " of size 4 placed at a random location." << endl;
     }
     for(int i = 0; i != 2; ++i){
         player2.place_ship_randomly(5);
-        cout << "Ship #" << i + 1 << " of size 5 placed at a random location." << endl;
     }
+    this_thread::sleep_for(chrono::milliseconds(1000));
 
     /**********************************game START*********************************************/
     int round = 1;
 
     // game loop, break points within when all ships of a player has been sunk
     while (true){
+        display.print_periodic_tables();
         cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
         
         // PLAYER 1's TURN

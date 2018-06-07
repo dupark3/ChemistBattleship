@@ -17,9 +17,13 @@ class display_driver{
         std::vector<char*> ship_status;
         std::vector<char*> shot_status;
         
-        std::string ship = "⛵ ";
-        std::string sunk = "🔥 ";
-        std::string miss = "❌ ";
+        std::string ship_emoji = "⛵ ";
+        std::string hit_emoji = "🔥 ";
+        std::string sunk_emoji = "🔥🔥";
+        std::string miss_emoji = "❌ ";
+
+        int X_bombs;
+        bool short_form_bonus;
 };
 
 #endif
