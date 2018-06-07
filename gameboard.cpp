@@ -121,15 +121,17 @@ void display_driver::print_periodic_tables(){
     printf("       ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝                  ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝\n");
 
     if (!player1_pointer->get_name().empty()){
-        cout << "                     X-BOMBS: " << player1_pointer->get_X_bombs() << endl
-             << "CORRECT CONFIGURATION STREAK: " 
-             << player1_pointer->get_consecutive_correct_configs() << endl
-             << "            SHORT-FORM BONUS: ";
+        cout << "                      X-BOMBS: " << player1_pointer->get_X_bombs() << endl
+             << "             SHORT-FORM BONUS: ";
         if (player1_pointer->get_consecutive_correct_configs() >= 3){
             cout << "on" << endl;
         } else {
             cout << "off" << endl;
         }
+        cout << " CORRECT CONFIGURATION STREAK: " 
+             << player1_pointer->get_consecutive_correct_configs() << endl
+             << "CORRECT IDENTIFICATION STREAK: " 
+             << player1_pointer->get_correct_guesses() << endl;
     
         cout << endl 
              << player1_pointer->get_name() << "\'s ACCURACY: "
@@ -170,6 +172,7 @@ void display_driver::enemy_shot(int atomic_number, bool hit){
     }
     print_periodic_tables();
 }
+
 
 
 

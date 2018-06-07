@@ -70,7 +70,7 @@ int main(){
     cout << "Welcome, " << player1name << ", to the Periodic Table Battleship" << endl;
 
     // Ask player 1 to place four 3-block ship until successful
-    for (int i = 0; i != 1; ++i){
+    for (int i = 0; i != 4; ++i){
         cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -89,7 +89,7 @@ int main(){
     }
     
     // Ask player 1 to place three 4-block ship until successful
-    for (int i = 0; i != 0; ++i){
+    for (int i = 0; i != 3; ++i){
         cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
         cout << "Place a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -108,7 +108,7 @@ int main(){
     }
 
     // Ask player 1 to place two 5-block ship until successful
-    for (int i = 0; i != 0; ++i){
+    for (int i = 0; i != 2; ++i){
         cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
         cout << "Place a 5-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -242,16 +242,19 @@ int main(){
         cin >> element_symbol_guess;
         if (element_symbol == element_symbol_guess){
             player1.correct_guess();
+            display.print_periodic_tables();
             cout << endl << "Correct! You have identified " << player1.get_correct_guesses() << " in a row. " << endl;
             if (player1.get_correct_guesses() == 5){
                 player1.earn_X_bomb();
                 player1.reset_guesses();
-                cout << "You have earned an X-bomb. You have " << player1.get_X_bombs() << " X-bombs. Write X to use. " << endl;
+                cout << "You have earned an X-bomb. Write X to use." << endl;
             }
         } else {
             player1.reset_guesses();
+            display.print_periodic_tables();
             cout << endl << "Incorrect. Number of correct guesses have been reset to zero. " << endl;
         }
+        this_thread::sleep_for(chrono::milliseconds(1000));
 
 
         if (player1.check_shot(electron_config)){
