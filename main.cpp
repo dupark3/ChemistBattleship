@@ -50,19 +50,27 @@ int main(){
 
     // create display_driver class object to control game board
     display_driver display;
+    player player1;
+    AI player2;
+    display.set_players(player1, player2);
     display.print_periodic_tables();
-    
-    // SET UP PLAYER 1
+
+    // SET UP PLAYER 1 (player class)
     cout << "Enter your name: ";
     string player1name;
     cin >> player1name;
-    player player1(player1name);
+    player1.set_name(player1name);
+
+    // SET UP PLAYER 2 (AI derived class from player)
+    std::string player2name = "AI";
+    player2.set_name(player2name);
+    
     
     display.print_periodic_tables();
     cout << "Welcome, " << player1name << ", to the Periodic Table Battleship" << endl;
 
     // Ask player 1 to place four 3-block ship until successful
-    for (int i = 0; i != 4; ++i){
+    for (int i = 0; i != 1; ++i){
         cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -81,7 +89,7 @@ int main(){
     }
     
     // Ask player 1 to place three 4-block ship until successful
-    for (int i = 0; i != 3; ++i){
+    for (int i = 0; i != 0; ++i){
         cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
         cout << "Place a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -100,8 +108,7 @@ int main(){
     }
 
     // Ask player 1 to place two 5-block ship until successful
-    
-    for (int i = 0; i != 2; ++i){
+    for (int i = 0; i != 0; ++i){
         cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
         cout << "Place a 5-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -119,10 +126,8 @@ int main(){
         cin.clear();
     }
 
-    // Set up player 2 
-    std::string player2name = "AI";
+    // Set up AI's ships
     cout << endl << player2name << " is placing his ships..." << endl;
-    AI player2(player2name);
     for(int i = 0; i != 4; ++i){
         player2.place_ship_randomly(3);
     }
@@ -132,7 +137,7 @@ int main(){
     for(int i = 0; i != 2; ++i){
         player2.place_ship_randomly(5);
     }
-    this_thread::sleep_for(chrono::milliseconds(1000));
+    this_thread::sleep_for(chrono::milliseconds(1500));
 
     /**********************************game START*********************************************/
     int round = 1;
@@ -140,29 +145,19 @@ int main(){
     // game loop, break points within when all ships of a player has been sunk
     while (true){
         display.print_periodic_tables();
-        cout << endl << "******************** ROUND " << round++ << " STARTING ********************" << endl << endl;
+        cout << "ROUND " << round++ << endl;
         
         // PLAYER 1's TURN
-        // game number of X-bombs
-        cout << player1name << " has " << player1.get_X_bomb() << " X-bombs. Enter \"X\" to use." << endl;
-        
-        // Alert whether player can use short form or not
-        cout << player1name << " has " << player1.get_consecutive_correct_configs() << " consecutive correct configurations. ";
-        if (player1.short_form_allowed()){
-            cout << "Short-form bonus activated." << endl;
-        } else {
-            cout << "Short-form bonus inactive." << endl;
-        }
-        
-        // Ask for config
         cout << endl << player1name << "'s turn to take a shot with an electron configuration: ";
         string electron_config;
         cin >> electron_config;
         
         // check the use of X-bomb. Check only the four corners of the X. 
         // Leave center element for check_shot() in the following if statement
-        if (electron_config == "X" && player1.get_X_bomb() > 0){
+        if (electron_config == "X" && player1.get_X_bombs() > 0){
             player1.lose_X_bomb();
+            display.print_periodic_tables();
+            cout << "ROUND " << round++ << endl;
             cout << "X-Bomb Activated! Enter the electron configuration of the center of your X-Bomb: ";
             cin >> electron_config;
             
@@ -202,6 +197,7 @@ int main(){
         if (player1.short_form_allowed()){
             electron_config = convert_to_long_form(electron_config);
         }
+
         int atomic_number = atomic_number_from_config[electron_config];
         string element_symbol;
 
@@ -227,12 +223,13 @@ int main(){
             element_symbol = element_node_vector[atomic_number]->get_element_symbol();
             cout << player1name << " MISSED! Element " << element_symbol << " is open waters." << endl;
         }
-        
+
         this_thread::sleep_for(chrono::milliseconds(300));
 
         // player2's turn
-        cout << endl << player2name << "'s turn to take a shot with an electron configuration: ";
 
+        cout << endl << player2name << "\'s turn to take a shot with an electron configuration: ";
+        
         // take an educated shot
         electron_config = player2.take_educated_shot();
         atomic_number = atomic_number_from_config[electron_config];
@@ -249,7 +246,7 @@ int main(){
             if (player1.get_correct_guesses() == 5){
                 player1.earn_X_bomb();
                 player1.reset_guesses();
-                cout << "You have earned an X-bomb. You have " << player1.get_X_bomb() << " X-bombs. Write X to use. " << endl;
+                cout << "You have earned an X-bomb. You have " << player1.get_X_bombs() << " X-bombs. Write X to use. " << endl;
             }
         } else {
             player1.reset_guesses();
@@ -274,14 +271,7 @@ int main(){
             cout << player2name <<  " MISSED! Element " << element_symbol << " is open waters." << endl;
         }
 
-        this_thread::sleep_for(chrono::milliseconds(300));
-
-        cout << endl;
-        cout << "                 " << player1name << "           " << player2name << endl;
-        cout << "Ships remaining: " << player1.ships_left() << "            " << player2.ships_left() << endl;
-        cout << "Accuracy       : " << player1.get_accuracy() << "%           " << player2.get_accuracy() << '%' << endl;
-
-        this_thread::sleep_for(chrono::milliseconds(300));
+        this_thread::sleep_for(chrono::milliseconds(1000));
     }
     
     return 0;

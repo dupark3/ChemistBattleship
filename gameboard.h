@@ -4,14 +4,20 @@
 #include <string>
 #include <vector>
 
+#include "player.h"
+
 class display_driver{
     public:
         display_driver();
 
+        void set_players(const player&, const player&);
+
         void print_periodic_tables();
+
         void place_ship(const std::vector<std::string>&);
         void enemy_shot(int, bool);
         void player_shot(int, bool);
+
     private:
         std::vector<std::string> symbols;
         std::vector<char*> ship_status;
@@ -22,8 +28,8 @@ class display_driver{
         std::string sunk_emoji = "🔥🔥";
         std::string miss_emoji = "❌ ";
 
-        int X_bombs;
-        bool short_form_bonus;
+        const player* player1_pointer;
+        const player* player2_pointer;
 };
 
 #endif

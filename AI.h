@@ -15,11 +15,11 @@ class AI : public player {
         template <class T> friend void load_periodic_table(std::vector<T*>&);
 
     public: 
-        AI() : player() { }
-        AI(std::string s) : player(s) { 
+        AI() : player() { 
             load_periodic_table(AI_element_node_vector);
             calculate_possibilities(); 
         }
+    
         // need destructor to avoid major memory leak
         /*~AI() {
             for (int i = 0; i != 119; ++i){

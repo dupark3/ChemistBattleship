@@ -191,7 +191,14 @@ bool player::check_unique(const string& electron_config){
     return true;
 }
 
-
+int player::get_accuracy() const { 
+ if (hits + misses == 0){
+    return 0;
+ } else {
+    return ((double)hits / (hits + misses)) * 100; 
+ }
+ 
+}
 vector< pair<string, bool> > player::check_X_bomb(const std::string& electron_config){
 
     int atomic_number = atomic_number_from_config[electron_config];

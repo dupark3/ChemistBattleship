@@ -62,7 +62,8 @@ void Game::print_periodic_tables(){
     move(25,0);
 }
 */
-display_driver::display_driver() : X_bombs(0), short_form_bonus(false) {
+
+display_driver::display_driver()  {
     // reserve enough space to prevent reallocation
     symbols.reserve(119);
     ship_status.reserve(119);
@@ -83,6 +84,11 @@ display_driver::display_driver() : X_bombs(0), short_form_bonus(false) {
         ship_status.push_back(&symbols[i][0]);
         shot_status.push_back(&symbols[i][0]);
     }
+}
+
+void display_driver::set_players(const player& player1, const player& player2){
+    player1_pointer = &player1;
+    player2_pointer = &player2;
 }
 
 void display_driver::print_periodic_tables(){
@@ -114,14 +120,28 @@ void display_driver::print_periodic_tables(){
     printf("       ░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║                  ░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║\n", ship_status[89], ship_status[90], ship_status[91], ship_status[92], ship_status[93], ship_status[94], ship_status[95], ship_status[96], ship_status[97], ship_status[98], ship_status[99], ship_status[100], ship_status[101], ship_status[102], shot_status[89], shot_status[90], shot_status[91], shot_status[92], shot_status[93], shot_status[94], shot_status[95], shot_status[96], shot_status[97], shot_status[98], shot_status[99], shot_status[100], shot_status[101], shot_status[102]);
     printf("       ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝                  ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝\n");
 
-    cout << endl << "                X-BOMBS: " << X_bombs << "          SHORT-FORM BONUS: ";
-    if (short_form_bonus){
-        cout << "ENABLED!" << endl;
-    } else {
-        cout << "DISABLED!" << endl;
+    if (!player1_pointer->get_name().empty()){
+        cout << "                     X-BOMBS: " << player1_pointer->get_X_bombs() << endl
+             << "CORRECT CONFIGURATION STREAK: " 
+             << player1_pointer->get_consecutive_correct_configs() << endl
+             << "            SHORT-FORM BONUS: ";
+        if (player1_pointer->get_consecutive_correct_configs() >= 3){
+            cout << "on" << endl;
+        } else {
+            cout << "off" << endl;
+        }
+    
+        cout << endl 
+             << player1_pointer->get_name() << "\'s ACCURACY: "
+             << player1_pointer->get_accuracy()
+             << "%     " 
+             << player2_pointer->get_name() << "\'s ACCURACY: "
+             << player2_pointer->get_accuracy() << "%" << endl;    
     }
-
+    
+    cout << "******************************************************************************************************************" << endl;
 }
+
 
 void display_driver::place_ship(const std::vector<std::string>& ship_symbols){
     // convert symbols to ship emoji 
@@ -150,6 +170,9 @@ void display_driver::enemy_shot(int atomic_number, bool hit){
     }
     print_periodic_tables();
 }
+
+
+
 /*
     cout << 
     printf("                     YOUR SHIPS                           printf("
