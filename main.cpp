@@ -45,9 +45,10 @@ int main(){
     // seed rand() with time
     srand(time(0));
     load_periodic_table(element_node_vector);
+    display_driver display;
 
     system("clear");
-    print_periodic_tables();
+    display.print_periodic_tables();
     
 
     cout << "Enter your name: ";
@@ -75,7 +76,7 @@ int main(){
         cin.clear();
     }
     system("clear");
-    print_periodic_tables();
+    display.print_periodic_tables();
     
     // Ask player 1 to place three 4-block ship until successful
     cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
@@ -95,7 +96,7 @@ int main(){
     }
 
     system("clear");
-    print_periodic_tables();
+    display.print_periodic_tables();
 
     // Ask player 1 to place two 5-block ship until successful
     cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
@@ -115,7 +116,7 @@ int main(){
     }
     
     system("clear");
-    print_periodic_tables();
+    display.print_periodic_tables();
 
     // Set up player 2 
     std::string player2name = "AI";
@@ -136,8 +137,8 @@ int main(){
 
     /**********************************game START*********************************************/
     system("clear");
-    print_periodic_tables();
-    
+    display.print_periodic_tables();
+
     // game loop, break points within when all ships of a player has been sunk
     int round = 1;
     while (true){

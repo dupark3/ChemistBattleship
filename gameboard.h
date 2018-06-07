@@ -1,34 +1,21 @@
 #ifndef GUARD_gameboard_h
 #define GUARD_gameboard_h
 
-#include <ncurses.h> 
-// #include <locale.h>
+#include <string>
+#include <vector>
 
-class Game{
-public:
-    Game() { }
-    
-    void initialize_window() { 
-        // setlocale(LC_ALL,"");
-        initscr();
-        raw();
-    }
+class display_driver{
+    public:
+        display_driver();
 
-    void wait() {
-        getch();
-    }
-
-    void close_window() { 
-        endwin();
-    }
-
-    void print_periodic_tables();
-    void set_up_player();
-    void set_up_ships(int, int);
-    void set_up_AI();
-
+        void print_periodic_tables();
+        void place_boat(int);
+        void enemy_shot(int, bool);
+        void player_shot(int, bool);
+    private:
+        std::vector<std::string> symbols;
+        std::vector<char*> boat_status;
+        std::vector<char*> shot_status;
 };
-
-void print_periodic_tables();
 
 #endif
