@@ -9,13 +9,17 @@ class display_driver{
         display_driver();
 
         void print_periodic_tables();
-        void place_boat(int);
+        void place_ship(const std::vector<std::string>&);
         void enemy_shot(int, bool);
         void player_shot(int, bool);
     private:
         std::vector<std::string> symbols;
-        std::vector<char*> boat_status;
+        std::vector<char*> ship_status;
         std::vector<char*> shot_status;
+        
+        std::string ship = "⛵ ";
+        std::string sunk = "🔥 ";
+        std::string miss = "❌ ";
 };
 
 #endif

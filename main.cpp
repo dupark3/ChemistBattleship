@@ -47,7 +47,7 @@ int main(){
     load_periodic_table(element_node_vector);
     display_driver display;
 
-    system("clear");
+    
     display.print_periodic_tables();
     
 
@@ -68,6 +68,7 @@ int main(){
         cin >> element1 >> element2 >> element3;
         vector<string> elements = {element1, element2, element3};
         if (player1.place_ship(elements)){
+            display.place_ship(elements);
             cout << "Ship #" << i + 1 << " placed at " << element1 << ", " << element2 << ", and " << element3 << endl;
         } else {
             cout << "Try again and ensure that your elements are horizontal or vertical." << endl;
