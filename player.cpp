@@ -21,7 +21,7 @@ bool player::place_ship(const vector<string>& element_symbols){
 
         // check every ship the player owns for a match. If already exists, do not allow placing this ship
         for (int j = 0; j != number_of_ships; ++j){
-            if (ships[j][electron_config] == true){
+            if (ships[j].find(electron_config) != ships[j].end()){
                 return false;
             }
         }
@@ -162,20 +162,15 @@ bool player::ship_sunk(const map<string, bool>& ship){
 bool player::ship_sunk(const string& electron_config) const{
     // iterate through the vector of maps
     for (int i = 0; i != ships.size(); ++i){
-        
         // search the map to see if it contains the electron_config
-        if (ships[i].find(electron_config) != ships[i].cend()){
-            
-            // if correct map found, iterate through the map to see if all blocks have been sunk
+        if (ships[i].find(electron_config) != ships[i].end()){
+            // on the correct map, see if any element still remains
             for (auto j = ships[i].begin(); j != ships[i].end(); ++j){
                 if (j->second == true){
                     return false;
                 } 
             }
-            
-            // if all blocks are false, then ship is sunk
             return true;
-
         }
     }
     // if electron_config does not exist in ships vector, return false

@@ -10,6 +10,7 @@ class ship;
 
 class player{
 friend class AI;
+friend class display_driver;
 public:
     player() : name(), ships(), number_of_ships(0), 
                hits(0), misses(0), 

@@ -85,6 +85,9 @@ void AI::recalculate_after_hit(const player& player1, int atomic_number){
         // if right_ship exists and has already been hit, ship may be vertical. 
         if (element_pointer->below_ship && element_pointer->below_ship->status == 1){
             element_pointer->above_ship->possibilities += 20;
+            if (element_pointer->below_ship->below_ship && element_pointer->below_ship->below_ship->status == 0){
+                element_pointer->below_ship->below_ship->possibilities += 20;
+            }
         }
     }
 
@@ -95,6 +98,9 @@ void AI::recalculate_after_hit(const player& player1, int atomic_number){
         // if above ship exists and has already been hit, ship may be vertical
         if (element_pointer->above_ship && element_pointer->above_ship->status == 1){
             element_pointer->below_ship->possibilities += 20;
+            if (element_pointer->above_ship->above_ship && element_pointer->above_ship->above_ship->status == 0){
+                element_pointer->above_ship->above_ship->possibilities += 20;
+            }
         }
     }
 
@@ -105,6 +111,9 @@ void AI::recalculate_after_hit(const player& player1, int atomic_number){
         // if left ship exists and has already been hit, ship may be horizontal. 
         if (element_pointer->left_ship && element_pointer->left_ship->status == 1){
             element_pointer->right_ship->possibilities += 20;
+            if (element_pointer->left_ship->left_ship && element_pointer->left_ship->left_ship->status == 0){
+                element_pointer->left_ship->left_ship->possibilities += 20;
+            }
         }
         
     }
@@ -115,7 +124,10 @@ void AI::recalculate_after_hit(const player& player1, int atomic_number){
 
         // if right ship already hit, ship may be horizontal
         if (element_pointer->right_ship && element_pointer->right_ship->status == 1){
-            element_pointer->left_ship->possibilities += 10;   
+            element_pointer->left_ship->possibilities += 20;   
+            if (element_pointer->right_ship->right_ship && element_pointer->right_ship->right_ship->status == 0){
+                element_pointer->right_ship->right_ship->possibilities += 20;
+            }
         }
     }
 }

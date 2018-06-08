@@ -70,7 +70,7 @@ int main(){
     cout << "Welcome, " << player1name << ", to the Periodic Table Battleship" << endl;
 
     // Ask player 1 to place four 3-block ship until successful
-    for (int i = 0; i != 4; ++i){
+    for (int i = 0; i != 2; ++i){
         cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -89,7 +89,7 @@ int main(){
     }
     
     // Ask player 1 to place three 4-block ship until successful
-    for (int i = 0; i != 3; ++i){
+    for (int i = 0; i != 0; ++i){
         cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
         cout << "Place a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -108,7 +108,7 @@ int main(){
     }
 
     // Ask player 1 to place two 5-block ship until successful
-    for (int i = 0; i != 2; ++i){
+    for (int i = 0; i != 0; ++i){
         cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
         cout << "Place a 5-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -183,6 +183,7 @@ int main(){
                         cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
                         return 0;
                     } else if (player2.ship_sunk(corner_electron_config)){
+                        display.enemy_ship_sunk(corner_electron_config, player2);
                         cout << "SHIP SUNK at " << element_symbol << "!" << endl;
                     }
                 } else {
@@ -212,6 +213,7 @@ int main(){
                 cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
                 return 0;
             } else if (player2.ship_sunk(electron_config)){
+                display.enemy_ship_sunk(electron_config, player2);
                 cout << "SHIP SUNK!" << endl;
             }
         } else if (atomic_number == 0) {
@@ -227,7 +229,6 @@ int main(){
         this_thread::sleep_for(chrono::milliseconds(300));
 
         // player2's turn
-
         cout << endl << player2name << "\'s turn to take a shot with an electron configuration: ";
         
         // take an educated shot
@@ -243,7 +244,7 @@ int main(){
         if (element_symbol == element_symbol_guess){
             player1.correct_guess();
             display.print_periodic_tables();
-            cout << endl << "Correct! You have identified " << player1.get_correct_guesses() << " in a row. " << endl;
+            cout << "Correct! You have identified " << player1.get_correct_guesses() << " in a row. " << endl;
             if (player1.get_correct_guesses() == 5){
                 player1.earn_X_bomb();
                 player1.reset_guesses();
@@ -252,7 +253,7 @@ int main(){
         } else {
             player1.reset_guesses();
             display.print_periodic_tables();
-            cout << endl << "Incorrect. Number of correct guesses have been reset to zero. " << endl;
+            cout << "Incorrect. Number of correct guesses have been reset to zero. " << endl;
         }
         this_thread::sleep_for(chrono::milliseconds(1000));
 
@@ -261,12 +262,14 @@ int main(){
             player2.hit(player1, atomic_number);
             display.enemy_shot(atomic_number, true);
             cout << player2name << " HIT! Element " << element_symbol << " has been shot down." << endl;
+            if (player1.ship_sunk(electron_config)){
+                display.player_ship_sunk(electron_config, player1);
+                cout << "SHIP SUNK!" << endl;
+            }
             if (player1.check_game_over()){
                 this_thread::sleep_for(chrono::milliseconds(300));
                 cout << "******************** GAME OVER, " << player2name << " IS VICTORIOUS ********************" << endl;
                 break;
-            } else if (player1.ship_sunk(electron_config)){
-                cout << "SHIP SUNK!" << endl;
             }
         } else {
             player2.missed(player1, atomic_number);

@@ -143,7 +143,7 @@ void display_driver::print_periodic_tables(){
 }
 
 
-void display_driver::place_ship(const std::vector<std::string>& ship_symbols){
+void display_driver::place_ship(const vector<string>& ship_symbols){
     // convert symbols to ship emoji 
     for (int i = 0; i != ship_symbols.size(); ++i){
         int atomic_number = atomic_number_from_symbol[ship_symbols[i]];
@@ -171,29 +171,36 @@ void display_driver::enemy_shot(int atomic_number, bool hit){
     print_periodic_tables();
 }
 
+void display_driver::enemy_ship_sunk(const string& electron_config, const player& player2){
+    int atomic_number = atomic_number_from_config[electron_config];
 
+    for (int i = 0; i != player2.ships.size(); ++i){
+        if (player2.ships[i].find(electron_config) != player2.ships[i].end()){
+            // correct map found, flip it to sunk emoji
+            for (auto j = player2.ships[i].begin(); j != player2.ships[i].end(); ++j){
+                string ship_configs = j->first;
+                int ship_atomic_nums = atomic_number_from_config[ship_configs];
+                shot_status[ship_atomic_nums] = &sunk_emoji[0];
+            }
+        }
+    }
+    print_periodic_tables();
+}
 
+void display_driver::player_ship_sunk(const string& electron_config, const player& player1){
+    int atomic_number = atomic_number_from_config[electron_config];
 
-/*
-    cout << 
-    printf("                     YOUR SHIPS                           printf("
-    printf(" ╔══╗              __                               ╔══╗\n", ); 
-    printf("1║H ║              \\ \\___     .__                   ║He║\n", );
-    printf(" ╠══╬══╗         .--\"\"___\\..--\"/     ╔══╦══╦══╦══╦══╬══╣\n");
-    printf("2║Li║Be║     .__.|-\"\"\"..... \' /      ║B ║C ║N ║O ║F ║Ne║\n", );
-    printf(" ╠══╬══╣_____\\_______________/______ ╠══╬══╬══╬══╬══╬══╣\n");
-    printf("3║Na║Mg║    ~       ~        ~       ║Al║Si║P ║S ║Cl║Ar║\n", );
-    printf(" ╠══╬══╬══╦══╦══╦══╦══╦══╦══╦══╦══╦══╬══╬══╬══╬══╬══╬══╣\n");
-    printf("4║K ║Ca║Sc║Ti║V ║Cr║Mn║Fe║Co║Ni║Cu║Zn║Ga║Ge║As║Se║Br║Kr║\n", );
-    printf(" ╠══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
-    printf("5║Rb║Sr║Y ║Zr║Nb║Mo║Tc║Ru║Rh║Pd║Ag║Cd║In║Sn║Sb║Te║I ║Xe║\n", );
-    printf(" ╠══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
-    printf("6║Cs║Ba░Lu║Hf║Ta║W ║Re║Os║Ir║Pt║Au║Hg║Tl║Pb║Bi║Po║At║Rn║\n", );
-    printf(" ╠══╬══░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
-    printf("7║Fr║Ra░Lr║Rf║Db║Sg║Bh║Hs║Mt║Ds║Rg║Cn║Nh║Fl║Mc║Lv║Ts║Og║\n", );
-    printf(" ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝\n", );
-    printf("      ╔══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╗\n", );
-    printf("      ░La║Ce║Pr║Nd║Pm║Sm║Eu║Gd║Tb║Dy║Ho║Er║Tm║Yb║\n", );
-    printf("      ░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
-    printf("      ░Ac║Th║Pa║U ║Np║Pu║Am║Cm║Bk║Cf║Es║Fm║Md║No║\n", );
-    printf("      ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝" << endl;*/
+    for (int i = 0; i != player1.ships.size(); ++i){
+        if (player1.ships[i].find(electron_config) != player1.ships[i].end()){
+            cout << "SHIP FOUND at " << electron_config << endl;
+            // correct map found, flip it to sunk emoji
+            for (auto j = player1.ships[i].begin(); j != player1.ships[i].end(); ++j){
+                string ship_configs = j->first;
+                cout << "SHIP FOUND at " << ship_configs << endl;
+                int ship_atomic_nums = atomic_number_from_config[ship_configs];
+                ship_status[ship_atomic_nums] = &sunk_emoji[0];
+            }
+        }
+    }
+    print_periodic_tables();
+}

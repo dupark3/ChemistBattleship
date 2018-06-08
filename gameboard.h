@@ -18,6 +18,9 @@ class display_driver{
         void enemy_shot(int, bool);
         void player_shot(int, bool);
 
+        void enemy_ship_sunk(const std::string&, const player&);
+        void player_ship_sunk(const std::string&, const player&);
+
     private:
         std::vector<std::string> symbols;
         std::vector<char*> ship_status;
