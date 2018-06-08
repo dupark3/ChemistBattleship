@@ -7,6 +7,64 @@
 
 using namespace std;
 
+
+void AI::place_ship_randomly(int size_of_ship){
+    vector<int> ship_atomic_numbers;
+
+    // Pass a random number between [1,118] as the first element until valid ship position found
+    while (ship_atomic_numbers.empty()){
+        ship_atomic_numbers = create_continuous_blocks(my_rand(MAX_ELEMENT) + 1, size_of_ship);
+    }
+
+    map<string, bool> ship_map;
+    for (int i = 0; i != size_of_ship; ++i){
+        string electron_config = element_node_vector[ship_atomic_numbers[i]]->get_electron_config();
+        ship_map[electron_config] = true;
+    }
+    
+    ships.push_back(ship_map);
+    ++number_of_ships;
+}
+
+
+vector<int> AI::create_continuous_blocks(int atomic_number, int size_of_ship){
+    bool horizontal = my_rand(2);
+    vector<int> ship_atomic_numbers;
+
+    if (horizontal){
+        for (int i = 0; i != size_of_ship; ++i){
+            element_node* right_ship = element_node_vector[atomic_number]->get_right_ship();
+            string electron_config = element_node_vector[atomic_number]->get_electron_config();
+
+            // if current atomic number doesn't have a right neighbor OR 
+            // if this player already has a ship at the current atomic number, return empty vec
+            if (!right_ship || !check_unique(electron_config)){
+                return { };
+            } else {
+                ship_atomic_numbers.push_back(atomic_number);
+                atomic_number = right_ship->get_atomic_number();
+            }
+        }
+    } else { 
+        // vertical ship
+        for (int i = 0; i != size_of_ship; ++i){
+            element_node* below_ship = element_node_vector[atomic_number]->get_below_ship();
+            string electron_config = element_node_vector[atomic_number]->get_electron_config();
+
+            // if current atomic number doesn't have a down neighbor OR 
+            // if this player already has a ship at the current atomic number, return empty vec
+            if (!below_ship || !check_unique(electron_config)){
+                return { };
+            } else {
+                ship_atomic_numbers.push_back(atomic_number);
+                atomic_number = below_ship->get_atomic_number();
+            }
+        }
+    }
+
+    return ship_atomic_numbers;
+}
+
 string AI::take_educated_shot(){
     int max_possibility = 0;
     vector<element_node*> best_elements_to_shoot;
@@ -385,4 +443,16 @@ void AI::calculate_possibilities(){
             node->right_ship->right_ship->possibilities += ship_count;
         }
     }
+}
+
+// NON MEMBER FUNCTION
+
+int my_rand(int max){
+    int random_number;
+    int bucket_size = RAND_MAX / max;
+    do{
+        random_number = rand() / bucket_size;
+    } while (random_number > max);
+
+    return random_number;
 }

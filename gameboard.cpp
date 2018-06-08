@@ -192,11 +192,9 @@ void display_driver::player_ship_sunk(const string& electron_config, const playe
 
     for (int i = 0; i != player1.ships.size(); ++i){
         if (player1.ships[i].find(electron_config) != player1.ships[i].end()){
-            cout << "SHIP FOUND at " << electron_config << endl;
             // correct map found, flip it to sunk emoji
             for (auto j = player1.ships[i].begin(); j != player1.ships[i].end(); ++j){
                 string ship_configs = j->first;
-                cout << "SHIP FOUND at " << ship_configs << endl;
                 int ship_atomic_nums = atomic_number_from_config[ship_configs];
                 ship_status[ship_atomic_nums] = &sunk_emoji[0];
             }

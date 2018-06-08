@@ -20,7 +20,6 @@ public:
     void set_name(const std::string& s) { name = s; }
     // Place ship with vector of configs or with size of ship and ship_number
     bool place_ship(const std::vector<std::string>&);
-    void place_ship_randomly(int);
     
     bool check_shot(const std::string&);
     bool check_game_over();
@@ -57,7 +56,6 @@ protected:
     int correct_guesses, X_bombs;
 
     bool check_if_continuous(std::vector<int>&);
-    std::vector<int> create_continuous_blocks(int, int);
     bool check_unique(const std::string&);
     
     int consecutive_correct_configs;
@@ -66,7 +64,7 @@ protected:
 
 
 // nonmember functions
-int my_rand(int);
-std::string convert_to_long_form(const std::string&);
+
+
 
 #endif

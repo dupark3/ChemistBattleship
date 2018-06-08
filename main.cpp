@@ -21,8 +21,8 @@ Extra Features:
 ☑ Earn special bomb if you identify other person's guess correctly 5 times in a row
 ☑ Add special bomb that explodes in an X sign
 ☑ Allow short-hand electron config after five consecutive non-misfires
-☐ Implement multiplayer (choice between playing against computer or another person)
 ☑ Provide a periodic table board that keeps track of hits/misses/sinks for the user
+☐ Implement multiplayer (choice between playing against computer or another person)
 
 */
 
@@ -70,7 +70,7 @@ int main(){
     cout << "Welcome, " << player1name << ", to the Periodic Table Battleship" << endl;
 
     // Ask player 1 to place four 3-block ship until successful
-    for (int i = 0; i != 2; ++i){
+    for (int i = 0; i != 4; ++i){
         cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
         cout << "Place a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -89,7 +89,7 @@ int main(){
     }
     
     // Ask player 1 to place three 4-block ship until successful
-    for (int i = 0; i != 0; ++i){
+    for (int i = 0; i != 3; ++i){
         cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
         cout << "Place a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -108,7 +108,7 @@ int main(){
     }
 
     // Ask player 1 to place two 5-block ship until successful
-    for (int i = 0; i != 0; ++i){
+    for (int i = 0; i != 2; ++i){
         cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
         cout << "Place a 5-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
@@ -208,14 +208,15 @@ int main(){
             display.player_shot(atomic_number, true);
             element_symbol = element_node_vector[atomic_number]->get_element_symbol();
             cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
+            if (player2.ship_sunk(electron_config)){
+                display.enemy_ship_sunk(electron_config, player2);
+                cout << "SHIP SUNK!" << endl;
+            }
             if (player2.check_game_over()){
                 this_thread::sleep_for(chrono::milliseconds(300));
                 cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
                 return 0;
-            } else if (player2.ship_sunk(electron_config)){
-                display.enemy_ship_sunk(electron_config, player2);
-                cout << "SHIP SUNK!" << endl;
-            }
+            } 
         } else if (atomic_number == 0) {
             player1.misfire();
             cout << player1name << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;

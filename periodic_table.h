@@ -18,6 +18,8 @@ extern std::map<std::string, int> atomic_number_from_symbol; // map element symb
 extern std::map<std::string, int> atomic_number_from_config; // map electron config to atomic number
 extern std::vector<element_node*> element_node_vector; // array index 0 is empty. index = atomic number
 
+/**************** nonmebmer function *******************/
+std::string convert_to_long_form(const std::string&);
 
 /**************** class element_node *******************/
 

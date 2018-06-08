@@ -19,11 +19,8 @@ bool player::place_ship(const vector<string>& element_symbols){
         int atomic_number = atomic_number_from_symbol[element_symbols[i]];
         string electron_config = element_node_vector[atomic_number]->get_electron_config();
 
-        // check every ship the player owns for a match. If already exists, do not allow placing this ship
-        for (int j = 0; j != number_of_ships; ++j){
-            if (ships[j].find(electron_config) != ships[j].end()){
-                return false;
-            }
+        if(!check_unique(electron_config)){
+            return false;
         }
 
         ship_atomic_numbers.push_back(atomic_number);
@@ -43,25 +40,6 @@ bool player::place_ship(const vector<string>& element_symbols){
         return false;
     }
 }
-
-void player::place_ship_randomly(int size_of_ship){
-    vector<int> ship_atomic_numbers;
-
-    // Pass a random number between [1,118] as the first element until valid ship position found
-    while (ship_atomic_numbers.empty()){
-        ship_atomic_numbers = create_continuous_blocks(my_rand(MAX_ELEMENT) + 1, size_of_ship);
-    }
-
-    map<string, bool> ship_map;
-    for (int i = 0; i != size_of_ship; ++i){
-        string electron_config = element_node_vector[ship_atomic_numbers[i]]->get_electron_config();
-        ship_map[electron_config] = true;
-    }
-
-    ships.push_back(ship_map);
-    ++number_of_ships;
-}
-
 
 bool player::check_shot(const std::string& electron_config){
     for (int i = 0; i != number_of_ships; ++i){
@@ -110,44 +88,6 @@ bool player::check_if_continuous(std::vector<int>& ship_atomic_numbers){
     }
 
     return true;
-}
-
-vector<int> player::create_continuous_blocks(int atomic_number, int size_of_ship){
-    bool horizontal = my_rand(2);
-    vector<int> ship_atomic_numbers;
-
-    if (horizontal){
-        for (int i = 0; i != size_of_ship; ++i){
-            element_node* right_ship = element_node_vector[atomic_number]->get_right_ship();
-            string electron_config = element_node_vector[atomic_number]->get_electron_config();
-
-            // if current atomic number doesn't have a right neighbor OR 
-            // if this player already has a ship at the current atomic number, return empty vec
-            if (!right_ship || !check_unique(electron_config)){
-                return { };
-            } else {
-                ship_atomic_numbers.push_back(atomic_number);
-                atomic_number = right_ship->get_atomic_number();
-            }
-        }
-    } else { 
-        // vertical ship
-        for (int i = 0; i != size_of_ship; ++i){
-            element_node* below_ship = element_node_vector[atomic_number]->get_below_ship();
-            string electron_config = element_node_vector[atomic_number]->get_electron_config();
-
-            // if current atomic number doesn't have a down neighbor OR 
-            // if this player already has a ship at the current atomic number, return empty vec
-            if (!below_ship || !check_unique(electron_config)){
-                return { };
-            } else {
-                ship_atomic_numbers.push_back(atomic_number);
-                atomic_number = below_ship->get_atomic_number();
-            }
-        }
-    }
-
-    return ship_atomic_numbers;
 }
 
 bool player::ship_sunk(const map<string, bool>& ship){
@@ -245,51 +185,4 @@ vector< pair<string, bool> > player::check_X_bomb(const std::string& electron_co
 
     return X_bomb_results;
     
-}
-
-// NON MEMBER FUNCTIONS
-
-int my_rand(int max){
-    int random_number;
-    int bucket_size = RAND_MAX / max;
-    do{
-        random_number = rand() / bucket_size;
-    } while (random_number > max);
-
-    return random_number;
-}
-
-string convert_to_long_form(const string& short_hand_config){
-    string long_hand_config;
-    
-    // if short_hand is smaller than 4, it can't be a valid config. prevent seg fault by exiting.
-    if (short_hand_config.size() < 4){
-        return short_hand_config;
-    }
-
-    // if the first four letters are a noble gas in brackets, convert it to its config in long form
-    if (short_hand_config.substr(0, 4) == "[He]"){
-        long_hand_config = "1s2";
-    } else if (short_hand_config.substr(0, 4) == "[Ne]"){
-        long_hand_config = "1s2.2s2.2p6";
-    } else if (short_hand_config.substr(0, 4) == "[Ar]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6";
-    } else if (short_hand_config.substr(0, 4) == "[Kr]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6";
-    } else if (short_hand_config.substr(0, 4) == "[Xe]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6";
-    } else if (short_hand_config.substr(0, 4) == "[Rn]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6.6s2.4f14.5d10.6p6";
-    } else if (short_hand_config.substr(0, 4) == "[Og]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6.6s2.4f14.5d10.6p6.7s2.5f14.6d10.7p6";
-    } else {
-        return short_hand_config;
-    }
-    
-    // if there are more than 4 letters, it must have trailing config after noble gas [??]
-    if (short_hand_config.size() > 4){
-        long_hand_config = long_hand_config + "." + short_hand_config.substr(4);
-    }
-
-    return long_hand_config;
 }
