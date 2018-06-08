@@ -12,7 +12,7 @@ class display_driver{
 
         void set_players(const player&, const player&);
 
-        void print_periodic_tables();
+        void print_periodic_tables(const std::string&);
 
         void place_ship(const std::vector<std::string>&);
         void enemy_shot(int, bool);
@@ -25,6 +25,8 @@ class display_driver{
         std::vector<std::string> symbols;
         std::vector<char*> ship_status;
         std::vector<char*> shot_status;
+
+        std::string saved_game_text;
         
         std::string ship_emoji = "⛵ ";
         std::string hit_emoji = "🔥 ";

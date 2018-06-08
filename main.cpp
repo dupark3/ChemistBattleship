@@ -14,6 +14,7 @@ TODO:
 ☑ AI class created that inherits the player class
 ☑ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
 ☑ Remove dependency of AI class on element_node class (inherit and use load_periodic_table())
+☐ Build game text instead of only having a line or two after each system("clear")
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
@@ -52,46 +53,61 @@ int main(){
     display_driver display;
     player player1;
     AI player2;
+
     display.set_players(player1, player2);
-    display.print_periodic_tables();
+    string game_text;
 
     // SET UP PLAYER 1 (player class)
-    cout << "Enter your name: ";
+    game_text.append("Enter your name: ");
+    display.print_periodic_tables(game_text);
     string player1name;
     cin >> player1name;
+    game_text.append(player1name);
     player1.set_name(player1name);
 
     // SET UP PLAYER 2 (AI derived class from player)
     std::string player2name = "AI";
     player2.set_name(player2name);
     
-    
-    display.print_periodic_tables();
-    cout << "Welcome, " << player1name << ", to the Periodic Table Battleship" << endl;
+    game_text.clear();    
+    game_text.append("Welcome, ");
+    game_text.append(player1name);
+    game_text.append(", to the Periodic Table Battleship.\n\n");
+    game_text.append("PLACING THREE BLOCK SHIPS: \n");
+    display.print_periodic_tables(game_text);
 
     // Ask player 1 to place four 3-block ship until successful
-    for (int i = 0; i != 4; ++i){
-        cout << endl << "PLACING THREE BLOCK SHIPS: " << endl;
-        cout << "Place a 3-block ship #" << i + 1 
+    for (int i = 0; i != 4; ++i){    
+        cout << "\nPlace a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
         cin >> element1 >> element2 >> element3;
         vector<string> elements = {element1, element2, element3};
         if (player1.place_ship(elements)){
+            game_text.append("Ship #");
+            game_text.append(to_string(i + 1));
+            game_text.append(" of size 3 placed at ");
+            game_text.append(element1);
+            game_text.append(", ");
+            game_text.append(element2);
+            game_text.append(", and ");
+            game_text.append(element3);
+            game_text.append(".\n");
             display.place_ship(elements);
-            cout << "Ship #" << i + 1 << " of size 3 placed at " << element1 << ", " << element2 << ", and " << element3 << endl;
+            display.print_periodic_tables(game_text);
         } else {
-            display.print_periodic_tables();
+            display.print_periodic_tables(game_text);
             cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
             --i;
         }
         cin.clear();
     }
-    
+
     // Ask player 1 to place three 4-block ship until successful
+    game_text.append("\nPLACING FOUR BLOCK SHIPS: \n");
+    display.print_periodic_tables(game_text);
     for (int i = 0; i != 3; ++i){
-        cout << endl << "PLACING FOUR BLOCK SHIPS: " << endl;
-        cout << "Place a 4-block ship #" << i + 1 
+        cout << "\nPlace a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4;
         cin >> element1 >> element2 >> element3 >> element4;
@@ -100,7 +116,7 @@ int main(){
             display.place_ship(elements);
             cout << "Ship #" << i + 1 << " of size 4 placed at " << element1 << ", " << element2 << ", " << element3 << ", and " << element4 << endl;
         } else {
-            display.print_periodic_tables();
+            display.print_periodic_tables(game_text);
             cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
             --i;
         }
@@ -119,7 +135,7 @@ int main(){
             display.place_ship(elements);
             cout << "Ship #" << i + 1 << " of size 5 placed at " << element1 << ", " << element2 << ", " << element3 << ", " << element4 << ", and " << element5 << endl;
         } else {
-            display.print_periodic_tables();
+            display.print_periodic_tables(game_text);
             cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
             --i;
         }
@@ -144,7 +160,7 @@ int main(){
 
     // game loop, break points within when all ships of a player has been sunk
     while (true){
-        display.print_periodic_tables();
+        display.print_periodic_tables(game_text);
         cout << "ROUND " << round++ << endl;
         
         // PLAYER 1's TURN
@@ -156,7 +172,7 @@ int main(){
         // Leave center element for check_shot() in the following if statement
         if (electron_config == "X" && player1.get_X_bombs() > 0){
             player1.lose_X_bomb();
-            display.print_periodic_tables();
+            display.print_periodic_tables(game_text);
             cout << "ROUND " << round++ << endl;
             cout << "X-Bomb Activated! Enter the electron configuration of the center of your X-Bomb: ";
             cin >> electron_config;
@@ -244,7 +260,7 @@ int main(){
         cin >> element_symbol_guess;
         if (element_symbol == element_symbol_guess){
             player1.correct_guess();
-            display.print_periodic_tables();
+            display.print_periodic_tables(game_text);
             cout << "Correct! You have identified " << player1.get_correct_guesses() << " in a row. " << endl;
             if (player1.get_correct_guesses() == 5){
                 player1.earn_X_bomb();
@@ -253,7 +269,7 @@ int main(){
             }
         } else {
             player1.reset_guesses();
-            display.print_periodic_tables();
+            display.print_periodic_tables(game_text);
             cout << "Incorrect. Number of correct guesses have been reset to zero. " << endl;
         }
         this_thread::sleep_for(chrono::milliseconds(1000));
