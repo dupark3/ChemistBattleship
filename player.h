@@ -18,6 +18,8 @@ public:
                consecutive_correct_configs(0) { }
     
     void set_name(const std::string& s) { name = s; }
+    std::string get_name() const { return name; }
+
     // Place ship with vector of configs or with size of ship and ship_number
     bool place_ship(const std::vector<std::string>&);
     
@@ -27,7 +29,6 @@ public:
     bool ship_sunk(const std::map<std::string, bool>&);
     bool ship_sunk(const std::string&) const;
     int ships_left() const { return number_of_ships; } 
-    
 
     // accuracy and short_hand config support member functions
     void hit() { ++hits; ++consecutive_correct_configs;}
@@ -45,8 +46,6 @@ public:
     void lose_X_bomb() { --X_bombs; }
     std::vector< std::pair<std::string, bool> > check_X_bomb(const std::string&);
     int get_X_bombs() const { return X_bombs; }
-
-    std::string get_name() const { return name; }
 
 protected:
     std::string name;

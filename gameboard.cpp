@@ -4,7 +4,6 @@
 #include "AI.h"
 #include "gameboard.h"
 #include "periodic_table.h"
-#include "player.h"
 
 using namespace std;
 /*
@@ -205,4 +204,34 @@ void display_driver::player_ship_sunk(const string& electron_config, const playe
         }
     }
     print_periodic_tables(saved_game_text);
+}
+
+void display_driver::welcome_and_place_ships(string& game_text, const string& size){
+    game_text.clear();    
+    game_text.append("Welcome, ").append(player1_pointer->get_name())
+             .append(", to the Periodic Table Battleship.")
+             .append("\n\n")
+             .append("PLACING ")
+             .append(size).append(" BLOCK SHIPS: \n");
+    print_periodic_tables(game_text);
+}
+
+void display_driver::ship_placed (string& game_text, const vector<string>& elements, int ship_number, int ship_size){
+    game_text.append("Ship #").append(to_string(ship_number))
+             .append(" of size ")
+             .append(to_string(ship_size))
+             .append(" placed at ");
+    for (int i = 0; i != ship_size; ++i){
+        game_text.append(elements[i]).append(", ");
+        if (i == ship_size - 2){
+            game_text.append("and ");
+        } 
+    }
+    game_text.append(". \n");
+    place_ship(elements);
+    print_periodic_tables(game_text);
+}
+
+void my_wait(int ms) {
+    this_thread::sleep_for(chrono::milliseconds(ms)); 
 }

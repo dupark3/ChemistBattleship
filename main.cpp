@@ -68,33 +68,18 @@ int main(){
     // SET UP PLAYER 2 (AI derived class from player)
     std::string player2name = "AI";
     player2.set_name(player2name);
-    
-    game_text.clear();    
-    game_text.append("Welcome, ");
-    game_text.append(player1name);
-    game_text.append(", to the Periodic Table Battleship.\n\n");
-    game_text.append("PLACING THREE BLOCK SHIPS: \n");
-    display.print_periodic_tables(game_text);
+
+    display.welcome_and_place_ships(game_text, "THREE");
 
     // Ask player 1 to place four 3-block ship until successful
-    for (int i = 0; i != 4; ++i){    
+    for (int i = 0; i != 2; ++i){    
         cout << "\nPlace a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
         cin >> element1 >> element2 >> element3;
         vector<string> elements = {element1, element2, element3};
         if (player1.place_ship(elements)){
-            game_text.append("Ship #");
-            game_text.append(to_string(i + 1));
-            game_text.append(" of size 3 placed at ");
-            game_text.append(element1);
-            game_text.append(", ");
-            game_text.append(element2);
-            game_text.append(", and ");
-            game_text.append(element3);
-            game_text.append(".\n");
-            display.place_ship(elements);
-            display.print_periodic_tables(game_text);
+            display.ship_placed(game_text, elements, i + 1, 3);
         } else {
             display.print_periodic_tables(game_text);
             cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
@@ -103,18 +88,18 @@ int main(){
         cin.clear();
     }
 
+    my_wait(1000);
+    display.welcome_and_place_ships(game_text, "FOUR");
+
     // Ask player 1 to place three 4-block ship until successful
-    game_text.append("\nPLACING FOUR BLOCK SHIPS: \n");
-    display.print_periodic_tables(game_text);
-    for (int i = 0; i != 3; ++i){
+    for (int i = 0; i != 2; ++i){
         cout << "\nPlace a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4;
         cin >> element1 >> element2 >> element3 >> element4;
         vector<string> elements = {element1, element2, element3, element4};
         if (player1.place_ship(elements)){
-            display.place_ship(elements);
-            cout << "Ship #" << i + 1 << " of size 4 placed at " << element1 << ", " << element2 << ", " << element3 << ", and " << element4 << endl;
+            display.ship_placed(game_text, elements, i + 1, 4);
         } else {
             display.print_periodic_tables(game_text);
             cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
@@ -123,17 +108,18 @@ int main(){
         cin.clear();
     }
 
+    my_wait(1000);
+    display.welcome_and_place_ships(game_text, "FIVE");
+
     // Ask player 1 to place two 5-block ship until successful
     for (int i = 0; i != 2; ++i){
-        cout << endl << "PLACING FIVE BLOCK SHIPS: " << endl;
-        cout << "Place a 5-block ship #" << i + 1 
+        cout << "\nPlace a 5-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4, element5;
         cin >> element1 >> element2 >> element3 >> element4 >> element5;
         vector<string> elements = {element1, element2, element3, element4, element5};
         if (player1.place_ship(elements)){
-            display.place_ship(elements);
-            cout << "Ship #" << i + 1 << " of size 5 placed at " << element1 << ", " << element2 << ", " << element3 << ", " << element4 << ", and " << element5 << endl;
+            display.ship_placed(game_text, elements, i + 1, 5);
         } else {
             display.print_periodic_tables(game_text);
             cout << "IMPOSSIBLE! Try again and ensure that your elements are horizontal or vertical." << endl;
@@ -142,18 +128,26 @@ int main(){
         cin.clear();
     }
 
+    my_wait(1000);
+    game_text.clear();
+    game_text.append(player2name).append(" is placing his ships...\n");
+    display.print_periodic_tables(game_text);
+
     // Set up AI's ships
     cout << endl << player2name << " is placing his ships..." << endl;
     for(int i = 0; i != 4; ++i){
         player2.place_ship_randomly(3);
+        my_wait(250);
     }
     for(int i = 0; i != 3; ++i){
         player2.place_ship_randomly(4);
+        my_wait(250);
     }
     for(int i = 0; i != 2; ++i){
         player2.place_ship_randomly(5);
+        my_wait(250);
     }
-    this_thread::sleep_for(chrono::milliseconds(1500));
+    my_wait(1000);
 
     /**********************************game START*********************************************/
     int round = 1;

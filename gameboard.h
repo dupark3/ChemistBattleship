@@ -1,7 +1,9 @@
 #ifndef GUARD_gameboard_h
 #define GUARD_gameboard_h
 
+#include <chrono> // chrono::milliseconds(ms)
 #include <string>
+#include <thread> // this_thread::sleep_for
 #include <vector>
 
 #include "player.h"
@@ -21,6 +23,9 @@ class display_driver{
         void enemy_ship_sunk(const std::string&, const player&);
         void player_ship_sunk(const std::string&, const player&);
 
+        void welcome_and_place_ships(std::string&, const std::string&);
+        void ship_placed (std::string&, const std::vector<std::string>&, int, int);
+
     private:
         std::vector<std::string> symbols;
         std::vector<char*> ship_status;
@@ -36,5 +41,7 @@ class display_driver{
         const player* player1_pointer;
         const player* player2_pointer;
 };
+
+void my_wait(int);
 
 #endif

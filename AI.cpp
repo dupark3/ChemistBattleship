@@ -24,6 +24,8 @@ void AI::place_ship_randomly(int size_of_ship){
     
     ships.push_back(ship_map);
     ++number_of_ships;
+
+    cout << "Ship of size " << size_of_ship << " placed at a random location." << endl;
 }
 
 
