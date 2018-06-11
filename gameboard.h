@@ -25,6 +25,8 @@ class display_driver{
 
         void welcome_and_place_ships(std::string&, const std::string&);
         void ship_placed (std::string&, const std::vector<std::string>&, int, int);
+        void store_game_text(const std::string& gt) { saved_game_text = gt; }
+
 
     private:
         std::vector<std::string> symbols;

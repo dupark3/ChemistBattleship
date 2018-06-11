@@ -14,7 +14,11 @@ TODO:
 ☑ AI class created that inherits the player class
 ☑ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
 ☑ Remove dependency of AI class on element_node class (inherit and use load_periodic_table())
-☐ Build game text instead of only having a line or two after each system("clear")
+☑ Build game text instead of only having a line or two after each system("clear")
+☐ Recalculate after sink should recalculate the entire board maybe since it doesn't subtract 10/20 from hits
+☐ Press enter to continue from round to round
+☐ Some of AI's ships are impossible??
+☐ Player sink doesn't change emoji
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
@@ -154,23 +158,26 @@ int main(){
 
     // game loop, break points within when all ships of a player has been sunk
     while (true){
-        display.print_periodic_tables(game_text);
-        cout << "ROUND " << round++ << endl;
+        game_text.clear();
+        game_text.append("ROUND ").append(to_string(round++)).append("\n\n");
+
         
         // PLAYER 1's TURN
-        cout << endl << player1name << "'s turn to take a shot with an electron configuration: ";
+        game_text.append(player1name).append("\'s turn take a shot with an electron configuration: ");
+        display.print_periodic_tables(game_text);
         string electron_config;
         cin >> electron_config;
+        game_text.append(electron_config).append("\n");
         
         // check the use of X-bomb. Check only the four corners of the X. 
         // Leave center element for check_shot() in the following if statement
         if (electron_config == "X" && player1.get_X_bombs() > 0){
             player1.lose_X_bomb();
+            game_text.append("X-Bomb Activated! Enter the electron configuration of the center of your X-Bomb: ");
             display.print_periodic_tables(game_text);
-            cout << "ROUND " << round++ << endl;
-            cout << "X-Bomb Activated! Enter the electron configuration of the center of your X-Bomb: ";
             cin >> electron_config;
-            
+            game_text.append(electron_config).append("\n");
+
             // pass config through conversion. will not change it if it was long form already.
             if (player1.short_form_allowed()){
                 electron_config = convert_to_long_form(electron_config);
@@ -186,20 +193,27 @@ int main(){
                 
                 if (hit){
                     player1.hit();
+                    game_text.append(player1name).append(" HIT! Element ")
+                             .append(element_symbol).append(" has been shot down.\n");
+                    display.store_game_text(game_text);
                     display.player_shot(atomic_number, true);
-                    cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
+                    if (player2.ship_sunk(corner_electron_config)){                    
+                        game_text.append("SHIP SUNK at ").append(element_symbol)
+                                 .append("!\n");
+                        display.store_game_text(game_text);
+                        display.enemy_ship_sunk(corner_electron_config, player2);
+                    }
                     if (player2.check_game_over()){
-                        this_thread::sleep_for(chrono::milliseconds(300));
+                        my_wait(300);
                         cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
                         return 0;
-                    } else if (player2.ship_sunk(corner_electron_config)){
-                        display.enemy_ship_sunk(corner_electron_config, player2);
-                        cout << "SHIP SUNK at " << element_symbol << "!" << endl;
-                    }
+                    } 
                 } else {
                     player1.missed();
+                    game_text.append(player1name).append(" MISSED! Element " )
+                             .append(element_symbol).append(" is open waters.\n");
+                    display.store_game_text(game_text);
                     display.player_shot(atomic_number, false);
-                    cout << player1name << " MISSED! Element " << element_symbol << " is open waters." << endl;
                 }
             }
         }
@@ -215,80 +229,102 @@ int main(){
         // check_shot is called on the opponent's player object to see if it's a hit
         if(player2.check_shot(electron_config)){
             player1.hit(); // for calculating accuracy. increments number of hits
-            display.player_shot(atomic_number, true);
             element_symbol = element_node_vector[atomic_number]->get_element_symbol();
-            cout << player1name << " HIT! Element " << element_symbol << " has been shot down." << endl;
+            game_text.append(player1name).append(" HIT! Element " )
+                     .append(element_symbol).append(" has been shot down.\n");
+            display.store_game_text(game_text);
+            display.player_shot(atomic_number, true);
             if (player2.ship_sunk(electron_config)){
+                game_text.append("SHIP SUNK!\n");
+                display.store_game_text(game_text);
                 display.enemy_ship_sunk(electron_config, player2);
-                cout << "SHIP SUNK!" << endl;
             }
             if (player2.check_game_over()){
-                this_thread::sleep_for(chrono::milliseconds(300));
+                my_wait(300);
                 cout << "******************** GAME OVER, " << player1name << " IS VICTORIOUS ********************" << endl;
                 return 0;
             } 
         } else if (atomic_number == 0) {
             player1.misfire();
-            cout << player1name << " MISFIRE! Electron config " << electron_config << " is incorrect." << endl;
+            game_text.append(player1name).append(" MISFIRED! Electron configuration ")
+                     .append(electron_config).append(" is incorrect.\n");
+            display.print_periodic_tables(game_text);
         } else {
             player1.missed();
-            display.player_shot(atomic_number, false);
             element_symbol = element_node_vector[atomic_number]->get_element_symbol();
-            cout << player1name << " MISSED! Element " << element_symbol << " is open waters." << endl;
+            game_text.append(player1name).append(" MISSED! Element ")
+                     .append(element_symbol).append(" is open waters.\n");
+            display.store_game_text(game_text);
+            display.player_shot(atomic_number, false);
         }
 
-        this_thread::sleep_for(chrono::milliseconds(300));
+        my_wait(300);
 
         // player2's turn
-        cout << endl << player2name << "\'s turn to take a shot with an electron configuration: ";
-        
+        game_text.append("\n").append(player2name)
+                 .append("\'s turn to take a shot with an electron configuration: ");        
+        my_wait(200);
+
         // take an educated shot
         electron_config = player2.take_educated_shot();
         atomic_number = atomic_number_from_config[electron_config];
         element_symbol = element_node_vector[atomic_number]->get_element_symbol();
-        cout << electron_config << endl;
-        
+        game_text.append(electron_config).append("\n");
+        display.print_periodic_tables(game_text);
+        my_wait(300);
+
         // ask user to identify this electron config
-        cout << "Identify the element: ";
+        game_text.append("Identify the element: ");
+        display.print_periodic_tables(game_text);
         string element_symbol_guess;
         cin >> element_symbol_guess;
+        game_text.append(element_symbol_guess).append("\n");
+
         if (element_symbol == element_symbol_guess){
             player1.correct_guess();
-            display.print_periodic_tables(game_text);
-            cout << "Correct! You have identified " << player1.get_correct_guesses() << " in a row. " << endl;
-            if (player1.get_correct_guesses() == 5){
+            game_text.append("Correct! You have identified ")
+                     .append(to_string(player1.get_correct_guesses()))
+                     .append(" in a row. \n");
+            
+            if (player1.get_correct_guesses() != 0 && player1.get_correct_guesses() % 5 == 0){
                 player1.earn_X_bomb();
-                player1.reset_guesses();
-                cout << "You have earned an X-bomb. Write X to use." << endl;
+                game_text.append("FIVE CORRECT IDENTIFICATIONS IN A ROW! You have earned an X-bomb. Write X to use.\n");
             }
         } else {
             player1.reset_guesses();
-            display.print_periodic_tables(game_text);
-            cout << "Incorrect. Number of correct guesses have been reset to zero. " << endl;
+            game_text.append("Incorrect. Number of correct guesses have been reset to zero.\n");
         }
-        this_thread::sleep_for(chrono::milliseconds(1000));
 
+        display.print_periodic_tables(game_text);
+        my_wait(1000);
 
         if (player1.check_shot(electron_config)){
+            game_text.append(player2name).append(" HIT! element")
+                     .append(element_symbol)
+                     .append(" has been shot down.\n");
             player2.hit(player1, atomic_number);
+            display.store_game_text(game_text);
             display.enemy_shot(atomic_number, true);
-            cout << player2name << " HIT! Element " << element_symbol << " has been shot down." << endl;
             if (player1.ship_sunk(electron_config)){
+                game_text.append("SHIP SUNK!\n");
+                display.store_game_text(game_text);
                 display.player_ship_sunk(electron_config, player1);
-                cout << "SHIP SUNK!" << endl;
             }
             if (player1.check_game_over()){
-                this_thread::sleep_for(chrono::milliseconds(300));
+                my_wait(300);
                 cout << "******************** GAME OVER, " << player2name << " IS VICTORIOUS ********************" << endl;
                 break;
             }
         } else {
             player2.missed(player1, atomic_number);
+            game_text.append(player2name).append(" MISSED! Element ")
+                     .append(element_symbol)
+                     .append(" is open waters.\n");
+            display.store_game_text(game_text);
             display.enemy_shot(atomic_number, false);
-            cout << player2name <<  " MISSED! Element " << element_symbol << " is open waters." << endl;
         }
 
-        this_thread::sleep_for(chrono::milliseconds(1000));
+        my_wait(1000);
     }
     
     return 0;
