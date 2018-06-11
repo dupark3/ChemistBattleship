@@ -96,7 +96,7 @@ int main(){
     display.welcome_and_place_ships(game_text, "FOUR");
 
     // Ask player 1 to place three 4-block ship until successful
-    for (int i = 0; i != 2; ++i){
+    for (int i = 0; i != 0; ++i){
         cout << "\nPlace a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4;
@@ -116,7 +116,7 @@ int main(){
     display.welcome_and_place_ships(game_text, "FIVE");
 
     // Ask player 1 to place two 5-block ship until successful
-    for (int i = 0; i != 2; ++i){
+    for (int i = 0; i != 0; ++i){
         cout << "\nPlace a 5-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4, element5;
@@ -138,20 +138,19 @@ int main(){
     display.print_periodic_tables(game_text);
 
     // Set up AI's ships
-    cout << endl << player2name << " is placing his ships..." << endl;
     for(int i = 0; i != 4; ++i){
         player2.place_ship_randomly(3);
-        my_wait(250);
+        my_wait(150);
     }
     for(int i = 0; i != 3; ++i){
         player2.place_ship_randomly(4);
-        my_wait(250);
+        my_wait(150);
     }
     for(int i = 0; i != 2; ++i){
         player2.place_ship_randomly(5);
-        my_wait(250);
+        my_wait(150);
     }
-    my_wait(1000);
+    my_wait(300);
 
     /**********************************game START*********************************************/
     int round = 1;
@@ -274,7 +273,7 @@ int main(){
         my_wait(300);
 
         // ask user to identify this electron config
-        game_text.append("Identify the element: ");
+        game_text.append("\nIdentify the element: ");
         display.print_periodic_tables(game_text);
         string element_symbol_guess;
         cin >> element_symbol_guess;
@@ -296,10 +295,10 @@ int main(){
         }
 
         display.print_periodic_tables(game_text);
-        my_wait(1000);
+        my_wait(300);
 
         if (player1.check_shot(electron_config)){
-            game_text.append(player2name).append(" HIT! element")
+            game_text.append("\n").append(player2name).append(" HIT! element ")
                      .append(element_symbol)
                      .append(" has been shot down.\n");
             player2.hit(player1, atomic_number);
@@ -317,14 +316,16 @@ int main(){
             }
         } else {
             player2.missed(player1, atomic_number);
-            game_text.append(player2name).append(" MISSED! Element ")
+            game_text.append("\n").append(player2name).append(" MISSED! Element ")
                      .append(element_symbol)
                      .append(" is open waters.\n");
             display.store_game_text(game_text);
             display.enemy_shot(atomic_number, false);
         }
+    cout << "\nPress enter to continue.";
+    cin.get();
+    cin.get();
 
-        my_wait(1000);
     }
     
     return 0;
