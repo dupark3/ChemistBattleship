@@ -6,61 +6,6 @@
 #include "periodic_table.h"
 
 using namespace std;
-/*
-void Game::print_periodic_tables(){
-    attron(A_UNDERLINE);
-    mvprintw(0, 40, "WELCOME TO THE PERIODIC TABLE BATTLESHIP");
-    mvprintw(3, 23, "YOUR SHIPS");
-    mvprintw(3, 81, "YOUR SHOTS AND MISSES");
-    attroff(A_UNDERLINE);
-
-    // spaces 0 to 56 is the first periodic table
-    mvprintw(4, 1,  " +--+              __                               +--+");
-    mvprintw(5, 1,  "1|H |              \\ \\___     .__                   |He|");
-    mvprintw(6, 1,  " +--+--+         .--\"\"___\\..--\"/     +--+--+--+--+--+--+");
-    mvprintw(7, 1,  "2|Li|Be|     .__.|-\"\"\"..... \' /      |B |C |N |O |F |Ne|");
-    mvprintw(8, 1,  " +--+--+_____\\_______________/______ +--+--+--+--+--+--+");
-    mvprintw(9, 1,  "3|Na|Mg|    ~       ~        ~       |Al|Si|P |S |Cl|Ar|");
-    mvprintw(10, 1,  " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(11, 1,  "4|K |Ca|Sc|Ti|V |Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|");
-    mvprintw(12, 1,  " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(13, 1,  "5|Rb|Sr|Y |Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I |Xe|");
-    mvprintw(14, 1, " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(15, 1, "6|Cs|Ba+Lu|Hf|Ta|W |Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|");
-    mvprintw(16, 1, " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(17, 1, "7|Fr|Ra+Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|");
-    mvprintw(18, 1, " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(19, 1, "      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(20, 1, "      +La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|");
-    mvprintw(21, 1, "      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(22, 1, "      +Ac|Th|Pa|U |Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|");
-    mvprintw(23, 1, "      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-
-
-    // spaces 63 to 119 is the second periodic table
-    mvprintw(4, 63,  " +--+              __                               +--+");
-    mvprintw(5, 63,  "1|H |              \\ \\___     .__                   |He|");
-    mvprintw(6, 63,  " +--+--+         .--\"\"___\\..--\"/     +--+--+--+--+--+--+");
-    mvprintw(7, 63,  "2|Li|Be|     .__.|-\"\"\"..... \' /      |B |C |N |O |F |Ne|");
-    mvprintw(8, 63,  " +--+--+_____\\_______________/______ +--+--+--+--+--+--+");
-    mvprintw(9, 63,  "3|Na|Mg|    ~       ~        ~       |Al|Si|P |S |Cl|Ar|");
-    mvprintw(10, 63,  " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(11, 63,  "4|K |Ca|Sc|Ti|V |Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|");
-    mvprintw(12, 63,  " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(13, 63,  "5|Rb|Sr|Y |Zr|Nb|Mo|Tc|Ru|Rh|Pd|Ag|Cd|In|Sn|Sb|Te|I |Xe|");
-    mvprintw(14, 63, " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(15, 63, "6|Cs|Ba+Lu|Hf|Ta|W |Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|");
-    mvprintw(16, 63, " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(17, 63, "7|Fr|Ra+Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og|");
-    mvprintw(18, 63, " +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(19, 63, "      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(20, 63, "      +La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|");
-    mvprintw(21, 63, "      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    mvprintw(22, 63, "      +Ac|Th|Pa|U |Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|");
-    mvprintw(23, 63, "      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+");
-    move(25,0);
-}
-*/
 
 display_driver::display_driver()  {
     // reserve enough space to prevent reallocation
@@ -83,9 +28,16 @@ display_driver::display_driver()  {
         ship_status.push_back(&symbols[i][0]);
         shot_status.push_back(&symbols[i][0]);
     }
+
+    // Utility support for viewing AI's possibilities calculations
+    possibilities_string.reserve(119);
+    possibilities_status.reserve(119);
+    
+    possibilities_string.push_back("");
+    possibilities_status.push_back(&possibilities_string[0][0]);   
 }
 
-void display_driver::set_players(const player& player1, const player& player2){
+void display_driver::set_players(const player& player1, const AI& player2){
     player1_pointer = &player1;
     player2_pointer = &player2;
 }
@@ -118,6 +70,11 @@ void display_driver::print_periodic_tables(const string& game_text){
     printf("       ░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣                  ░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
     printf("       ░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║                  ░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║\n", ship_status[89], ship_status[90], ship_status[91], ship_status[92], ship_status[93], ship_status[94], ship_status[95], ship_status[96], ship_status[97], ship_status[98], ship_status[99], ship_status[100], ship_status[101], ship_status[102], shot_status[89], shot_status[90], shot_status[91], shot_status[92], shot_status[93], shot_status[94], shot_status[95], shot_status[96], shot_status[97], shot_status[98], shot_status[99], shot_status[100], shot_status[101], shot_status[102]);
     printf("       ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝                  ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝\n");
+
+    /* Uncomment if you want to see AI's possibilities
+    update_possibilities_periodic_table();
+    print_AI_possibilities();
+    */
 
     cout << "                      X-BOMBS: " << player1_pointer->get_X_bombs() << endl
          << "             SHORT-FORM BONUS: ";
@@ -239,6 +196,58 @@ void display_driver::ship_placed (string& game_text, const vector<string>& eleme
     place_ship(elements);
     print_periodic_tables(game_text);
 }
+
+void display_driver::set_possibilities_periodic_table(){
+    for (int i = 1; i != 119; ++i){
+        string temp = to_string(player2_pointer->AI_element_node_vector[i]->possibilities);
+        if (temp.size() == 1){
+            temp.push_back(' ');
+        }
+        possibilities_string.push_back(temp);
+        possibilities_status.push_back(&possibilities_string[i][0]);
+    }
+
+}
+
+void display_driver::update_possibilities_periodic_table(){
+    for (int i = 1; i != 119; ++i){
+        string temp = to_string(player2_pointer->AI_element_node_vector[i]->possibilities);
+        if (temp.size() > 2){
+            temp = "--";
+        } else if (temp.size() == 1){
+            temp.push_back(' ');
+        }
+
+        possibilities_string[i] = temp;
+    }    
+}
+
+void display_driver::print_AI_possibilities(){
+
+    printf("                   AI's THOUGHTS                         \n");
+    printf(" ╔══╗                                               ╔══╗\n"); 
+    printf("1║%s║                                               ║%s║\n", possibilities_status[1], possibilities_status[2]);
+    printf(" ╠══╬══╗                             ╔══╦══╦══╦══╦══╬══╣\n");
+    printf("2║%s║%s║                             ║%s║%s║%s║%s║%s║%s║\n", possibilities_status[3], possibilities_status[4], possibilities_status[5], possibilities_status[6], possibilities_status[7], possibilities_status[8], possibilities_status[9], possibilities_status[10]);
+    printf(" ╠══╬══╣                             ╠══╬══╬══╬══╬══╬══╣\n");
+    printf("3║%s║%s║                             ║%s║%s║%s║%s║%s║%s║\n", possibilities_status[11], possibilities_status[12], possibilities_status[13], possibilities_status[14], possibilities_status[15], possibilities_status[16], possibilities_status[17], possibilities_status[18]);
+    printf(" ╠══╬══╬══╦══╦══╦══╦══╦══╦══╦══╦══╦══╬══╬══╬══╬══╬══╬══╣\n");
+    printf("4║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║\n", possibilities_status[19], possibilities_status[20], possibilities_status[21], possibilities_status[22], possibilities_status[23], possibilities_status[24], possibilities_status[25], possibilities_status[26], possibilities_status[27], possibilities_status[28], possibilities_status[29], possibilities_status[30], possibilities_status[31], possibilities_status[32], possibilities_status[33], possibilities_status[34], possibilities_status[35], possibilities_status[36]);
+    printf(" ╠══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
+    printf("5║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║\n", possibilities_status[37], possibilities_status[38], possibilities_status[39], possibilities_status[40], possibilities_status[41], possibilities_status[42], possibilities_status[43], possibilities_status[44], possibilities_status[45], possibilities_status[46], possibilities_status[47], possibilities_status[48], possibilities_status[49], possibilities_status[50], possibilities_status[51], possibilities_status[52], possibilities_status[53], possibilities_status[54]);
+    printf(" ╠══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
+    printf("6║%s║%s░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║\n", possibilities_status[55], possibilities_status[56], possibilities_status[71], possibilities_status[72], possibilities_status[73], possibilities_status[74], possibilities_status[75], possibilities_status[76], possibilities_status[77], possibilities_status[78], possibilities_status[79], possibilities_status[80], possibilities_status[81], possibilities_status[82], possibilities_status[83], possibilities_status[84], possibilities_status[85], possibilities_status[86]);
+    printf(" ╠══╬══░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣\n");
+    printf("7║%s║%s░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║\n", possibilities_status[87], possibilities_status[88], possibilities_status[103], possibilities_status[104], possibilities_status[105], possibilities_status[106], possibilities_status[107], possibilities_status[108], possibilities_status[109], possibilities_status[110], possibilities_status[111], possibilities_status[112], possibilities_status[113], possibilities_status[114], possibilities_status[115], possibilities_status[116], possibilities_status[117], possibilities_status[118]);
+    printf(" ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝\n");
+    printf("       ╔══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╦══╗      \n");
+    printf("       ░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║      \n", possibilities_status[57], possibilities_status[58], possibilities_status[59], possibilities_status[60], possibilities_status[61], possibilities_status[62], possibilities_status[63], possibilities_status[64], possibilities_status[65], possibilities_status[66], possibilities_status[67], possibilities_status[68], possibilities_status[69], possibilities_status[70]);
+    printf("       ░══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╬══╣      \n");
+    printf("       ░%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║%s║      \n", possibilities_status[89], possibilities_status[90], possibilities_status[91], possibilities_status[92], possibilities_status[93], possibilities_status[94], possibilities_status[95], possibilities_status[96], possibilities_status[97], possibilities_status[98], possibilities_status[99], possibilities_status[100], possibilities_status[101], possibilities_status[102]);
+    printf("       ╚══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╩══╝      \n");   
+}
+
+/**************************NONMEMBER FUNCTION***************************/
 
 void my_wait(int ms) {
     this_thread::sleep_for(chrono::milliseconds(ms)); 

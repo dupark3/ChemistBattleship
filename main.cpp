@@ -15,10 +15,10 @@ TODO:
 ☑ Make AI smarter by shooting around a HIT (check left/right/up/down) until a ship is sunk
 ☑ Remove dependency of AI class on element_node class (inherit and use load_periodic_table())
 ☑ Build game text instead of only having a line or two after each system("clear")
-☐ Recalculate after sink should recalculate the entire board maybe since it doesn't subtract 10/20 from hits
 ☑ Press enter to continue from round to round
 ☑ Player sink doesn't change emoji
 ☑ Don't need to pass player object to sunk ship in display since it has player pointers
+☐ Recalculate after sink should recalculate the entire board maybe since it doesn't subtract 10/20 from hits
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
@@ -54,12 +54,18 @@ int main(){
     load_periodic_table(element_node_vector);
 
     // create display_driver class object to control game board
-    display_driver display;
+    cout << "CHECK" << endl;
     player player1;
     AI player2;
+    display_driver display;
 
     display.set_players(player1, player2);
     string game_text;
+
+    /* Uncomment if you want to see AI's possibilities shown on console
+    Also, uncomment two lines in print_periodic_table() in gameboard.cpp
+    display.set_possibilities_periodic_table();
+    */
 
     // SET UP PLAYER 1 (player class)
     game_text.append("Enter your name: ");
@@ -76,7 +82,7 @@ int main(){
     display.welcome_and_place_ships(game_text, "THREE");
 
     // Ask player 1 to place four 3-block ship until successful
-    for (int i = 0; i != 1; ++i){    
+    for (int i = 0; i != 4; ++i){    
         cout << "\nPlace a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
@@ -96,7 +102,7 @@ int main(){
     display.welcome_and_place_ships(game_text, "FOUR");
 
     // Ask player 1 to place three 4-block ship until successful
-    for (int i = 0; i != 0; ++i){
+    for (int i = 0; i != 3; ++i){
         cout << "\nPlace a 4-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4;
@@ -116,7 +122,7 @@ int main(){
     display.welcome_and_place_ships(game_text, "FIVE");
 
     // Ask player 1 to place two 5-block ship until successful
-    for (int i = 0; i != 0; ++i){
+    for (int i = 0; i != 2; ++i){
         cout << "\nPlace a 5-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3, element4, element5;
@@ -139,15 +145,15 @@ int main(){
 
     // Set up AI's ships in reverse order to put the 5-block ship anywhere
     for(int i = 0; i != 2; ++i){
-        display.place_ship_enemy_debug(player2.place_ship_randomly(5));
+        player2.place_ship_randomly(5);
         my_wait(150);
     }
     for(int i = 0; i != 3; ++i){
-        display.place_ship_enemy_debug(player2.place_ship_randomly(4));
+        player2.place_ship_randomly(4);
         my_wait(150);
     }
     for(int i = 0; i != 4; ++i){
-        display.place_ship_enemy_debug(player2.place_ship_randomly(3));
+        player2.place_ship_randomly(3);
         my_wait(150);
     }
 

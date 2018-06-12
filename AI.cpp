@@ -87,7 +87,7 @@ string AI::take_educated_shot(){
     
     // if no compelling location, 25% chance of hitting anywhere, 75% chance hitting high possibility
     int hit_high_or_low = my_rand(4);
-    if (max_possibility <= 25 && hit_high_or_low == 0){
+    if (max_possibility <= 21 && hit_high_or_low == 0){
         do {
             rand = my_rand(118) + 1;    
         } while (AI_element_node_vector[rand]->status != 0);
@@ -103,6 +103,7 @@ void AI::hit(const player& player1, int atomic_number){
     ++hits;
     AI_element_node_vector[atomic_number]->status = 1;
     AI_element_node_vector[atomic_number]->possibilities = 0;
+
     recalculate_possibilities(player1, atomic_number);
 }
 
@@ -125,6 +126,7 @@ void AI::recalculate_possibilities(const player& player1, int atomic_number){
                 for (auto j = player1.ships[i].begin(); j != player1.ships[i].end(); ++j){
                     int atomic_number = atomic_number_from_config[j->first];
                     AI_element_node_vector[atomic_number]->status = -1;
+                    recalculate_after_miss_or_sink(player1, atomic_number);
                 }
             }
         }

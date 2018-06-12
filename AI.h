@@ -13,6 +13,7 @@ class AI : public player {
     // friend declarations
         friend class AI_element_node;
         template <class T> friend void load_periodic_table(std::vector<T*>&);
+        friend class display_driver;
 
     public: 
         AI() : player() { 
@@ -50,6 +51,7 @@ class AI_element_node : public element_node {
     // friend declarations
         friend class AI;
         template <class T> friend void load_periodic_table(std::vector<T*>&);
+        friend class display_driver;
 
     public: 
         AI_element_node() : right_ship(0), below_ship(0), left_ship(0), above_ship(0),
