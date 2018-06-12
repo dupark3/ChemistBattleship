@@ -42,7 +42,9 @@ bool player::place_ship(const vector<string>& element_symbols){
 }
 
 bool player::check_shot(const std::string& electron_config){
-    for (int i = 0; i != number_of_ships; ++i){
+    int size_of_vector = ships.size();
+    
+    for (int i = 0; i != size_of_vector; ++i){
         if(ships[i].find(electron_config) != ships[i].end() && ships[i][electron_config] == true){
             ships[i][electron_config] = false;
             if (ship_sunk(ships[i])){

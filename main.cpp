@@ -16,9 +16,9 @@ TODO:
 ☑ Remove dependency of AI class on element_node class (inherit and use load_periodic_table())
 ☑ Build game text instead of only having a line or two after each system("clear")
 ☐ Recalculate after sink should recalculate the entire board maybe since it doesn't subtract 10/20 from hits
-☐ Press enter to continue from round to round
-☐ Some of AI's ships are impossible??
-☐ Player sink doesn't change emoji
+☑ Press enter to continue from round to round
+☑ Player sink doesn't change emoji
+☑ Don't need to pass player object to sunk ship in display since it has player pointers
 
 Extra Features:
 ☑ Print the periodic table on console at set-up phase
@@ -76,7 +76,7 @@ int main(){
     display.welcome_and_place_ships(game_text, "THREE");
 
     // Ask player 1 to place four 3-block ship until successful
-    for (int i = 0; i != 2; ++i){    
+    for (int i = 0; i != 1; ++i){    
         cout << "\nPlace a 3-block ship #" << i + 1 
              << " by writing the element's symbols, separated by spaces: ";
         string element1, element2, element3;
@@ -137,19 +137,20 @@ int main(){
     game_text.append(player2name).append(" is placing his ships...\n");
     display.print_periodic_tables(game_text);
 
-    // Set up AI's ships
-    for(int i = 0; i != 4; ++i){
-        player2.place_ship_randomly(3);
+    // Set up AI's ships in reverse order to put the 5-block ship anywhere
+    for(int i = 0; i != 2; ++i){
+        display.place_ship_enemy_debug(player2.place_ship_randomly(5));
         my_wait(150);
     }
     for(int i = 0; i != 3; ++i){
-        player2.place_ship_randomly(4);
+        display.place_ship_enemy_debug(player2.place_ship_randomly(4));
         my_wait(150);
     }
-    for(int i = 0; i != 2; ++i){
-        player2.place_ship_randomly(5);
+    for(int i = 0; i != 4; ++i){
+        display.place_ship_enemy_debug(player2.place_ship_randomly(3));
         my_wait(150);
     }
+
     my_wait(300);
 
     /**********************************game START*********************************************/
@@ -200,7 +201,7 @@ int main(){
                         game_text.append("SHIP SUNK at ").append(element_symbol)
                                  .append("!\n");
                         display.store_game_text(game_text);
-                        display.enemy_ship_sunk(corner_electron_config, player2);
+                        display.enemy_ship_sunk(corner_electron_config);
                     }
                     if (player2.check_game_over()){
                         my_wait(300);
@@ -236,7 +237,7 @@ int main(){
             if (player2.ship_sunk(electron_config)){
                 game_text.append("SHIP SUNK!\n");
                 display.store_game_text(game_text);
-                display.enemy_ship_sunk(electron_config, player2);
+                display.enemy_ship_sunk(electron_config);
             }
             if (player2.check_game_over()){
                 my_wait(300);
@@ -307,7 +308,7 @@ int main(){
             if (player1.ship_sunk(electron_config)){
                 game_text.append("SHIP SUNK!\n");
                 display.store_game_text(game_text);
-                display.player_ship_sunk(electron_config, player1);
+                display.player_ship_sunk(electron_config);
             }
             if (player1.check_game_over()){
                 my_wait(300);

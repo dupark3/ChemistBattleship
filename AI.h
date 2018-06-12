@@ -26,7 +26,9 @@ class AI : public player {
                 delete AI_element_node_vector[i];
             }
         }*/
-        void place_ship_randomly(int);
+
+        // change to return void
+        std::vector<int> place_ship_randomly(int);
         std::vector<int> create_continuous_blocks(int, int);
 
         std::string take_educated_shot();

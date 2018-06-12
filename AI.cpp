@@ -8,7 +8,7 @@
 using namespace std;
 
 
-void AI::place_ship_randomly(int size_of_ship){
+vector<int> AI::place_ship_randomly(int size_of_ship){
     vector<int> ship_atomic_numbers;
 
     // Pass a random number between [1,118] as the first element until valid ship position found
@@ -26,6 +26,8 @@ void AI::place_ship_randomly(int size_of_ship){
     ++number_of_ships;
 
     cout << "Ship of size " << size_of_ship << " placed at a random location." << endl;
+    
+    return ship_atomic_numbers;
 }
 
 

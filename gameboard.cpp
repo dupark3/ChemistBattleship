@@ -156,6 +156,14 @@ void display_driver::place_ship(const vector<string>& ship_symbols){
     print_periodic_tables(saved_game_text);
 }
 
+void display_driver::place_ship_enemy_debug(const vector<int>& atomic_numbers){
+    // convert symbols to ship emoji 
+    for (int i = 0; i != atomic_numbers.size(); ++i){
+        shot_status[atomic_numbers[i]] = &ship_emoji[0];
+    }
+    print_periodic_tables(saved_game_text);
+}
+
 void display_driver::player_shot(int atomic_number, bool hit){
     if (hit){
         shot_status[atomic_number] = &hit_emoji[0];
@@ -174,13 +182,13 @@ void display_driver::enemy_shot(int atomic_number, bool hit){
     print_periodic_tables(saved_game_text);
 }
 
-void display_driver::enemy_ship_sunk(const string& electron_config, const player& player2){
+void display_driver::enemy_ship_sunk(const string& electron_config){
     int atomic_number = atomic_number_from_config[electron_config];
 
-    for (int i = 0; i != player2.ships.size(); ++i){
-        if (player2.ships[i].find(electron_config) != player2.ships[i].end()){
+    for (int i = 0; i != player2_pointer->ships.size(); ++i){
+        if (player2_pointer->ships[i].find(electron_config) != player2_pointer->ships[i].end()){
             // correct map found, flip it to sunk emoji
-            for (auto j = player2.ships[i].begin(); j != player2.ships[i].end(); ++j){
+            for (auto j = player2_pointer->ships[i].begin(); j != player2_pointer->ships[i].end(); ++j){
                 string ship_configs = j->first;
                 int ship_atomic_nums = atomic_number_from_config[ship_configs];
                 shot_status[ship_atomic_nums] = &sunk_emoji[0];
@@ -190,13 +198,13 @@ void display_driver::enemy_ship_sunk(const string& electron_config, const player
     print_periodic_tables(saved_game_text);
 }
 
-void display_driver::player_ship_sunk(const string& electron_config, const player& player1){
+void display_driver::player_ship_sunk(const string& electron_config){
     int atomic_number = atomic_number_from_config[electron_config];
 
-    for (int i = 0; i != player1.ships.size(); ++i){
-        if (player1.ships[i].find(electron_config) != player1.ships[i].end()){
+    for (int i = 0; i != player1_pointer->ships.size(); ++i){
+        if (player1_pointer->ships[i].find(electron_config) != player1_pointer->ships[i].end()){
             // correct map found, flip it to sunk emoji
-            for (auto j = player1.ships[i].begin(); j != player1.ships[i].end(); ++j){
+            for (auto j = player1_pointer->ships[i].begin(); j != player1_pointer->ships[i].end(); ++j){
                 string ship_configs = j->first;
                 int ship_atomic_nums = atomic_number_from_config[ship_configs];
                 ship_status[ship_atomic_nums] = &sunk_emoji[0];

@@ -17,11 +17,12 @@ class display_driver{
         void print_periodic_tables(const std::string&);
 
         void place_ship(const std::vector<std::string>&);
+        void place_ship_enemy_debug(const std::vector<int>&);
         void enemy_shot(int, bool);
         void player_shot(int, bool);
 
-        void enemy_ship_sunk(const std::string&, const player&);
-        void player_ship_sunk(const std::string&, const player&);
+        void enemy_ship_sunk(const std::string&);
+        void player_ship_sunk(const std::string&);
 
         void welcome_and_place_ships(std::string&, const std::string&);
         void ship_placed (std::string&, const std::vector<std::string>&, int, int);
