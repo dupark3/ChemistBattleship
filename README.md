@@ -1,4 +1,5 @@
-# PERIODIC TABLE BATTLESHIP VERSION 1.02
+# PERIODIC TABLE BATTLESHIP VERSION 1.03
+ADDED in v1.03: Periodic Table that helps user keep track of his/her shots and misses
 
 ## Electron Configuration Basics
 If you don't know what an electron configuration is, read the following...
@@ -28,4 +29,4 @@ If you don't know what an electron configuration is, read the following...
 
 ## FUTURE FEATURES:
 1. Allow player to choose to play against computer or against another human player.
-2. Provide a periodic table board that keeps track of hits/misses/sinks for the user.
+2. Allow player to choose to use the f-block or not (for use at the beginning of learning electron configurations)
