@@ -185,12 +185,14 @@ void display_driver::ship_placed (string& game_text, const vector<string>& eleme
     game_text.append("Ship #").append(to_string(ship_number))
              .append(" of size ")
              .append(to_string(ship_size))
-             .append(" placed at ");
-    for (int i = 0; i != ship_size; ++i){
-        game_text.append(elements[i]).append(", ");
-        if (i == ship_size - 2){
+             .append(" placed at ")
+             .append(elements[0]);
+    for (int i = 1; i != ship_size; ++i){
+        game_text.append(", ");
+        if (i == ship_size - 1){
             game_text.append("and ");
         } 
+        game_text.append(elements[i]);
     }
     game_text.append(". \n");
     place_ship(elements);
