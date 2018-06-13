@@ -32,23 +32,37 @@ string convert_to_long_form(const string& short_hand_config){
         return short_hand_config;
     }
 
-    // if the first four letters are a noble gas in brackets, convert it to its config in long form
-    if (short_hand_config.substr(0, 4) == "[He]"){
-        long_hand_config = "1s2";
-    } else if (short_hand_config.substr(0, 4) == "[Ne]"){
-        long_hand_config = "1s2.2s2.2p6";
-    } else if (short_hand_config.substr(0, 4) == "[Ar]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6";
-    } else if (short_hand_config.substr(0, 4) == "[Kr]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6";
-    } else if (short_hand_config.substr(0, 4) == "[Xe]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6";
-    } else if (short_hand_config.substr(0, 4) == "[Rn]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6.6s2.4f14.5d10.6p6";
-    } else if (short_hand_config.substr(0, 4) == "[Og]"){
-        long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6.6s2.4f14.5d10.6p6.7s2.5f14.6d10.7p6";
-    } else {
-        return short_hand_config;
+    map<string, int> noble_gases = { {"[He]", 1}, {"[Ne]", 2}, 
+                                     {"[Ar]", 3}, {"[Kr]", 4}, 
+                                     {"[Xe]", 5}, {"[Rn]", 6}, 
+                                     {"[Og]", 7} };
+
+    // if the first four letters are a noble gas in brackets, 
+    //convert it to its config in long form
+    switch (noble_gases[short_hand_config.substr(0,4)]){
+        case 1:
+            long_hand_config = "1s2";
+            break;
+        case 2:
+            long_hand_config = "1s2.2s2.2p6";
+            break;
+        case 3:
+            long_hand_config = "1s2.2s2.2p6.3s2.3p6";
+            break;
+        case 4:
+            long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6";
+            break;
+        case 5:
+            long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6";
+            break;
+        case 6:
+            long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6.6s2.4f14.5d10.6p6";
+            break;
+        case 7:
+            long_hand_config = "1s2.2s2.2p6.3s2.3p6.4s2.3d10.4p6.5s2.4d10.5p6.6s2.4f14.5d10.6p6.7s2.5f14.6d10.7p6";
+            break;
+        default:
+            return short_hand_config;
     }
     
     // if there are more than 4 letters, it must have trailing config after noble gas [??]
