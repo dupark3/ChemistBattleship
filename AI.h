@@ -44,9 +44,6 @@ class AI : public player {
         void recalculate_possibilities(const player&, int);
         void recalculate_after_hit(const player&, int);
         void recalculate_after_miss_or_sink(const player&, int);
-        
-        void load_periodic_table(std::vector<AI_element_node*>&);
-        int next_rows_atomic_number(int);
 };
 
 

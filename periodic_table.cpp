@@ -55,3 +55,18 @@ string convert_to_long_form(const string& short_hand_config){
 
     return long_hand_config;
 }
+
+ 
+int next_rows_atomic_number(int atomic_number){
+    if (atomic_number == 1){
+        return atomic_number + 2;
+    } else if (atomic_number >= 2 && atomic_number <= 12){
+        return atomic_number + 8;
+    } else if (atomic_number >= 13 && atomic_number <= 38){
+        return atomic_number + 18;
+    } else if (atomic_number >= 39 && atomic_number <= 86){
+        return atomic_number + 32;
+    } else {
+        return 0;
+    }
+}

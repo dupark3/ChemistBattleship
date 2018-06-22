@@ -32,7 +32,4 @@ private:
     
 };
 
-int next_rows_atomic_number(int);
-void load_periodic_table(std::vector<element_node*>&);
-
 #endif
