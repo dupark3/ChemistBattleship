@@ -1,4 +1,4 @@
-# PERIODIC TABLE BATTLESHIP VERSION 1.03
+# PERIODIC TABLE BATTLESHIP VERSION 1.04
 Periodic Table Battleship is designed for educational purposes for students studying general chemistry in middle school, high school, or colleges. Students will be asked to WRITE the electron configuration in long and short form and  IDENTIFY elements based on the given electron configuration. The object of the game is to defeat the AI that is firing at the student's ships. The AI uses educated guesses, based on probability of a ship's location and previous hits/misses/sinks. After a few rounds of playing the Periodic Table Battleship, students will be able to quickly write and identify elements using the proper electron configurations. 
 
 ## Electron Configuration Basics

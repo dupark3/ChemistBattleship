@@ -3,8 +3,10 @@
 
 #include <vector>
 
-#include "player.h" // AI class inherits player class 
-#include "periodic_table.h" // AI_element_node class inherits element_node class
+ #include "player.h" // AI class inherits player class 
+ #include "periodic_table.h" // AI_element_node class inherits element_node class
+/*class player;
+class element_node;*/
 
 // forward declarations
 class AI_element_node;
@@ -12,7 +14,6 @@ class AI_element_node;
 class AI : public player {
     // friend declarations
         friend class AI_element_node;
-        template <class T> friend void load_periodic_table(std::vector<T*>&);
         friend class display_driver;
 
     public: 
@@ -38,10 +39,14 @@ class AI : public player {
 
     private:
         std::vector<AI_element_node*> AI_element_node_vector;
+        
         void calculate_possibilities();
         void recalculate_possibilities(const player&, int);
         void recalculate_after_hit(const player&, int);
         void recalculate_after_miss_or_sink(const player&, int);
+        
+        void load_periodic_table(std::vector<AI_element_node*>&);
+        int next_rows_atomic_number(int);
 };
 
 

@@ -20,6 +20,7 @@ public:
     void set_name(const std::string& s) { name = s; }
     std::string get_name() const { return name; }
 
+
     // Place ship with vector of configs or with size of ship and ship_number
     bool place_ship(const std::vector<std::string>&);
     
@@ -50,6 +51,7 @@ public:
 protected:
     std::string name;
     std::vector< std::map<std::string, bool> > ships; // map of electron config to a node of ship info
+
     int number_of_ships;
     int hits, misses;
     int correct_guesses, X_bombs;

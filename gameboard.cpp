@@ -3,7 +3,6 @@
 
 #include "AI.h"
 #include "gameboard.h"
-#include "periodic_table.h"
 
 using namespace std;
 
