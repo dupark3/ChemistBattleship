@@ -1,9 +1,11 @@
 # Build Instructions:
 To build, you can either use CMake (instructions [here](https://cmake.org/install/) or g++ compiler.
-For CMake, configure your cmake file in the folder with all the soruce code. 
+
+For CMake, configure your cmake file in the folder with all the soruce code and execute `make`.
+
 For g++ on Linux, execute the following command inside the folder with the source code: 
 
-g++ -std=c++14 main.cpp game.cpp gameboard.cpp AI.cpp player.cpp periodic_table.cpp -o PeriodicTableBattleship
+    g++ -std=c++14 main.cpp game.cpp gameboard.cpp AI.cpp player.cpp periodic_table.cpp -o PeriodicTableBattleship
 
 
 # PERIODIC TABLE BATTLESHIP VERSION 1.04
