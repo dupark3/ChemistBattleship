@@ -30,7 +30,7 @@ PeriodicTableBattleship
 *.log
 *.sql
 *.sqlite
-*.txt
+!CMakeLists.txt
 
 # Cmake files #
 ###############
